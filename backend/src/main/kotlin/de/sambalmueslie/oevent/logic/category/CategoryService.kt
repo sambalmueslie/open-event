@@ -5,7 +5,7 @@ import de.sambalmueslie.oevent.logic.category.api.Category
 import de.sambalmueslie.oevent.logic.category.api.CategoryChangeRequest
 import de.sambalmueslie.oevent.logic.category.db.CategoryData
 import de.sambalmueslie.oevent.logic.category.db.CategoryRepository
-import de.sambalmueslie.oevent.logic.common.BaseService
+import de.sambalmueslie.oevent.common.BaseService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton

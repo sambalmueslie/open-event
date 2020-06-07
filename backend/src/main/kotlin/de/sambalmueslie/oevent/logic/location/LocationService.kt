@@ -1,13 +1,9 @@
 package de.sambalmueslie.oevent.logic.location
 
 
-import de.sambalmueslie.oevent.logic.common.*
-import de.sambalmueslie.oevent.logic.location.api.Address
-import de.sambalmueslie.oevent.logic.location.api.GeoLocation
+import de.sambalmueslie.oevent.common.BaseService
 import de.sambalmueslie.oevent.logic.location.api.Location
 import de.sambalmueslie.oevent.logic.location.api.LocationChangeRequest
-import de.sambalmueslie.oevent.logic.location.db.AddressData
-import de.sambalmueslie.oevent.logic.location.db.GeoLocationData
 import de.sambalmueslie.oevent.logic.location.db.LocationData
 import de.sambalmueslie.oevent.logic.location.db.LocationRepository
 import org.slf4j.Logger
@@ -24,7 +20,7 @@ class LocationService(private val repository: LocationRepository) : BaseService<
 	private val validator = LocationValidator()
 	override fun getValidator() = validator
 
-	private  val merger = LocationMerger()
+	private val merger = LocationMerger()
 	override fun getMerger() = merger
 
 }

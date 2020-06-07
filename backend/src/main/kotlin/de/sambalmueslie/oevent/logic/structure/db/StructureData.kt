@@ -1,8 +1,8 @@
 package de.sambalmueslie.oevent.logic.structure.db
 
 
-import de.sambalmueslie.oevent.logic.common.DataObject
-import de.sambalmueslie.oevent.logic.common.DataObjectContext
+import de.sambalmueslie.oevent.common.DataObject
+import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.logic.structure.api.Structure
 import javax.persistence.*
 
@@ -25,7 +25,7 @@ data class StructureData(
 	@ManyToMany(mappedBy = "children")
 	var parent: MutableSet<StructureData> = mutableSetOf()
 
-	override fun convert(dependencies: DataObjectContext): Structure {
+	override fun convert(context: DataObjectContext): Structure {
 		return Structure(id, root)
 	}
 }

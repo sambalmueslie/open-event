@@ -1,8 +1,8 @@
 package de.sambalmueslie.oevent.logic.item
 
 
-import de.sambalmueslie.oevent.logic.common.DataObjectContext
-import de.sambalmueslie.oevent.logic.common.DataObjectMerger
+import de.sambalmueslie.oevent.common.DataObjectContext
+import de.sambalmueslie.oevent.common.DataObjectMerger
 import de.sambalmueslie.oevent.logic.item.api.ItemChangeRequest
 import de.sambalmueslie.oevent.logic.item.db.ItemData
 

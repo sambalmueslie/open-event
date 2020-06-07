@@ -1,8 +1,8 @@
 package de.sambalmueslie.oevent.logic.category.db
 
 import de.sambalmueslie.oevent.logic.category.api.Category
-import de.sambalmueslie.oevent.logic.common.DataObject
-import de.sambalmueslie.oevent.logic.common.DataObjectContext
+import de.sambalmueslie.oevent.common.DataObject
+import de.sambalmueslie.oevent.common.DataObjectContext
 import javax.persistence.*
 
 
@@ -17,7 +17,7 @@ data class CategoryData(
 		var iconUrl: String = ""
 ) : DataObject<Category> {
 
-	override fun convert(dependencies: DataObjectContext): Category {
+	override fun convert(context: DataObjectContext): Category {
 		return Category(id, name, iconUrl)
 	}
 

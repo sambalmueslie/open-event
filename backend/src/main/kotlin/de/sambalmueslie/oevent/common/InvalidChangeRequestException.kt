@@ -1,3 +1,3 @@
-package de.sambalmueslie.oevent.logic.common
+package de.sambalmueslie.oevent.common
 
 class InvalidChangeRequestException(message: String) : Exception(message)

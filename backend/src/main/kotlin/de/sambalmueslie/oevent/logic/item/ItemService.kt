@@ -1,7 +1,7 @@
 package de.sambalmueslie.oevent.logic.item
 
 
-import de.sambalmueslie.oevent.logic.common.BaseService
+import de.sambalmueslie.oevent.common.BaseService
 import de.sambalmueslie.oevent.logic.item.api.Item
 import de.sambalmueslie.oevent.logic.item.api.ItemChangeRequest
 import de.sambalmueslie.oevent.logic.item.db.ItemData

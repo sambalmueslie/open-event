@@ -1,7 +1,7 @@
 package de.sambalmueslie.oevent.logic.item.db
 
-import de.sambalmueslie.oevent.logic.common.DataObject
-import de.sambalmueslie.oevent.logic.common.DataObjectContext
+import de.sambalmueslie.oevent.common.DataObject
+import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.logic.item.api.Item
 import javax.persistence.*
 
@@ -23,5 +23,5 @@ data class ItemData(
 		override var iconUrl: String = ""
 ) : DataObject<Item>, Item {
 
-	override fun convert(dependencies: DataObjectContext) = this
+	override fun convert(context: DataObjectContext) = this
 }

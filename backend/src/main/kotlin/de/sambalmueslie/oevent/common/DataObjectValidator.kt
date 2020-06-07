@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.logic.common
+package de.sambalmueslie.oevent.common
 
 import com.sun.jdi.request.InvalidRequestStateException
 

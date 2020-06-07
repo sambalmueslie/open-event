@@ -1,7 +1,7 @@
 package de.sambalmueslie.oevent.logic.location.db
 
-import de.sambalmueslie.oevent.logic.common.DataObject
-import de.sambalmueslie.oevent.logic.common.DataObjectContext
+import de.sambalmueslie.oevent.common.DataObject
+import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.logic.location.api.Location
 import javax.persistence.*
 
@@ -18,7 +18,7 @@ data class LocationData(
 		var size: Int = -1
 ) : DataObject<Location> {
 
-	override fun convert(dependencies: DataObjectContext): Location {
+	override fun convert(context: DataObjectContext): Location {
 		return Location(id, addressData.convert(), geoLocation.convert(), size)
 	}
 

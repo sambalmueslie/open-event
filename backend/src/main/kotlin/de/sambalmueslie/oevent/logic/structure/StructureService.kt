@@ -1,9 +1,9 @@
 package de.sambalmueslie.oevent.logic.structure
 
 
-import de.sambalmueslie.oevent.logic.common.BaseService
-import de.sambalmueslie.oevent.logic.common.DataObjectContext
-import de.sambalmueslie.oevent.logic.common.findByIdOrNull
+import de.sambalmueslie.oevent.common.BaseService
+import de.sambalmueslie.oevent.common.DataObjectContext
+import de.sambalmueslie.oevent.common.findByIdOrNull
 import de.sambalmueslie.oevent.logic.item.ItemService
 import de.sambalmueslie.oevent.logic.item.api.Item
 import de.sambalmueslie.oevent.logic.location.LocationService
