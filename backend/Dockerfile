@@ -1,15 +1,13 @@
-FROM oracle/graalvm-ce:20.0.0-java8 as graalvm
-# For JDK 11
-#FROM oracle/graalvm-ce:20.0.0-java11 as graalvm
+FROM oracle/graalvm-ce:20.0.0-java11 as graalvm
 RUN gu install native-image
 
-COPY . /home/app/oevent
-WORKDIR /home/app/oevent
+COPY . /home/app/open-event
+WORKDIR /home/app/open-event
 
-RUN native-image --no-server -cp build/libs/oevent-*-all.jar
+RUN native-image --no-server -cp build/libs/open-event-*-all.jar
 
 FROM frolvlad/alpine-glibc
 RUN apk update && apk add libstdc++
 EXPOSE 8080
-COPY --from=graalvm /home/app/oevent/oevent /app/oevent
-ENTRYPOINT ["/app/oevent"]
+COPY --from=graalvm /home/app/open-event/open-event /app/open-event
+ENTRYPOINT ["/app/open-event"]
