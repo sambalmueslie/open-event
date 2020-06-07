@@ -2,6 +2,7 @@ package de.sambalmueslie.oevent.logic.category.db
 
 import de.sambalmueslie.oevent.logic.category.api.Category
 import de.sambalmueslie.oevent.logic.common.DataObject
+import de.sambalmueslie.oevent.logic.common.DataObjectContext
 import javax.persistence.*
 
 
@@ -9,13 +10,15 @@ import javax.persistence.*
 @Table(name = "category")
 data class CategoryData(
 		@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-		var id: Long,
+		override var id: Long = 0,
 		@Column(nullable = false, unique = true)
-		var name: String,
+		var name: String = "",
 		@Column(nullable = false)
-		var iconUrl: String
+		var iconUrl: String = ""
 ) : DataObject<Category> {
-	override fun convert(): Category {
+
+	override fun convert(dependencies: DataObjectContext): Category {
 		return Category(id, name, iconUrl)
 	}
+
 }

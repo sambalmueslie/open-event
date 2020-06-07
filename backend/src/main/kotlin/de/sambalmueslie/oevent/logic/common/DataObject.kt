@@ -1,5 +1,6 @@
 package de.sambalmueslie.oevent.logic.common
 
 interface DataObject<T : BusinessObject> {
-	fun convert(): T
+	val id: Long
+	fun convert(dependencies: DataObjectContext =  DataObjectContext.EMPTY): T
 }
