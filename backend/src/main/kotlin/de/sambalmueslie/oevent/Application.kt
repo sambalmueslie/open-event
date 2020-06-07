@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.de.sambalmueslie.oevent
+package de.sambalmueslie.oevent
 
 import io.micronaut.runtime.Micronaut
 import io.swagger.v3.oas.annotations.*
