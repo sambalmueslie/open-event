@@ -10,19 +10,19 @@ import javax.persistence.Table
 @Table(name = "address")
 data class AddressData(
 		@Id
-		var id: Long,
+		var id: Long = 0,
 		@Column
-		var street: String,
+		var street: String = "",
 		@Column
-		var streetNumber: String,
+		var streetNumber: String = "",
 		@Column
-		var zip: String,
+		var zip: String = "",
 		@Column
-		var city: String,
+		var city: String = "",
 		@Column
-		var country: String,
+		var country: String = "",
 		@Column
-		var additionalInfo: String
+		var additionalInfo: String = ""
 ) {
 
 	fun convert(): Address {

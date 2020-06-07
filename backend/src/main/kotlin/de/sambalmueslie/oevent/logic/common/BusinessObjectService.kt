@@ -9,6 +9,7 @@ interface BusinessObjectService<T : BusinessObject, R : BusinessObjectChangeRequ
 
 	@Throws(InvalidRequestStateException::class)
 	fun create(request: R): T
+	@Throws(InvalidRequestStateException::class)
 	fun update(id: Long, request: R): T
 	fun delete(id: Long)
 

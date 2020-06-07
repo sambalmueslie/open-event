@@ -2,17 +2,17 @@ package de.sambalmueslie.oevent.logic.location
 
 
 import com.sun.jdi.request.InvalidRequestStateException
+import de.sambalmueslie.oevent.logic.common.DataObjectValidator
 import de.sambalmueslie.oevent.logic.location.db.AddressData
 import de.sambalmueslie.oevent.logic.location.db.GeoLocationData
 import de.sambalmueslie.oevent.logic.location.db.LocationData
 
-internal class LocationValidator {
+class LocationValidator : DataObjectValidator<LocationData> {
 
-	fun validate(data: LocationData) {
+	override fun validate(data: LocationData) {
 		validate(data.addressData)
 		validate(data.geoLocation)
 	}
-
 
 	private fun validate(data: AddressData) {
 		if (data.street.isBlank()) throw InvalidRequestStateException("Street of address ${data.id} must not be blank.")

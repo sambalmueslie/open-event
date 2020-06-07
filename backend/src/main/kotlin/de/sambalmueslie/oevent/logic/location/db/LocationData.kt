@@ -1,29 +1,24 @@
 package de.sambalmueslie.oevent.logic.location.db
 
 import de.sambalmueslie.oevent.logic.common.DataObject
+import de.sambalmueslie.oevent.logic.common.DataObjectContext
 import de.sambalmueslie.oevent.logic.location.api.Location
-import de.sambalmueslie.openchurch.common.DataObject
-import de.sambalmueslie.openchurch.logic.item.api.Item
-import de.sambalmueslie.openchurch.logic.location.api.Address
-import de.sambalmueslie.openchurch.logic.location.api.GeoLocation
-import de.sambalmueslie.openchurch.logic.location.api.Location
-import de.sambalmueslie.openchurch.logic.location.api.LocationProperties
 import javax.persistence.*
 
 @Entity(name = "Location")
 @Table(name = "location")
 data class LocationData(
 		@Id
-		val id: Long,
+		override var id: Long = 0,
 		@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-		var addressData: AddressData,
+		var addressData: AddressData = AddressData(),
 		@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-		var geoLocation: GeoLocationData,
+		var geoLocation: GeoLocationData = GeoLocationData(),
 		@Column
-		var size: Int
+		var size: Int = -1
 ) : DataObject<Location> {
 
-	override fun convert(): Location {
+	override fun convert(dependencies: DataObjectContext): Location {
 		return Location(id, addressData.convert(), geoLocation.convert(), size)
 	}
 

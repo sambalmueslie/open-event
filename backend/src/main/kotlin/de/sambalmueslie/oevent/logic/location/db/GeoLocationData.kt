@@ -10,11 +10,11 @@ import javax.persistence.Table
 @Table(name = "geo_location")
 data class GeoLocationData(
 		@Id
-		var id: Long,
+		var id: Long = 0,
 		@Column
-		var lat: Double,
+		var lat: Double = 0.0,
 		@Column
-		var lon: Double
+		var lon: Double = 0.0
 ) {
 	fun convert(): GeoLocation {
 		return GeoLocation(lat, lon)
