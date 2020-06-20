@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.logic.event.db
+package de.sambalmueslie.oevent.model
 
 import de.sambalmueslie.oevent.logic.event.api.Period
 import java.time.LocalDateTime

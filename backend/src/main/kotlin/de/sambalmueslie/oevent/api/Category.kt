@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.logic.category.api
+package de.sambalmueslie.oevent.api
 
 import de.sambalmueslie.oevent.common.BusinessObject
 

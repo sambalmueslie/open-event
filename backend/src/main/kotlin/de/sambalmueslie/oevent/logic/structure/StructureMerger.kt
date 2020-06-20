@@ -4,7 +4,7 @@ package de.sambalmueslie.oevent.logic.structure
 import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.common.DataObjectMerger
 import de.sambalmueslie.oevent.logic.structure.api.StructureChangeRequest
-import de.sambalmueslie.oevent.logic.structure.db.StructureData
+import de.sambalmueslie.oevent.model.StructureData
 
 class StructureMerger : DataObjectMerger<StructureData, StructureChangeRequest> {
 

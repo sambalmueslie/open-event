@@ -1,8 +1,8 @@
-package de.sambalmueslie.oevent.logic.category.db
+package de.sambalmueslie.oevent.model
 
-import de.sambalmueslie.oevent.logic.category.api.Category
 import de.sambalmueslie.oevent.common.DataObject
 import de.sambalmueslie.oevent.common.DataObjectContext
+import de.sambalmueslie.oevent.api.Category
 import javax.persistence.*
 
 
@@ -19,6 +19,20 @@ data class CategoryData(
 
 	override fun convert(context: DataObjectContext): Category {
 		return Category(id, name, iconUrl)
+	}
+
+	val items: Set<ItemData>
+		get() = _items
+
+	@ManyToMany(mappedBy = "_categories")
+	private val _items: MutableSet<ItemData> = mutableSetOf()
+
+	fun add(item: ItemData) {
+		_items.add(item)
+	}
+
+	fun remove(item: ItemData) {
+		_items.remove(item)
 	}
 
 }

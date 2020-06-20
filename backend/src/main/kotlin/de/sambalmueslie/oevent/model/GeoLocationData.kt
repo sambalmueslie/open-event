@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.logic.location.db
+package de.sambalmueslie.oevent.model
 
 import de.sambalmueslie.oevent.logic.location.api.GeoLocation
 import javax.persistence.Column

@@ -1,9 +1,9 @@
 package de.sambalmueslie.oevent.logic.category
 
 
-import de.sambalmueslie.oevent.logic.category.api.Category
+import de.sambalmueslie.oevent.api.Category
 import de.sambalmueslie.oevent.logic.category.api.CategoryChangeRequest
-import de.sambalmueslie.oevent.logic.category.db.CategoryData
+import de.sambalmueslie.oevent.model.CategoryData
 import de.sambalmueslie.oevent.logic.category.db.CategoryRepository
 import de.sambalmueslie.oevent.common.BaseService
 import org.slf4j.Logger

@@ -3,9 +3,9 @@ package de.sambalmueslie.oevent.logic.location
 
 import com.sun.jdi.request.InvalidRequestStateException
 import de.sambalmueslie.oevent.common.DataObjectValidator
-import de.sambalmueslie.oevent.logic.location.db.AddressData
-import de.sambalmueslie.oevent.logic.location.db.GeoLocationData
-import de.sambalmueslie.oevent.logic.location.db.LocationData
+import de.sambalmueslie.oevent.model.AddressData
+import de.sambalmueslie.oevent.model.GeoLocationData
+import de.sambalmueslie.oevent.model.LocationData
 
 class LocationValidator : DataObjectValidator<LocationData> {
 

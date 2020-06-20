@@ -2,7 +2,7 @@ package de.sambalmueslie.oevent.logic.category
 
 
 import de.sambalmueslie.oevent.logic.category.api.CategoryChangeRequest
-import de.sambalmueslie.oevent.logic.category.db.CategoryData
+import de.sambalmueslie.oevent.model.CategoryData
 import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.common.DataObjectMerger
 

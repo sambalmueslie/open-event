@@ -6,9 +6,9 @@ import de.sambalmueslie.oevent.common.DataObjectMerger
 import de.sambalmueslie.oevent.logic.location.api.Address
 import de.sambalmueslie.oevent.logic.location.api.GeoLocation
 import de.sambalmueslie.oevent.logic.location.api.LocationChangeRequest
-import de.sambalmueslie.oevent.logic.location.db.AddressData
-import de.sambalmueslie.oevent.logic.location.db.GeoLocationData
-import de.sambalmueslie.oevent.logic.location.db.LocationData
+import de.sambalmueslie.oevent.model.AddressData
+import de.sambalmueslie.oevent.model.GeoLocationData
+import de.sambalmueslie.oevent.model.LocationData
 
 class LocationMerger : DataObjectMerger<LocationData, LocationChangeRequest> {
 
