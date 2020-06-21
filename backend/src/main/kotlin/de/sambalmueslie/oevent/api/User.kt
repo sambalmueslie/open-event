@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.user.api
+package de.sambalmueslie.oevent.api
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -9,17 +9,17 @@ data class User(
 		@JsonProperty("id")
 		override val id: Long,
 		@JsonProperty("externalId")
-		val externalId: String = "",
+		val externalId: String,
 		@JsonProperty("userName")
-		val userName: String = "",
+		val userName: String,
 		@JsonProperty("firstName")
-		val firstName: String = "",
+		val firstName: String,
 		@JsonProperty("lastName")
-		val lastName: String = "",
+		val lastName: String,
 		@JsonProperty("email")
-		val email: String = "",
+		val email: String,
 		@JsonProperty("iconUrl")
-		val iconUrl: String = "",
+		val iconUrl: String,
 		@JsonProperty("type")
-		val type: UserType = UserType.IDP
+		val type: UserType
 ) : BusinessObject

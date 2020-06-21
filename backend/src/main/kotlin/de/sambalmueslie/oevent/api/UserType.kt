@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.user.api
+package de.sambalmueslie.oevent.api
 
 enum class UserType {
 	IDP,

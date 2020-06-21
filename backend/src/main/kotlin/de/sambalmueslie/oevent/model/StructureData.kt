@@ -10,6 +10,9 @@ import javax.persistence.*
 @Entity(name = "Structure")
 @Table(name = "structure")
 data class StructureData(
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		override var id: Long = 0,
 		@Column(nullable = false)
 		var root: Boolean = true,
 		@ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])

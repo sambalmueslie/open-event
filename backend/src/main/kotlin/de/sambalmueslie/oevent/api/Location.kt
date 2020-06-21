@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.logic.location.api
+package de.sambalmueslie.oevent.api
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -13,5 +13,5 @@ data class Location(
 		@JsonProperty("geoLocation")
 		val geoLocation: GeoLocation,
 		@JsonProperty("size")
-		val size: Int = -1
+		val size: Int
 ) : BusinessObject

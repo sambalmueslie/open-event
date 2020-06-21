@@ -1,6 +1,6 @@
 package de.sambalmueslie.oevent.model
 
-import de.sambalmueslie.oevent.logic.location.api.GeoLocation
+import de.sambalmueslie.oevent.api.GeoLocation
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -17,6 +17,6 @@ data class GeoLocationData(
 		var lon: Double = 0.0
 ) {
 	fun convert(): GeoLocation {
-		return GeoLocation(lat, lon)
+		return GeoLocation(id, lat, lon)
 	}
 }

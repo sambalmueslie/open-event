@@ -1,6 +1,6 @@
 package de.sambalmueslie.oevent.model
 
-import de.sambalmueslie.oevent.logic.location.api.Address
+import de.sambalmueslie.oevent.api.Address
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
@@ -26,7 +26,7 @@ data class AddressData(
 ) {
 
 	fun convert(): Address {
-		return Address(street, streetNumber, zip, city, country, additionalInfo)
+		return Address(id, street, streetNumber, zip, city, country, additionalInfo)
 	}
 
 
