@@ -3,13 +3,14 @@ package de.sambalmueslie.oevent.logic.location
 
 import com.sun.jdi.request.InvalidRequestStateException
 import de.sambalmueslie.oevent.common.DataObjectValidator
+import de.sambalmueslie.oevent.logic.location.db.LocationEntity
 import de.sambalmueslie.oevent.model.AddressData
 import de.sambalmueslie.oevent.model.GeoLocationData
 import de.sambalmueslie.oevent.model.LocationData
 
-class LocationValidator : DataObjectValidator<LocationData> {
+class LocationValidator : DataObjectValidator<LocationEntity> {
 
-	override fun validate(data: LocationData) {
+	override fun validate(data: LocationEntity) {
 		validate(data.addressData)
 		validate(data.geoLocation)
 	}

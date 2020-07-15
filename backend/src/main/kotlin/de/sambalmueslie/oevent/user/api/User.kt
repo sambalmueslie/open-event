@@ -1,4 +1,4 @@
-package de.sambalmueslie.oevent.api
+package de.sambalmueslie.oevent.user.api
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty

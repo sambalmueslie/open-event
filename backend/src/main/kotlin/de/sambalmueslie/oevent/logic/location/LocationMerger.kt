@@ -6,14 +6,14 @@ import de.sambalmueslie.oevent.common.DataObjectMerger
 import de.sambalmueslie.oevent.logic.location.api.Address
 import de.sambalmueslie.oevent.logic.location.api.GeoLocation
 import de.sambalmueslie.oevent.logic.location.api.LocationChangeRequest
+import de.sambalmueslie.oevent.logic.location.db.LocationEntity
 import de.sambalmueslie.oevent.model.AddressData
 import de.sambalmueslie.oevent.model.GeoLocationData
-import de.sambalmueslie.oevent.model.LocationData
 
-class LocationMerger : DataObjectMerger<LocationData, LocationChangeRequest> {
+class LocationMerger : DataObjectMerger<LocationEntity, LocationChangeRequest> {
 
-	override fun merge(existing: LocationData?, request: LocationChangeRequest, context: DataObjectContext): LocationData {
-		val data = existing ?: LocationData()
+	override fun merge(existing: LocationEntity?, request: LocationChangeRequest, context: DataObjectContext): LocationEntity {
+		val data = existing ?: LocationEntity()
 		merge(data.addressData, request.address)
 		merge(data.geoLocation, request.geoLocation)
 		data.size = request.size

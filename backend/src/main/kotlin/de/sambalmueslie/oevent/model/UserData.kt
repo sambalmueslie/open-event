@@ -1,13 +1,11 @@
 package de.sambalmueslie.oevent.model
 
-import de.sambalmueslie.oevent.api.User
-import de.sambalmueslie.oevent.api.UserType
+import de.sambalmueslie.oevent.user.api.User
+import de.sambalmueslie.oevent.user.api.UserType
 import de.sambalmueslie.oevent.common.DataObject
 import de.sambalmueslie.oevent.common.DataObjectContext
-import io.micronaut.http.annotation.Post
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import java.util.*
 import javax.persistence.*
 
 
