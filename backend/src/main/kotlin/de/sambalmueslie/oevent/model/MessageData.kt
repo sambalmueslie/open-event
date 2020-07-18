@@ -7,8 +7,8 @@ import java.time.LocalDateTime
 import java.time.ZoneOffset
 import javax.persistence.*
 
-@Entity(name = "Message")
-@Table(name = "message")
+//@Entity(name = "Message")
+//@Table(name = "message")
 data class MessageData(
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)

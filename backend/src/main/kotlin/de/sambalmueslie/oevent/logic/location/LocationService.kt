@@ -5,7 +5,6 @@ import de.sambalmueslie.oevent.logic.location.api.Location
 import de.sambalmueslie.oevent.common.BaseService
 import de.sambalmueslie.oevent.logic.location.api.LocationChangeRequest
 import de.sambalmueslie.oevent.logic.location.db.LocationEntity
-import de.sambalmueslie.oevent.model.LocationData
 import de.sambalmueslie.oevent.logic.location.db.LocationRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

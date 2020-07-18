@@ -6,8 +6,8 @@ import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
 
-@Entity(name = "Address")
-@Table(name = "address")
+//@Entity(name = "Address")
+//@Table(name = "address")
 data class AddressData(
 		@Id
 		var id: Long = 0,

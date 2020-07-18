@@ -4,9 +4,9 @@ import de.sambalmueslie.oevent.logic.item.api.Item
 import javax.persistence.*
 
 
-@Entity(name = "Item")
-@Table(name = "item")
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Entity(name = "Item")
+//@Table(name = "item")
+//@Inheritance(strategy = InheritanceType.JOINED)
 open class ItemData : Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

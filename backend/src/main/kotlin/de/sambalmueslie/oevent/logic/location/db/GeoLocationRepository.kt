@@ -4,4 +4,5 @@ import io.micronaut.data.annotation.Repository
 import io.micronaut.data.repository.PageableRepository
 
 @Repository
-interface LocationRepository : PageableRepository<LocationEntity, Long>
+interface GeoLocationRepository : PageableRepository<GeoLocationEntity, Long> {
+}

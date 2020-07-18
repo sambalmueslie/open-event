@@ -5,8 +5,8 @@ import de.sambalmueslie.oevent.common.DataObject
 import de.sambalmueslie.oevent.common.DataObjectContext
 import javax.persistence.*
 
-@Entity(name = "Permission")
-@Table(name = "permission")
+//@Entity(name = "Permission")
+//@Table(name = "permission")
 data class PermissionData(
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)

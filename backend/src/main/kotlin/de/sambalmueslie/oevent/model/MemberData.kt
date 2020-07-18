@@ -5,8 +5,8 @@ import de.sambalmueslie.oevent.common.DataObject
 import de.sambalmueslie.oevent.common.DataObjectContext
 import javax.persistence.*
 
-@Entity(name = "Member")
-@Table(name = "member")
+//@Entity(name = "Member")
+//@Table(name = "member")
 data class MemberData(
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)

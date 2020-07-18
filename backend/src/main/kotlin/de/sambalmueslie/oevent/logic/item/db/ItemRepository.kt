@@ -6,6 +6,6 @@ import io.micronaut.data.repository.CrudRepository
 import io.micronaut.data.repository.PageableRepository
 
 @Repository
-interface ItemRepository : PageableRepository<ItemData, Long> {
-	fun findByShortText(shortText: String): List<ItemData>
+interface ItemRepository : PageableRepository<ItemEntity, Long> {
+	fun findByShortText(shortText: String): List<ItemEntity>
 }

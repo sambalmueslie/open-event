@@ -3,6 +3,7 @@ package de.sambalmueslie.oevent.logic.item
 
 import de.sambalmueslie.oevent.logic.item.api.Item
 import de.sambalmueslie.oevent.logic.item.api.ItemChangeRequest
+import de.sambalmueslie.oevent.logic.item.db.ItemEntity
 import de.sambalmueslie.oevent.model.ItemData
 import de.sambalmueslie.oevent.logic.item.db.ItemRepository
 import org.slf4j.Logger
@@ -21,7 +22,7 @@ class ItemService(private val repository: ItemRepository) {
 		return repository.findByShortText(shortText)
 	}
 
-	fun <T : ItemData> merge(request: ItemChangeRequest, data: T): T {
+	fun <T : ItemEntity> merge(request: ItemChangeRequest, data: T): T {
 		data.iconUrl = request.iconUrl
 		data.imageUrl = request.imageUrl
 		data.longText = request.longText

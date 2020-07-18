@@ -3,8 +3,6 @@ package de.sambalmueslie.oevent.logic.location.db
 import de.sambalmueslie.oevent.logic.location.api.Location
 import de.sambalmueslie.oevent.common.DataObject
 import de.sambalmueslie.oevent.common.DataObjectContext
-import de.sambalmueslie.oevent.model.AddressData
-import de.sambalmueslie.oevent.model.GeoLocationData
 import javax.persistence.*
 
 @Entity(name = "Location")
@@ -14,15 +12,15 @@ data class LocationEntity(
 		override var id: Long = 0,
 		@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
 		@MapsId
-		var addressData: AddressData = AddressData(),
+		var address: AddressEntity = AddressEntity(),
 		@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
 		@MapsId
-		var geoLocation: GeoLocationData = GeoLocationData(),
+		var geoLocation: GeoLocationEntity = GeoLocationEntity(),
 		@Column
 		var size: Int = -1
 ): DataObject<Location> {
 
 	override fun convert(context: DataObjectContext): Location {
-		return Location(id, addressData.convert(), geoLocation.convert(), size)
+		return Location(id, address.convert(), geoLocation.convert(), size)
 	}
 }

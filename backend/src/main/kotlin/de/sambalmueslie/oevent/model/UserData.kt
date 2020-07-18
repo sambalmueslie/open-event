@@ -9,8 +9,8 @@ import java.time.ZoneOffset
 import javax.persistence.*
 
 
-@Entity(name = "User")
-@Table(name = "_user")
+//@Entity(name = "User")
+//@Table(name = "_user")
 data class UserData(
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
