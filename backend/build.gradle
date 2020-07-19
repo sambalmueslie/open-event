@@ -5,6 +5,8 @@ plugins {
     id "com.google.cloud.tools.jib"
     id 'com.github.johnrengelman.shadow'
     id "application"
+    id "com.google.cloud.tools.jib" version "2.4.0"
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 version "0.1"
@@ -57,7 +59,7 @@ dependencies {
     implementation("io.micronaut.graphql:micronaut-graphql")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.cache:micronaut-cache-ehcache")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1")
 
 
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
