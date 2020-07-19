@@ -67,9 +67,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-//    testImplementation(platform("org.testcontainers:testcontainers-bom:1.14.3"))
-//    testRuntimeOnly("org.testcontainers:postgresql")
-    testImplementation ("com.h2database:h2")
+    testImplementation(platform("org.testcontainers:testcontainers-bom:1.14.3"))
+    testRuntimeOnly("org.testcontainers:postgresql")
+//    testImplementation ("com.h2database:h2")
 
     implementation("org.apache.logging.log4j:log4j-core:2.12.1")
     runtimeOnly("org.apache.logging.log4j:log4j-api:2.12.1")

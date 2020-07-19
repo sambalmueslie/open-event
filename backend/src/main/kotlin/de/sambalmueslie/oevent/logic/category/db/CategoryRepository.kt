@@ -9,6 +9,6 @@ interface CategoryRepository : CrudRepository<CategoryEntity, Long> {
 	fun findByName(name: String): CategoryEntity?
 	fun findByIdInList(ids: List<Long>): List<CategoryEntity>
 
-//	@Query("FROM Category c, CategoryItemRelation r JOIN r.categoryId = c.id")
-//	fun findByItem(itemId: Long): List<CategoryEntity>
+	@Query(value = "SELECT c FROM Category c, CategoryItemRelation r WHERE r.categoryId = c.id")
+	fun findByItem(itemId: Long): List<CategoryEntity>
 }

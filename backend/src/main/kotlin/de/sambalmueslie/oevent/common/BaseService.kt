@@ -24,7 +24,7 @@ abstract class BaseService<T : BusinessObject, R : BusinessObjectChangeRequest, 
 	}
 
 	protected open fun getContext(data: Iterable<D>): List<Pair<D, DataObjectContext>> {
-		return emptyList()
+		return data.map { it to DataObjectContext.EMPTY }
 	}
 
 	override fun delete(id: Long) {
