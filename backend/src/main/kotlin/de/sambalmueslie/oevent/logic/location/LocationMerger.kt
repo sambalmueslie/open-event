@@ -3,9 +3,7 @@ package de.sambalmueslie.oevent.logic.location
 
 import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.common.DataObjectMerger
-import de.sambalmueslie.oevent.logic.location.api.Address
-import de.sambalmueslie.oevent.logic.location.api.GeoLocation
-import de.sambalmueslie.oevent.logic.location.api.LocationChangeRequest
+import de.sambalmueslie.oevent.logic.location.api.*
 import de.sambalmueslie.oevent.logic.location.db.AddressEntity
 import de.sambalmueslie.oevent.logic.location.db.GeoLocationEntity
 import de.sambalmueslie.oevent.logic.location.db.LocationEntity
@@ -20,7 +18,7 @@ class LocationMerger : DataObjectMerger<LocationEntity, LocationChangeRequest> {
 		return data
 	}
 
-	private fun merge(data: AddressEntity, address: Address) {
+	private fun merge(data: AddressEntity, address: AddressChangeRequest) {
 		data.additionalInfo = address.additionalInfo
 		data.city = address.city
 		data.country = address.country
@@ -29,7 +27,7 @@ class LocationMerger : DataObjectMerger<LocationEntity, LocationChangeRequest> {
 		data.zip = address.zip
 	}
 
-	private fun merge(data: GeoLocationEntity, geo: GeoLocation) {
+	private fun merge(data: GeoLocationEntity, geo: GeoLocationChangeRequest) {
 		data.lat = geo.lat
 		data.lon = geo.lon
 	}

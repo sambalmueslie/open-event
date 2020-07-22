@@ -4,7 +4,6 @@ package de.sambalmueslie.oevent.logic.item
 import de.sambalmueslie.oevent.logic.item.api.Item
 import de.sambalmueslie.oevent.logic.item.api.ItemChangeRequest
 import de.sambalmueslie.oevent.logic.item.db.ItemEntity
-import de.sambalmueslie.oevent.model.ItemData
 import de.sambalmueslie.oevent.logic.item.db.ItemRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -12,6 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class ItemService(private val repository: ItemRepository) {
+
 
 	companion object {
 		val logger: Logger = LoggerFactory.getLogger(ItemService::class.java)
@@ -30,6 +30,5 @@ class ItemService(private val repository: ItemRepository) {
 		data.title = request.title
 		return data
 	}
-
 
 }

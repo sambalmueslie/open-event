@@ -20,7 +20,8 @@ class DataObjectContext(private val immutable: Boolean = false) {
 
 	@Suppress("UNCHECKED_CAST")
 	fun <T : BusinessObject> getDependency(type: KClass<T>): T? {
-		return dependencies[type] as T
+		val result = dependencies[type] ?: return null
+		return result as T
 	}
 
 	fun <T : BusinessObject, R : DataObject<T>> putRelation(type: KClass<R>, value: R?) {
@@ -31,6 +32,7 @@ class DataObjectContext(private val immutable: Boolean = false) {
 
 	@Suppress("UNCHECKED_CAST")
 	fun <T : BusinessObject, R : DataObject<T>> getRelation(type: KClass<R>): R? {
-		return relations[type] as R
+		val result = relations[type] ?: return null
+		return result as R
 	}
 }

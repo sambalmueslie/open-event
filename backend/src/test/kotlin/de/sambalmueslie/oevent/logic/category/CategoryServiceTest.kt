@@ -1,14 +1,11 @@
 package de.sambalmueslie.oevent.logic.category
 
-import de.sambalmueslie.oevent.api.Structure
 import de.sambalmueslie.oevent.logic.category.api.Category
 import de.sambalmueslie.oevent.logic.category.api.CategoryChangeRequest
 import de.sambalmueslie.oevent.logic.item.api.Item
 import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 import javax.inject.Inject
@@ -26,7 +23,7 @@ internal class CategoryServiceTest {
 
 	@Test
 	fun `create update get and delete a category`() {
-		val name ="Test name"
+		val name = "Test name"
 		val url = "Test URL"
 		idCtr++
 		assertEquals(Category(idCtr, name, url), service.create(CategoryChangeRequest(name, url)))
@@ -42,7 +39,7 @@ internal class CategoryServiceTest {
 
 	@Test
 	fun `test category item relations`() {
-		val name ="Test name"
+		val name = "Test name"
 		val url = "Test URL"
 		val category = service.create(CategoryChangeRequest(name, url))
 		idCtr++

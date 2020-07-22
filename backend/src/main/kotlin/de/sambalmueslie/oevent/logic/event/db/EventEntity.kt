@@ -1,7 +1,10 @@
 package de.sambalmueslie.oevent.logic.event.db
 
+import de.sambalmueslie.oevent.common.DataObject
+import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.logic.event.api.Event
 import de.sambalmueslie.oevent.logic.item.db.ItemEntity
+import de.sambalmueslie.oevent.logic.structure.api.Structure
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import javax.persistence.*
@@ -26,8 +29,9 @@ data class EventEntity(
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		override var id: Long = 0
-) : ItemEntity(id, title, shortText, longText, imageUrl, iconUrl) {
+) : ItemEntity(id, title, shortText, longText, imageUrl, iconUrl), DataObject<Event> {
 
-	fun convert() = Event(id, title, shortText, longText, imageUrl, iconUrl, start, stop)
-
+	override fun convert(context: DataObjectContext): Event {
+		return Event(id, title, shortText, longText, imageUrl, iconUrl, start, stop)
+	}
 }

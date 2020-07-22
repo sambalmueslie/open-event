@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import de.sambalmueslie.oevent.common.BusinessObject
 import de.sambalmueslie.oevent.logic.item.api.Item
+import de.sambalmueslie.oevent.logic.location.api.Location
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Structure(
@@ -20,5 +21,7 @@ data class Structure(
 		@JsonProperty("imageUrl")
 		override val imageUrl: String,
 		@JsonProperty("iconUrl")
-		override val iconUrl: String
+		override val iconUrl: String,
+		@JsonProperty("location")
+		val location: Location?
 ) : BusinessObject, Item

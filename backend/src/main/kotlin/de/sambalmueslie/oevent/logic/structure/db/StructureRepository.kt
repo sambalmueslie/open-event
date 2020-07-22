@@ -1,6 +1,5 @@
 package de.sambalmueslie.oevent.logic.structure.db
 
-import de.sambalmueslie.oevent.model.StructureData
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
