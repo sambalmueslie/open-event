@@ -7,9 +7,9 @@ import de.sambalmueslie.oevent.common.BusinessObjectChangeRequest
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class LocationChangeRequest(
 		@JsonProperty("address")
-		val address: Address = Address(),
+		val address: AddressChangeRequest = AddressChangeRequest(),
 		@JsonProperty("geoLocation")
-		val geoLocation: GeoLocation,
+		val geoLocation: GeoLocationChangeRequest = GeoLocationChangeRequest(),
 		@JsonProperty("size")
-		val size: Int
+		val size: Int = 0
 ) : BusinessObjectChangeRequest

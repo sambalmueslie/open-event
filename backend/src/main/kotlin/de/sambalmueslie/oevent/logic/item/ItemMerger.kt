@@ -1,21 +1,16 @@
 package de.sambalmueslie.oevent.logic.item
 
-
-import de.sambalmueslie.oevent.common.DataObjectContext
-import de.sambalmueslie.oevent.common.DataObjectMerger
 import de.sambalmueslie.oevent.logic.item.api.ItemChangeRequest
-import de.sambalmueslie.oevent.logic.item.db.ItemData
+import de.sambalmueslie.oevent.logic.item.db.ItemEntity
 
-class ItemMerger : DataObjectMerger<ItemData, ItemChangeRequest> {
+class ItemMerger<E : ItemEntity> {
 
-	override fun merge(existing: ItemData?, request: ItemChangeRequest, context: DataObjectContext): ItemData {
-		val data = existing ?: ItemData()
-		data.iconUrl = request.iconUrl
-		data.imageUrl = request.imageUrl
-		data.longText = request.longText
-		data.shortText = request.shortText
-		data.title = request.title
-		return data
+	fun merge(entity: E, request: ItemChangeRequest) {
+		entity.title = request.title
+		entity.shortText = request.shortText
+		entity.longText = request.longText
+		entity.iconUrl = request.iconUrl
+		entity.imageUrl = request.imageUrl
 	}
 
 }

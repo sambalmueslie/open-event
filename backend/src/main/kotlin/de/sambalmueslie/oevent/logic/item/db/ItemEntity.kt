@@ -1,19 +1,18 @@
 package de.sambalmueslie.oevent.logic.item.db
 
-import de.sambalmueslie.oevent.common.DataObject
-import de.sambalmueslie.oevent.common.DataObjectContext
 import de.sambalmueslie.oevent.logic.item.api.Item
 import javax.persistence.*
 
 @Entity(name = "Item")
 @Table(name = "item")
-data class ItemData(
+@Inheritance(strategy = InheritanceType.JOINED)
+abstract class ItemEntity(
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		override var id: Long = 0,
 		@Column
 		override var title: String = "",
-		@Column
+		@Column(columnDefinition = "TEXT")
 		override var shortText: String = "",
 		@Column(columnDefinition = "TEXT")
 		override var longText: String = "",
@@ -21,7 +20,6 @@ data class ItemData(
 		override var imageUrl: String = "",
 		@Column
 		override var iconUrl: String = ""
-) : DataObject<Item>, Item {
+) : Item {
 
-	override fun convert(context: DataObjectContext) = this
 }

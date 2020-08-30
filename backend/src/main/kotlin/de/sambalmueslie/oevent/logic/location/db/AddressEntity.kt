@@ -1,15 +1,12 @@
 package de.sambalmueslie.oevent.logic.location.db
 
-import de.sambalmueslie.oevent.logic.location.api.Address
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import de.sambalmueslie.oevent.api.Address
+import javax.persistence.*
 
 @Entity(name = "Address")
 @Table(name = "address")
-data class AddressData(
-		@Id
+data class AddressEntity(
+		@Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
 		var id: Long = 0,
 		@Column
 		var street: String = "",
@@ -26,7 +23,7 @@ data class AddressData(
 ) {
 
 	fun convert(): Address {
-		return Address(street, streetNumber, zip, city, country, additionalInfo)
+		return Address(id, street, streetNumber, zip, city, country, additionalInfo)
 	}
 
 

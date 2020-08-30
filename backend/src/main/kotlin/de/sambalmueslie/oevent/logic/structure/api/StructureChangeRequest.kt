@@ -11,7 +11,7 @@ data class StructureChangeRequest(
 		@JsonProperty("item")
 		val item: ItemChangeRequest,
 		@JsonProperty("location")
-		val location: LocationChangeRequest?,
+		val location: LocationChangeRequest? = null,
 		@JsonProperty("parent")
-		val parentStructureId: Long?
+		val parentStructureId: Long? = null
 ) : BusinessObjectChangeRequest

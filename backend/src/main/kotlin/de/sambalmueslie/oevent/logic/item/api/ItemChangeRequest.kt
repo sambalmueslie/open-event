@@ -7,13 +7,13 @@ import de.sambalmueslie.oevent.common.BusinessObjectChangeRequest
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class ItemChangeRequest(
 		@JsonProperty("title")
-		val title: String = "",
+		val title: String,
 		@JsonProperty("shortText")
-		val shortText: String = "",
+		val shortText: String,
 		@JsonProperty("longText")
-		val longText: String = "",
+		val longText: String,
 		@JsonProperty("imageUrl")
-		val imageUrl: String = "",
+		val imageUrl: String,
 		@JsonProperty("iconUrl")
-		val iconUrl: String = ""
+		val iconUrl: String
 ): BusinessObjectChangeRequest
