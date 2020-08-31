@@ -73,7 +73,7 @@ dependencies {
 
     implementation("org.apache.logging.log4j:log4j-core:2.12.1")
     runtimeOnly("org.apache.logging.log4j:log4j-api:2.13.3")
-    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.12.1")
+    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.13.3")
 
 
     testImplementation "io.mockk:mockk:1.10.0"
