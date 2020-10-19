@@ -1,4 +1,9 @@
 rootProject.name="open-event"
 
+//include 'structure'
+//include 'event'
+//include 'governance'
+//include 'notification'
+include 'common'
+include 'server'
 include 'frontend'
-include 'backend'

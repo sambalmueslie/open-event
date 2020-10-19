@@ -1,0 +1,18 @@
+micronaut:
+  application:
+    name: open-event
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5433/openevent
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    schema-generate: none
+    dialect: POSTGRES
+
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baseline-on-migrate: true
