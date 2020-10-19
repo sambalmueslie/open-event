@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: open-event
+  security:
+    enabled: false
+
 datasources:
   default:
     url: jdbc:postgresql://localhost:5433/openevent
