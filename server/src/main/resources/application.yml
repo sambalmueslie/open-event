@@ -10,13 +10,18 @@ micronaut:
   http:
     client:
       read-timeout: 20s
+  metrics:
+    enabled: true
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
   security:
     enabled: true
+    authentication: bearer
     intercept-url-map:
       - pattern: /swagger/**
-        access:
-          - isAnonymous()
-      - pattern: /version/**
         access:
           - isAnonymous()
       - pattern: /swagger-ui/**
@@ -25,18 +30,12 @@ micronaut:
       - pattern: /**
         access:
           - isAuthenticated()
-    endpoints:
-      login:
-        enabled: false
-      oauth:
-        enabled: false
     token:
       jwt:
-        enabled: true
         signatures:
-          jwks:
-            keycloak:
-              # url: #TODO set your url for the jwks here
+          secret:
+            generator:
+              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
 
 datasources:
   default:
