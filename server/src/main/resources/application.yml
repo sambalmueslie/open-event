@@ -19,3 +19,6 @@ flyway:
     default:
       enabled: true
       baseline-on-migrate: true
+      schemas: open_event
+      default-schema: open_event
+      clean-schema: true
