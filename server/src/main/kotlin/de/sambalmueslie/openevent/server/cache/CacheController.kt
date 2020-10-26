@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.server.cache
 
 import de.sambalmueslie.openevent.server.cache.api.CacheSettings
-import de.sambalmueslie.openevent.server.common.AuthenticationHelper
+import de.sambalmueslie.openevent.server.auth.AuthenticationHelper
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
 

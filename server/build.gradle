@@ -24,7 +24,7 @@ dependencies {
     kapt("io.micronaut:micronaut-graal")
 
     kapt("io.micronaut.configuration:micronaut-openapi")
-    kapt("io.micronaut.security:micronaut-security-annotations")
+
 
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     implementation("io.micronaut:micronaut-inject")
@@ -50,9 +50,14 @@ dependencies {
     compileOnly("jakarta.persistence:jakarta.persistence-api:2.2.2")
     testImplementation(platform("org.testcontainers:testcontainers-bom:1.14.3"))
     testRuntimeOnly("org.testcontainers:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 
+    // security
+    kapt("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security")
+    implementation("io.micronaut.security:micronaut-security-jwt")
     implementation("io.micronaut.security:micronaut-security-oauth2")
+
 //    implementation("io.micronaut.graphql:micronaut-graphql")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
@@ -70,7 +75,12 @@ dependencies {
     // flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
 
-    kapt("io.micronaut.data:micronaut-data-processor")
+    // test
+    kaptTest "io.micronaut:micronaut-inject-java"
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("io.micronaut.test:micronaut-test-junit5:2.2.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+
     kapt("io.micronaut.openapi:micronaut-openapi")
     compileOnly("org.graalvm.nativeimage:svm")
     implementation("io.micronaut:micronaut-validation")
@@ -81,11 +91,9 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.swagger.core.v3:swagger-annotations")
-    implementation("io.micronaut.sql:micronaut-jdbc-tomcat")
-    implementation("io.micronaut.data:micronaut-data-jdbc")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    runtimeOnly("org.postgresql:postgresql")
+
 
 }
 

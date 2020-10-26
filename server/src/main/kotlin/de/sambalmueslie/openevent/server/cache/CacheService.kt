@@ -36,7 +36,7 @@ class CacheService(private val repository: CacheSettingsRepository) {
 	private fun update(name: String, enabled: Boolean): List<CacheSettings> {
 		val config = repository.findByName(name) ?: return getAll()
 		config.enabled = enabled
-		repository.save(config)
+		repository.update(config)
 		val cache = caches[name] ?: return getAll()
 		cache.setEnabled(enabled)
 		return getAll()
