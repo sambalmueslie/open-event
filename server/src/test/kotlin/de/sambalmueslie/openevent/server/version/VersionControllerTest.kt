@@ -14,12 +14,13 @@ import javax.inject.Inject
 internal class VersionControllerTest {
 
 	@Inject
-	@Client("/")
+	@field:Client("/")
 	lateinit var client: RxStreamingHttpClient
 
 	@Test
 	fun `get version`() {
-		val response  = client.toBlocking().exchange(HttpRequest.GET<Any>("/api/version"), VersionProperties::class.java)
+		val get = HttpRequest.GET<String>("/api/version")
+		val response  = client.toBlocking().exchange(get, VersionProperties::class.java)
 		assertEquals(HttpStatus.OK, response.status)
 		assertEquals(VersionProperties(), response.body())
 	}
