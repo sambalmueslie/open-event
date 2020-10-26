@@ -4,8 +4,11 @@ plugins {
     id "org.jetbrains.kotlin.plugin.allopen"
     id "com.github.johnrengelman.shadow"
     id "com.google.cloud.tools.jib"
+    id "org.sonarqube" version "3.0"
     id "application"
 }
+
+apply plugin: 'jacoco'
 
 repositories {
     mavenCentral()
@@ -98,7 +101,7 @@ dependencies {
 }
 
 test.classpath += configurations.developmentOnly
-mainClassName = "com.example.ApplicationKt"
+mainClassName = "de.sambalmueslie.openevent.server.OpenEventApplication"
 
 test {
     useJUnitPlatform()
@@ -107,6 +110,24 @@ test {
 java {
     sourceCompatibility = JavaVersion.toVersion('11')
 }
+
+jacocoTestReport {
+    reports {
+        xml.setEnabled(true)
+        csv.setEnabled(false)
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "sambalmueslie_open-event"
+        property "sonar.organization", "sambalmueslie"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.jacoco.reportPath", "${project.buildDir}/reports/jacoco/test"
+    }
+}
+
 
 allOpen {
     annotation("io.micronaut.aop.Around")

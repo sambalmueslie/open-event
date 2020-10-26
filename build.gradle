@@ -4,7 +4,6 @@ plugins {
     id "org.jetbrains.kotlin.plugin.allopen" version "1.4.10"
     id "com.github.johnrengelman.shadow" version "6.0.0"
     id "com.google.cloud.tools.jib" version "2.5.0"
-    id "org.sonarqube" version "3.0"
 }
 
 version "0.1"
@@ -15,10 +14,4 @@ repositories {
     jcenter()
 }
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "sambalmueslie_open-event"
-        property "sonar.organization", "sambalmueslie"
-        property "sonar.host.url", "https://sonarcloud.io"
-    }
-}
+
