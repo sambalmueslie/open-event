@@ -47,7 +47,7 @@ dependencies {
     implementation("io.micronaut.micrometer:micronaut-micrometer-registry-prometheus")
 
     kapt("io.micronaut.data:micronaut-data-processor")
-    implementation("org.hibernate:hibernate-jcache:5.4.18.Final")
+    implementation("org.hibernate:hibernate-jcache:5.4.22.Final")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
     runtimeOnly("org.postgresql:postgresql")
@@ -57,7 +57,7 @@ dependencies {
     implementation("io.micronaut.graphql:micronaut-graphql")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.cache:micronaut-cache-ehcache")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.2")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
 
 
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
@@ -71,12 +71,12 @@ dependencies {
     testRuntimeOnly("org.testcontainers:postgresql")
 //    testImplementation ("com.h2database:h2")
 
-    implementation("org.apache.logging.log4j:log4j-core:2.12.1")
-    runtimeOnly("org.apache.logging.log4j:log4j-api:2.12.1")
-    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.12.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.13.3")
+    runtimeOnly("org.apache.logging.log4j:log4j-api:2.13.3")
+    runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.13.3")
 
 
-    testImplementation "io.mockk:mockk:1.10.0"
+    testImplementation "io.mockk:mockk:1.10.2"
 }
 
 test.classpath += configurations.developmentOnly
