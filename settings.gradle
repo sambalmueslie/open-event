@@ -6,4 +6,4 @@ rootProject.name="open-event"
 //include 'notification'
 //include 'common'
 include 'server'
-include 'frontend'
+//include 'frontend'
