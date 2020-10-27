@@ -10,6 +10,7 @@ micronaut:
   http:
     client:
       read-timeout: 20s
+      exception-on-error-status: false
   metrics:
     enabled: true
     export:
@@ -20,16 +21,6 @@ micronaut:
   security:
     enabled: true
     authentication: bearer
-    intercept-url-map:
-      - pattern: /swagger/**
-        access:
-          - isAnonymous()
-      - pattern: /swagger-ui/**
-        access:
-          - isAnonymous()
-      - pattern: /**
-        access:
-          - isAuthenticated()
     token:
       jwt:
         signatures:
