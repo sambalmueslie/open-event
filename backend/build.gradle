@@ -76,7 +76,7 @@ dependencies {
     runtimeOnly("org.apache.logging.log4j:log4j-slf4j-impl:2.14.0")
 
 
-    testImplementation "io.mockk:mockk:1.10.3-jdk8"
+    testImplementation "io.mockk:mockk:1.10.4"
 }
 
 test.classpath += configurations.developmentOnly
