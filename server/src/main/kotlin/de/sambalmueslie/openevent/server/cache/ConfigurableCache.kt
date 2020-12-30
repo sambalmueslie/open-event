@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ConcurrentMap
 import java.util.function.Function
 
-class ConfigurableCache<K, V>(
+class ConfigurableCache<K : Any, V : Any>(
 		private var enabled: Boolean,
 		private val name: String,
 		private val cache: Cache<K, V>

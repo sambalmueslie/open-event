@@ -18,7 +18,7 @@ class CacheService(private val repository: CacheSettingsRepository) {
 	private val builder = CacheBuilder()
 	private val caches = mutableMapOf<String, ConfigurableCache<*, *>>()
 
-	fun <K, V> getCache(name: String, keyType: Class<K>, valueType: Class<V>, size: Long = 1000, ttl: Duration = Duration.ofMinutes(10)): ConfigurableCache<K, V> {
+	fun <K : Any, V : Any> getCache(name: String, keyType: Class<K>, valueType: Class<V>, size: Long = 1000, ttl: Duration = Duration.ofMinutes(10)): ConfigurableCache<K, V> {
 		if (ttl.isZero) logger.warn("Try to setup a cache '$name' with TTL of $ttl results in non working cache")
 		val cache = builder.create(name, keyType, valueType, size, ttl)
 		val config = repository.findByName(name) ?: repository.save(CacheSettingsData(0, name, true))
