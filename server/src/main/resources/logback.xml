@@ -10,14 +10,18 @@
         <appender-ref ref="STDOUT" />
     </root>
 
+    <logger name="io.micronaut" level="DEBUG"/>
     <logger name="io.micronaut.data" level="INFO"/>
     <logger name="com.zaxxer.hikari" level="INFO"/>
     <logger name="org.hibernate" level="INFO"/>
     <logger name="io.micronaut.http.client" level="DEBUG"/>
+    <logger name="io.micronaut.http" level="DEBUG"/>
     <logger name="io.micronaut.security" level="DEBUG"/>
     <logger name="org.apache.http" level="INFO"/>
     <logger name="org.hibernate.cache" level="INFO"/>
     <logger name="org.hibernate.SQL" level="INFO"/>
     <logger name="org.hibernate.type.descriptor.sql" level="INFO"/>
+
+    <logger name="de.sambalmueslie.openevent" level="DEBUG"/>
 
 </configuration>

@@ -16,7 +16,8 @@ class VersionController {
 		val logger: Logger = LoggerFactory.getLogger(VersionController::class.java)
 	}
 
-	@Get() fun getVersion() = VersionProperties()
+	@Get()
+	fun getVersion() = VersionProperties()
 
 
 }

@@ -8,6 +8,9 @@ plugins {
     id("com.google.cloud.tools.jib") version "2.6.0"
 }
 
+version "0.1"
+group "de.sambalmueslie.openevent"
+
 repositories {
     mavenCentral()
     jcenter()
@@ -17,8 +20,8 @@ micronaut {
     runtime("netty")
     testRuntime("junit5")
     processing {
-        incremental(true)
-        annotations("de.sambalmueslie.openevent.server.*")
+        incremental=true
+        annotations=["de.sambalmueslie.openevent.server.*"]
     }
 }
 

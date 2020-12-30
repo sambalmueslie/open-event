@@ -11,22 +11,34 @@ micronaut:
     client:
       read-timeout: 20s
       exception-on-error-status: false
-  metrics:
-    enabled: true
-    export:
-      prometheus:
-        enabled: true
-        descriptions: true
-        step: PT1M
   security:
-    enabled: true
-    authentication: bearer
+    enabled: false
+    intercept-url-map:
+      - pattern: /swagger/**
+        access:
+          - isAnonymous()
+      - pattern: /swagger-ui/**
+        access:
+          - isAnonymous()
+      - pattern: /api/version/**
+        access:
+          - isAnonymous()
+      - pattern: /**
+        access:
+          - isAuthenticated()
+    endpoints:
+      login:
+        enabled: false
+      oauth:
+        enabled: false
     token:
       jwt:
+        enabled: true
         signatures:
-          secret:
-            generator:
-              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+          jwks:
+            keycloak:
+              url: ""
+
 
 datasources:
   default:

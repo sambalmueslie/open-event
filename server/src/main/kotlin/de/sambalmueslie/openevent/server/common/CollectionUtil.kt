@@ -16,10 +16,10 @@ inline fun <T> measureTimeMillisWithReturn(function: () -> T): Pair<Long, T> {
 	return Pair(duration, result)
 }
 
-inline fun <T> executeWithReturn(result: T? = null, function : () -> Any): T? {
+inline fun <T> executeWithReturn(result: T? = null, function: () -> Any): T? {
 	function.invoke()
 	return result
 }
 
 
-fun <E,ID> CrudRepository<E, ID>.findByIdOrNull(id: ID): E?  = this.findById(id).orElseGet { null }
+fun <E, ID : Any> CrudRepository<E, ID>.findByIdOrNull(id: ID): E? = this.findById(id).orElseGet { null }
