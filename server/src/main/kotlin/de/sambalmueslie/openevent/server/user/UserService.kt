@@ -11,15 +11,19 @@ import de.sambalmueslie.openevent.server.user.update.UserUpdater
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.scheduling.annotation.Scheduled
+import io.micronaut.security.annotation.Secured
 import io.micronaut.security.authentication.Authentication
+import io.micronaut.security.rules.SecurityRule
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.security.Principal
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Singleton
 import javax.transaction.Transactional
 import kotlin.system.measureTimeMillis
 
 @Singleton
+@Secured(SecurityRule.IS_AUTHENTICATED)
 open class UserService(
 		cacheService: CacheService,
 		private val repository: UserRepository,
@@ -35,7 +39,7 @@ open class UserService(
 	private val activeUpdater = ConcurrentHashMap<String, UserUpdater>()
 
 	@Transactional
-	open fun getAll(user: Authentication, pageable: Pageable) = repository.findAll(pageable).map { it.convert() }
+	open fun getAll(authentication: Authentication, pageable: Pageable) = repository.findAll(pageable).map { it.convert() }
 
 	@Transactional
 	open fun filterByName(name: String, pageable: Pageable): Page<User> {
@@ -99,4 +103,5 @@ open class UserService(
 	}
 
 	private fun getUserExternalId(authentication: Authentication) = authentication.name
+	private fun getUserExternalId(principal: Principal) = principal.name
 }

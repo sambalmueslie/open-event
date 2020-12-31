@@ -48,10 +48,10 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 
     // security
-    kapt("io.micronaut.security:micronaut-security-annotations")
-    implementation("io.micronaut.security:micronaut-security")
-    implementation("io.micronaut.security:micronaut-security-jwt")
-    implementation("io.micronaut.security:micronaut-security-oauth2")
+    kapt("io.micronaut.security:micronaut-security-annotations:2.2.0")
+    implementation("io.micronaut.security:micronaut-security:2.2.0")
+    implementation("io.micronaut.security:micronaut-security-jwt:2.2.0")
+    implementation("io.micronaut.security:micronaut-security-oauth2:2.2.0")
 
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
@@ -75,6 +75,10 @@ dependencies {
 
 
     runtimeOnly("ch.qos.logback:logback-classic")
+
+    // keycloak
+    compile("org.keycloak:keycloak-common:11.0.3")
+    compile("org.keycloak:keycloak-core:11.0.3")
 }
 
 mainClassName = "de.sambalmueslie.openevent.server.OpenEventApplication"

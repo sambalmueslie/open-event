@@ -12,7 +12,7 @@ micronaut:
       read-timeout: 20s
       exception-on-error-status: false
   security:
-    enabled: false
+    enabled: true
     intercept-url-map:
       - pattern: /swagger/**
         access:
@@ -38,6 +38,18 @@ micronaut:
           jwks:
             keycloak:
               url: ""
+        bearer:
+          enabled: true
+    oauth2:
+      clients:
+        keycloak:
+          client-id: ""
+          client-secret: ""
+          client-credentials:
+            service-id-regex: "keycloak"
+          token:
+            url: ""
+            auth-method: client_secret_basic
 
 
 datasources:
