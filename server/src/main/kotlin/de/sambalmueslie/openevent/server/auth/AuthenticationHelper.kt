@@ -10,6 +10,7 @@ class AuthenticationHelper {
 	fun checkForAdmin(authentication: Authentication) {
 		val attributes = authentication.attributes
 		val resourceAccess = attributes["resource_access"] as JSONObject? ?: throw InsufficientPermissionsException("")
+		// TODO make that configurable
 		val backend = resourceAccess["open-church-backend"] as JSONObject? ?: throw InsufficientPermissionsException("")
 		val roles = backend["roles"] as JSONArray? ?: throw InsufficientPermissionsException("")
 		roles.toArray().find { it == "ADMINISTRATOR" } ?: throw InsufficientPermissionsException("")

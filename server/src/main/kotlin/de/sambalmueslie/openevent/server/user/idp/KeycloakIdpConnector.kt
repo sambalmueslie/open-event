@@ -15,7 +15,6 @@ import javax.inject.Singleton
 
 @Singleton
 class KeycloakIdpConnector(
-	cacheService: CacheService,
 	private val config: IdpConfig,
 	@Client(value = "\${idp.base-url:`http://localhost`}", id = "keycloak") private val client: RxHttpClient
 ) : IdpConnector {
@@ -39,7 +38,7 @@ class KeycloakIdpConnector(
 
 
 	private fun convert(user: UserRepresentation): UserData {
-		return UserData(0, user.id, user.firstName, user.lastName, user.email, "")
+		return UserData(0, user.id?: "", user.firstName ?: "", user.lastName?: "", user.email?: "", "")
 	}
 
 }
