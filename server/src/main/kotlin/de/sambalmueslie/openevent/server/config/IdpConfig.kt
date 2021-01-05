@@ -42,4 +42,19 @@ class IdpConfig {
 			logger.debug("Set realm from '$realm' to '$value'")
 			field = value
 		}
+
+	@NotBlank
+	var backendResource: String = ""
+		set(value) {
+			logger.debug("Set backendResource from '$backendResource' to '$value'")
+			field = value
+		}
+
+
+	@NotBlank
+	var adminRoleName: String = "ADMINISTRATOR"
+		set(value) {
+			logger.debug("Set adminRoleName from '$adminRoleName' to '$value'")
+			field = value
+		}
 }
