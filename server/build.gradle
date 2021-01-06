@@ -8,6 +8,8 @@ plugins {
     id("com.google.cloud.tools.jib") version "2.6.0"
 }
 
+apply plugin: 'jacoco'
+
 version "0.1"
 group "de.sambalmueslie.openevent"
 
@@ -99,6 +101,14 @@ java {
 // use JUnit 5 platform
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.setEnabled(true)
+        csv.setEnabled(false)
+    }
 }
 
 allOpen {
