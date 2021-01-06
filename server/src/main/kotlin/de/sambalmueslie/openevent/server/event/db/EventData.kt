@@ -29,8 +29,7 @@ data class EventData(
 ) : DataObject<Event> {
 
 	companion object {
-		fun convert(user: User, request: EventChangeRequest, description: ItemDescriptionData): EventData {
-			val location = request.location?.let { LocationData.convert(it) }
+		fun convert(user: User, request: EventChangeRequest, description: ItemDescriptionData, location: LocationData? = null): EventData {
 			return EventData(0L, request.period.start, request.period.end, UserData.convert(user), description, location)
 		}
 	}

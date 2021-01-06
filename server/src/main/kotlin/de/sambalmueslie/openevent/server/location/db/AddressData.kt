@@ -3,15 +3,13 @@ package de.sambalmueslie.openevent.server.location.db
 import de.sambalmueslie.openevent.server.common.DataObject
 import de.sambalmueslie.openevent.server.location.api.Address
 import de.sambalmueslie.openevent.server.location.api.AddressChangeRequest
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity(name = "Address")
 @Table(name = "address")
 data class AddressData(
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long = 0L,
 	@Column
 	val street: String = "",

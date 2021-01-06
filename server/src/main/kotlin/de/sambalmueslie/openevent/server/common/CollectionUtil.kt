@@ -6,6 +6,7 @@ inline fun <T> Iterable<T>.forEachWithTryCatch(action: (T) -> Unit) {
 	try {
 		for (element in this) action(element)
 	} catch (e: Exception) {
+		// intentionally left empty
 	}
 }
 
