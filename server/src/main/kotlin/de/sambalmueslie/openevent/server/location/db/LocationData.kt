@@ -2,7 +2,6 @@ package de.sambalmueslie.openevent.server.location.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
 import de.sambalmueslie.openevent.server.location.api.Location
-import de.sambalmueslie.openevent.server.location.api.LocationChangeRequest
 import javax.persistence.*
 
 @Entity(name = "Location")
@@ -12,7 +11,7 @@ data class LocationData(
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long = 0L,
 	@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-	var addressData: AddressData = AddressData(),
+	var address: AddressData = AddressData(),
 	@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
 	var geoLocation: GeoLocationData = GeoLocationData(),
 	@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
@@ -24,5 +23,5 @@ data class LocationData(
 		}
 	}
 
-	override fun convert() = Location(id, addressData.convert(), geoLocation.convert(), properties.convert())
+	override fun convert() = Location(id, address.convert(), geoLocation.convert(), properties.convert())
 }

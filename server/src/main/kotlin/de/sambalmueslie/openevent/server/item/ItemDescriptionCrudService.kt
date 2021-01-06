@@ -28,7 +28,7 @@ class ItemDescriptionCrudService(private val repository: ItemDescriptionReposito
 	fun createData(user: User, request: ItemDescriptionChangeRequest): Pair<ItemDescriptionData, ItemDescription> {
 		val data = repository.save(ItemDescriptionData.convert(request))
 		val result = data.convert()
-		notifyCommon(CommonChangeEvent(result, CommonChangeEventType.CREATED))
+		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
 		return Pair(data, result)
 	}
 

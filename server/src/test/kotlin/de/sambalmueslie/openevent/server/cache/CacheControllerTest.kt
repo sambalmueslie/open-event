@@ -23,22 +23,24 @@ internal class CacheControllerTest {
 	@field:Client("/")
 	lateinit var client: RxHttpClient
 
+	private val testCacheUrl = "/api/name/test"
+
 	@Test
 	fun `call endpoints unauthorized`() {
 		assertThrows(HttpClientResponseException::class.java) {
 			client.toBlocking().exchange(HttpRequest.GET<String>("/api/cache"), Argument.listOf(CacheSettings::class.java))
 		}
 		assertThrows(HttpClientResponseException::class.java) {
-			client.toBlocking().exchange(HttpRequest.GET<String>("/api/name/test"), Argument.listOf(CacheSettings::class.java))
+			client.toBlocking().exchange(HttpRequest.GET<String>(testCacheUrl), Argument.listOf(CacheSettings::class.java))
 		}
 		assertThrows(HttpClientResponseException::class.java) {
-			client.toBlocking().exchange(HttpRequest.PUT("/api/name/test", ""), Argument.listOf(CacheSettings::class.java))
+			client.toBlocking().exchange(HttpRequest.PUT(testCacheUrl, ""), Argument.listOf(CacheSettings::class.java))
 		}
 		assertThrows(HttpClientResponseException::class.java) {
-			client.toBlocking().exchange(HttpRequest.DELETE("/api/name/test", ""), Argument.listOf(CacheSettings::class.java))
+			client.toBlocking().exchange(HttpRequest.DELETE(testCacheUrl, ""), Argument.listOf(CacheSettings::class.java))
 		}
 		assertThrows(HttpClientResponseException::class.java) {
-			client.toBlocking().exchange(HttpRequest.DELETE("/api/name/test/clear", ""), Argument.listOf(CacheSettings::class.java))
+			client.toBlocking().exchange(HttpRequest.DELETE("$testCacheUrl/clear", ""), Argument.listOf(CacheSettings::class.java))
 		}
 	}
 

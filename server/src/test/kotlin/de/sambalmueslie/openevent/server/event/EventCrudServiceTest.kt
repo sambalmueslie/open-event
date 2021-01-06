@@ -28,12 +28,14 @@ internal class EventCrudServiceTest(
 	private val iconUrl = "Test icon url"
 	private val start = LocalDateTime.of(2020, 12, 1, 20, 15)
 	private val end = LocalDateTime.of(2020, 12, 1, 22, 30)
+	private val userId = "Test user id"
+	private val userName = "Test user name"
 
 	init {
-		val userId = "Test user id"
-		val userName = "Test user name"
-		user = userRepo.save(UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false))
+		user = userRepo.findByUserName(userName).firstOrNull()
+			?: userRepo.save(UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false))
 	}
+
 
 	@Test
 	fun `create new event without location`() {

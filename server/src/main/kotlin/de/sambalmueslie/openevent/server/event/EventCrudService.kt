@@ -38,9 +38,9 @@ open class EventCrudService(
 		}
 		val description = itemDescriptionCrudService.createData(user, request.item).first
 		val location = request.location?.let { locationCrudService.createData(user, it).first }
-		val data = EventData.convert(user, request, description,location)
+		val data = EventData.convert(user, request, description, location)
 		val result = repository.save(data).convert()
-		notifyCommon(CommonChangeEvent(result, CommonChangeEventType.CREATED))
+		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
 		return result
 	}
 

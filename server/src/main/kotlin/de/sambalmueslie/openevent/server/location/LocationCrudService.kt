@@ -25,7 +25,7 @@ class LocationCrudService(
 		val logger: Logger = LoggerFactory.getLogger(LocationCrudService::class.java)
 	}
 
-	override fun create(user: User, request: LocationChangeRequest): Location? {
+	override fun create(user: User, request: LocationChangeRequest): Location {
 		return createData(user, request).second
 	}
 
@@ -35,7 +35,7 @@ class LocationCrudService(
 		val properties = propertiesRepository.save(LocationPropertiesData.convert(request.properties))
 		val data = repository.save(LocationData.convert(address, geoLocation, properties))
 		val result = data.convert()
-		notifyCommon(CommonChangeEvent(result, CommonChangeEventType.CREATED))
+		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
 		return Pair(data, result)
 	}
 
