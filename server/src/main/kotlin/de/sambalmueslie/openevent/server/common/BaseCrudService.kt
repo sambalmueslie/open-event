@@ -17,11 +17,11 @@ abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeReque
 		val logger: Logger = LoggerFactory.getLogger(BaseCrudService::class.java)
 	}
 
-	override fun get(user: User, objId: Long): T? {
+	override fun get(objId: Long): T? {
 		return repository.findByIdOrNull(objId)?.convert()
 	}
 
-	override fun getAll(user: User, pageable: Pageable): Page<T> {
+	override fun getAll(pageable: Pageable): Page<T> {
 		return repository.findAll(pageable).map { it.convert() }
 	}
 

@@ -5,9 +5,9 @@ import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 
 interface CrudService<T : BusinessObject, O : BusinessObjectChangeRequest> {
-	fun getAll(user: User, pageable: Pageable): Page<T>
+	fun getAll(pageable: Pageable): Page<T>
 
-	fun get(user: User, objId: Long): T?
+	fun get(objId: Long): T?
 
 	fun create(user: User, request: O): T?
 

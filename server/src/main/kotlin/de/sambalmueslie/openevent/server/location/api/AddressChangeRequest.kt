@@ -2,12 +2,10 @@ package de.sambalmueslie.openevent.server.location.api
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import de.sambalmueslie.openevent.server.common.BusinessObject
+import de.sambalmueslie.openevent.server.common.BusinessObjectChangeRequest
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Address(
-	@JsonProperty("id")
-	override val id: Long,
+data class AddressChangeRequest(
 	@JsonProperty("street")
 	val street: String = "",
 	@JsonProperty("streetNumber")
@@ -20,8 +18,4 @@ data class Address(
 	val country: String = "",
 	@JsonProperty("additionalInfo")
 	val additionalInfo: String = ""
-) : BusinessObject {
-	fun format(): String {
-		return "$street $streetNumber, $zip $city"
-	}
-}
+) : BusinessObjectChangeRequest

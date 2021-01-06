@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class LocationChangeRequest(
 	@JsonProperty("address")
-	val address: Address = Address(),
+	val address: AddressChangeRequest = AddressChangeRequest(),
 	@JsonProperty("geoLocation")
-	val geoLocation: GeoLocation,
+	val geoLocation: GeoLocationChangeRequest = GeoLocationChangeRequest(),
 	@JsonProperty("properties")
-	val properties: LocationProperties = LocationProperties()
+	val properties: LocationPropertiesChangeRequest = LocationPropertiesChangeRequest()
 )

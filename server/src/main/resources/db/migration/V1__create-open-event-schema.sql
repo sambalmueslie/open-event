@@ -1,21 +1,23 @@
 /* cache settings */
-create table cache_settings
+CREATE SEQUENCE cache_settings_seq;
+CREATE TABLE cache_settings
 (
-    id       bigint GENERATED ALWAYS AS IDENTITY,
+    id       bigint       not null primary key default nextval('cache_settings_seq'::regclass),
     name     varchar(255) NOT NULL,
     enabled  boolean      NOT NULL,
 
-    created  timestamp without time zone,
-    modified timestamp without time zone,
+    created  TIMESTAMP WITHOUT TIME ZONE,
+    modified TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id),
+    CONSTRAINT cache_settings_pk UNIQUE (id),
     constraint cache_settings_name unique (name)
 );
 
 /* user */
-create table _user
+CREATE SEQUENCE _user_id_seq;
+CREATE TABLE _user
 (
-    id           bigint GENERATED ALWAYS AS IDENTITY,
+    id           bigint       not null primary key default nextval('_user_id_seq'::regclass),
     external_id  varchar(255) NOT NULL,
     user_name    varchar(255) NOT NULL,
     first_name   varchar(255) NOT NULL,
@@ -25,34 +27,36 @@ create table _user
     last_sync    timestamp,
     service_user boolean      NOT NULL,
 
-    created      timestamp without time zone,
-    modified     timestamp without time zone,
+    created      TIMESTAMP WITHOUT TIME ZONE,
+    modified     TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id),
+    CONSTRAINT user_pk UNIQUE (id),
     constraint   _user_external_id unique (external_id)
 );
 
 
 /* item description */
-create table item_description
+CREATE SEQUENCE item_description_seq;
+CREATE TABLE item_description
 (
-    id         bigint GENERATED ALWAYS AS IDENTITY,
+    id         bigint       not null primary key default nextval('item_description_seq'::regclass),
     title      varchar(255) NOT NULL,
     short_text varchar(255) NOT NULL,
     long_text  text         NOT NULL,
     image_url  varchar(255) NOT NULL,
     icon_url   varchar(255) NOT NULL,
 
-    created    timestamp without time zone,
-    modified   timestamp without time zone,
+    created    TIMESTAMP WITHOUT TIME ZONE,
+    modified   TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id)
+    CONSTRAINT item_description_pk UNIQUE (id)
 );
 
 /* address */
-create table address
+CREATE SEQUENCE address_seq;
+CREATE TABLE address
 (
-    id              bigint GENERATED ALWAYS AS IDENTITY,
+    id              bigint not null primary key default nextval('address_seq'::regclass),
     additional_info character varying(255),
     city            character varying(255),
     country         character varying(255),
@@ -60,70 +64,77 @@ create table address
     street_number   character varying(255),
     zip             character varying(255),
 
-    created         timestamp without time zone,
-    modified        timestamp without time zone,
+    created         TIMESTAMP WITHOUT TIME ZONE,
+    modified        TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id)
+    CONSTRAINT address_pk UNIQUE (id)
 );
 
 /* geo_location */
-create table geo_location
+CREATE SEQUENCE geo_location_seq;
+CREATE TABLE geo_location
 (
-    id       bigint GENERATED ALWAYS AS IDENTITY,
+    id       bigint not null primary key default nextval('geo_location_seq'::regclass),
     lat      double precision,
     lon      double precision,
 
-    created  timestamp without time zone,
-    modified timestamp without time zone,
+    created  TIMESTAMP WITHOUT TIME ZONE,
+    modified TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id)
+    CONSTRAINT geo_location_pk UNIQUE (id)
 );
 
 /* location_properties */
-create table location_properties
+CREATE SEQUENCE location_properties_seq;
+CREATE TABLE location_properties
 (
-    id       bigint GENERATED ALWAYS AS IDENTITY,
-    size     integer default 0,
+    id       bigint not null primary key default nextval('location_properties_seq'::regclass),
+    size     integer                     default 0,
 
-    created  timestamp without time zone,
-    modified timestamp without time zone,
+    created  TIMESTAMP WITHOUT TIME ZONE,
+    modified TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id)
+    CONSTRAINT location_properties_pk UNIQUE (id)
 );
 
 /* location */
-create table location
+CREATE SEQUENCE location_seq;
+CREATE TABLE location
 (
-    id              bigint GENERATED ALWAYS AS IDENTITY,
+    id              bigint not null primary key default nextval('location_seq'::regclass),
 
     address_id      bigint,
     geo_location_id bigint,
     properties_id   bigint,
 
-    created         timestamp without time zone,
-    modified        timestamp without time zone,
+    created         TIMESTAMP WITHOUT TIME ZONE,
+    modified        TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id)
+    CONSTRAINT location_pk UNIQUE (id)
 );
 
 
 /* event */
-create table event
+CREATE SEQUENCE event_seq;
+CREATE TABLE event
 (
-    id             bigint GENERATED ALWAYS AS IDENTITY,
-    period_start   timestamp without time zone,
-    period_end     timestamp without time zone,
+    id             bigint not null primary key default nextval('event_seq'::regclass),
+    period_start   TIMESTAMP WITHOUT TIME ZONE,
+    period_end     TIMESTAMP WITHOUT TIME ZONE,
 
+    owner_id       bigint,
     description_id bigint,
     location_id    bigint,
 
-    created        timestamp without time zone,
-    modified       timestamp without time zone,
+    created        TIMESTAMP WITHOUT TIME ZONE,
+    modified       TIMESTAMP WITHOUT TIME ZONE,
 
-    PRIMARY KEY (id),
-    CONSTRAINT fk_description FOREIGN KEY (description_id)
+    CONSTRAINT event_pk UNIQUE (id),
+    CONSTRAINT fk_event_user FOREIGN KEY (owner_id)
+        REFERENCES _user (id) MATCH SIMPLE,
+    CONSTRAINT fk_event_description FOREIGN KEY (description_id)
         REFERENCES item_description (id) MATCH SIMPLE,
-    CONSTRAINT fk_location FOREIGN KEY (location_id)
+    CONSTRAINT fk_event_location FOREIGN KEY (location_id)
         REFERENCES location (id) MATCH SIMPLE
         ON DELETE SET NULL
 );
