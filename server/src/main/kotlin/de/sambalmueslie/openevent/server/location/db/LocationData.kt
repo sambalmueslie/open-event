@@ -19,10 +19,7 @@ data class LocationData(
 	var properties: LocationPropertiesData = LocationPropertiesData()
 ) : DataObject<Location> {
 	companion object {
-		fun convert(request: LocationChangeRequest): LocationData {
-			val addressData = AddressData.convert(request.address)
-			val geoLocationData = GeoLocationData.convert(request.geoLocation)
-			val propertiesData = LocationPropertiesData.convert(request.properties)
+		fun convert(addressData: AddressData, geoLocationData: GeoLocationData, propertiesData: LocationPropertiesData): LocationData {
 			return LocationData(0L, addressData, geoLocationData, propertiesData)
 		}
 	}
