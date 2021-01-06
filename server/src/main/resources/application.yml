@@ -1,0 +1,74 @@
+micronaut:
+  application:
+    name: open-event
+  server:
+    port: 8080
+    thread-selection: AUTO
+  data:
+    pageable:
+      max-page-size: 1000
+  http:
+    client:
+      read-timeout: 20s
+      exception-on-error-status: false
+  security:
+    enabled: true
+    intercept-url-map:
+      - pattern: /swagger/**
+        access:
+          - isAnonymous()
+      - pattern: /swagger-ui/**
+        access:
+          - isAnonymous()
+      - pattern: /api/version/**
+        access:
+          - isAnonymous()
+      - pattern: /**
+        access:
+          - isAuthenticated()
+    endpoints:
+      login:
+        enabled: false
+      oauth:
+        enabled: false
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          jwks:
+            keycloak:
+              url: ""
+        bearer:
+          enabled: true
+    oauth2:
+      clients:
+        keycloak:
+          client-id: ""
+          client-secret: ""
+          client-credentials:
+            service-id-regex: "keycloak"
+          token:
+            url: ""
+            auth-method: client_secret_basic
+
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5433/openevent
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    schema-generate: none
+    dialect: POSTGRES
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+      baseline-on-migrate: true
+      clean-schema: true
+
+jackson:
+  bean-introspection-module: true
+  serialization-inclusion: NON_NULL
+

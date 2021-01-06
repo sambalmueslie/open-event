@@ -1,0 +1,27 @@
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <logger name="io.micronaut" level="INFO"/>
+    <logger name="io.micronaut.data" level="INFO"/>
+    <logger name="io.micronaut.security.oauth2.client.clientcredentials" level="INFO"/>
+    <logger name="com.zaxxer.hikari" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
+    <logger name="io.micronaut.http.client" level="INFO"/>
+    <logger name="io.micronaut.http" level="INFO"/>
+    <logger name="io.micronaut.security" level="INFO"/>
+    <logger name="org.hibernate.cache" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="INFO"/>
+    <logger name="org.hibernate.type.descriptor.sql" level="INFO"/>
+
+    <logger name="de.sambalmueslie.openevent" level="DEBUG"/>
+
+</configuration>

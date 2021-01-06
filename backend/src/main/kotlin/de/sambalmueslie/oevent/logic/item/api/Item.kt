@@ -1,6 +1,6 @@
 package de.sambalmueslie.oevent.logic.item.api
 
-import de.sambalmueslie.oevent.logic.common.BusinessObject
+import de.sambalmueslie.oevent.common.BusinessObject
 
 interface Item : BusinessObject {
 	override val id: Long
