@@ -52,6 +52,25 @@ CREATE TABLE item_description
     CONSTRAINT item_description_pk UNIQUE (id)
 );
 
+/* item entitlement entry */
+CREATE SEQUENCE item_entitlement_entry_seq;
+CREATE TABLE item_entitlement_entry
+(
+    id          bigint not null primary key default nextval('item_entitlement_entry_seq'::regclass),
+    item_id     bigint not null,
+    type        character varying(255),
+    entitlement character varying(255),
+
+    user_id     bigint,
+
+    created     TIMESTAMP WITHOUT TIME ZONE,
+    modified    TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT item_entitlement_entry_pk UNIQUE (id),
+    CONSTRAINT fk_item_entitlement_entry_user FOREIGN KEY (user_id)
+        REFERENCES _user (id) MATCH SIMPLE
+);
+
 /* address */
 CREATE SEQUENCE address_seq;
 CREATE TABLE address

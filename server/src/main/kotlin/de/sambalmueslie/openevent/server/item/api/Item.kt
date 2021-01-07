@@ -6,4 +6,5 @@ import de.sambalmueslie.openevent.server.user.api.User
 interface Item : BusinessObject {
 	val owner: User
 	val description: ItemDescription
+	val type: ItemType
 }
