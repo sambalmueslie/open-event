@@ -1,8 +1,8 @@
 package de.sambalmueslie.openevent.server.item.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
-import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
+import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
 import javax.persistence.*
 
 @Entity(name = "ItemDescription")
@@ -24,8 +24,17 @@ data class ItemDescriptionData(
 ) : DataObject<ItemDescription> {
 
 	companion object {
-		fun convert(request: ItemDescriptionChangeRequest) = ItemDescriptionData(0L, request.title, request.shortText, request.longText, request.imageUrl, request.iconUrl)
+		fun convert(request: ItemDescriptionChangeRequest) =
+			ItemDescriptionData(0L, request.title, request.shortText, request.longText, request.imageUrl, request.iconUrl)
 	}
 
 	override fun convert() = ItemDescription(id, title, shortText, longText, imageUrl, iconUrl)
+
+	fun update(request: ItemDescriptionChangeRequest) {
+		title = request.title
+		shortText = request.shortText
+		longText = request.longText
+		imageUrl = request.imageUrl
+		iconUrl = request.iconUrl
+	}
 }

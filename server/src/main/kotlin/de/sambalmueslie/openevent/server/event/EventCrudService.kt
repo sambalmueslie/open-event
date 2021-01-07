@@ -36,7 +36,7 @@ open class EventCrudService(
 			logger.info("Double request detected ${user.id} : $request")
 			return update(user, existing, request)
 		}
-		val description = itemDescriptionCrudService.createData(user, request.item).first
+		val description = itemDescriptionCrudService.create(user, request.item)
 		val location = request.location?.let { locationCrudService.createData(user, it).first }
 		val data = EventData.convert(user, request, description, location)
 		val result = repository.save(data).convert()

@@ -9,6 +9,7 @@ plugins {
 }
 
 apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
 
 version "0.1"
 group "de.sambalmueslie.openevent"
@@ -102,6 +103,13 @@ java {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+}
+
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.jacoco.reportPath", "${project.buildDir}/reports/jacoco/test"
+    }
 }
 
 jacocoTestReport {

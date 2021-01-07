@@ -3,8 +3,7 @@ package de.sambalmueslie.openevent.server.event.db
 import de.sambalmueslie.openevent.server.common.DataObject
 import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
-import de.sambalmueslie.openevent.server.event.api.Period
-import de.sambalmueslie.openevent.server.item.db.ItemDescriptionData
+import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.location.db.LocationData
 import de.sambalmueslie.openevent.server.user.api.User
 import de.sambalmueslie.openevent.server.user.db.UserData
@@ -22,17 +21,17 @@ data class EventData(
 	var end: LocalDateTime = LocalDateTime.now(),
 	@OneToOne
 	var owner: UserData = UserData(),
-	@OneToOne
-	var description: ItemDescriptionData = ItemDescriptionData(),
+	@Column(nullable = false)
+	var descriptionId: Long = 0L,
 	@OneToOne
 	var location: LocationData? = null
 ) : DataObject<Event> {
 
 	companion object {
-		fun convert(user: User, request: EventChangeRequest, description: ItemDescriptionData, location: LocationData? = null): EventData {
-			return EventData(0L, request.period.start, request.period.end, UserData.convert(user), description, location)
+		fun convert(user: User, request: EventChangeRequest, description: ItemDescription, location: LocationData? = null): EventData {
+			return EventData(0L, request.period.start, request.period.end, UserData.convert(user), description.id, location)
 		}
 	}
 
-	override fun convert() = Event(id, Period(start, end), owner.convert(), description.convert(), location?.convert())
+	override fun convert() = TODO("not implemented yet")//  = Event(id, Period(start, end), owner.convert(), description.convert(), location?.convert())
 }

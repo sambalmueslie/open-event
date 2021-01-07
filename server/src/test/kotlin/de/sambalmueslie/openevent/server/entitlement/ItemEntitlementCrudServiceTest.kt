@@ -1,11 +1,10 @@
 package de.sambalmueslie.openevent.server.entitlement
 
-import de.sambalmueslie.openevent.server.common.findByIdOrNull
 import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
 import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementChangeRequest
 import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementEntry
-import de.sambalmueslie.openevent.server.entitlement.db.ItemEntitlementEntryRepository
 import de.sambalmueslie.openevent.server.item.api.ItemType
+import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
 import io.micronaut.data.model.Pageable
@@ -13,23 +12,14 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
-import java.time.LocalDateTime
 
 @MicronautTest
 internal class ItemEntitlementCrudServiceTest(
-	private val userRepo: UserRepository,
-	private val entitlementRepo: ItemEntitlementEntryRepository,
+	userRepo: UserRepository,
 	private val service: ItemEntitlementCrudService
 ) {
 
-	private val user: UserData
-	private val userId = "Test user id"
-	private val userName = "Test user name"
-
-	init {
-		user = userRepo.findByUserName(userName).firstOrNull()
-			?: userRepo.save(UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false))
-	}
+	private val user: UserData = UserUtils.getUser(userRepo)
 
 	@Test
 	fun `create update and delete user entitlement`() {

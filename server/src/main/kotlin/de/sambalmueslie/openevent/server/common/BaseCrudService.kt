@@ -29,11 +29,21 @@ abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeReque
 		val data = repository.findByIdOrNull(objId) ?: return logger.error("Cannot delete unknown element $objId")
 		repository.deleteById(objId)
 		handleDeletion(user, data)
-		notifyCommon(CommonChangeEvent(user, data.convert(), CommonChangeEventType.DELETED))
+		notifyDeleted(user, data.convert())
 	}
 
 	protected fun handleDeletion(user: User, data: D) {
 		// intentionally left empty
 	}
 
+	protected fun notifyCreated(user: User, result: T) {
+		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
+	}
+
+	protected fun notifyUpdated(user: User, result: T) {
+		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.UPDATED))
+	}
+	protected fun notifyDeleted(user: User, result: T) {
+		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.DELETED))
+	}
 }
