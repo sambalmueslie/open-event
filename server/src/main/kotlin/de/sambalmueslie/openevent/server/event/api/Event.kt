@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import de.sambalmueslie.openevent.server.common.BusinessObject
 import de.sambalmueslie.openevent.server.item.api.Item
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
+import de.sambalmueslie.openevent.server.item.api.ItemType
 import de.sambalmueslie.openevent.server.location.api.Location
 import de.sambalmueslie.openevent.server.user.api.User
 
@@ -19,5 +20,6 @@ data class Event(
 	@JsonProperty("description")
 	override val description: ItemDescription,
 	@JsonProperty("location")
-	val location: Location?
+	val location: Location?,
+	override val type: ItemType = ItemType.EVENT
 ) : BusinessObject, Item
