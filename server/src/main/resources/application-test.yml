@@ -2,3 +2,11 @@ datasources:
   default:
     url: jdbc:tc:postgresql:12:///postgres
     driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+idp:
+  client-id: "test client id"
+  secret: "test secret"
+  token-url: "http://localhost"
+  base-url: "http://localhost"
+  realm: "test realm"
+  backend-resource: "test resource"

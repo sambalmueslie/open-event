@@ -65,6 +65,15 @@ open class UserService(
 		return updateData(externalId)
 	}
 
+	@Transactional
+	open fun getUser(userId: Long): User? {
+		val hit = userCache.getIfPresent(userId)
+		if (hit != null) return hit
+		val data =  repository.findByIdOrNull(userId)?.convert() ?: return null
+		userCache.put(userId, data)
+		return data
+	}
+
 
 	@Scheduled(cron = "0 0 3 * * *")
 	fun syncWithIdp() {

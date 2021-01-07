@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.location.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
+import de.sambalmueslie.openevent.server.common.EmptyConvertContent
 import de.sambalmueslie.openevent.server.location.api.GeoLocation
 import de.sambalmueslie.openevent.server.location.api.GeoLocationChangeRequest
 import javax.persistence.*
@@ -15,11 +16,12 @@ data class GeoLocationData(
 	var lat: Double = 0.0,
 	@Column
 	var lon: Double = 0.0
-) : DataObject<GeoLocation> {
+) : DataObject<GeoLocation, EmptyConvertContent> {
 	companion object {
 		fun convert(geoLocation: GeoLocationChangeRequest) = GeoLocationData(0L, geoLocation.lat, geoLocation.lon)
 	}
 
-	override fun convert() = GeoLocation(id, lat, lon)
+	fun convert() = convert(EmptyConvertContent())
+	override fun convert(content: EmptyConvertContent) = GeoLocation(id, lat, lon)
 }
 

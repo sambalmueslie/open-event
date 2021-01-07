@@ -36,5 +36,9 @@ class ItemDescriptionCrudService(private val repository: ItemDescriptionReposito
 		return result
 	}
 
+	override fun convert(data: ItemDescriptionData): ItemDescription {
+		return data.convert()
+	}
+
 
 }
