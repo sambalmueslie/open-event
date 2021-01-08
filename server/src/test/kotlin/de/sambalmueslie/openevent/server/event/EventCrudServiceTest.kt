@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.server.location.api.AddressChangeRequest
 import de.sambalmueslie.openevent.server.location.api.GeoLocationChangeRequest
 import de.sambalmueslie.openevent.server.location.api.LocationChangeRequest
 import de.sambalmueslie.openevent.server.location.api.LocationPropertiesChangeRequest
+import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
@@ -16,11 +17,11 @@ import java.time.LocalDateTime
 
 @MicronautTest
 internal class EventCrudServiceTest(
-	private val userRepo: UserRepository,
+	userRepo: UserRepository,
 	private val service: EventCrudService
 ) {
 
-	private val user: UserData
+	private val user: UserData = UserUtils.getUser(userRepo)
 	private val title = "Test title"
 	private val shortText = "Test short text"
 	private val longText = "Test long text"
@@ -28,14 +29,6 @@ internal class EventCrudServiceTest(
 	private val iconUrl = "Test icon url"
 	private val start = LocalDateTime.of(2020, 12, 1, 20, 15)
 	private val end = LocalDateTime.of(2020, 12, 1, 22, 30)
-	private val userId = "Test user id"
-	private val userName = "Test user name"
-
-	init {
-		user = userRepo.findByUserName(userName).firstOrNull()
-			?: userRepo.save(UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false))
-	}
-
 
 	@Test
 	fun `create new event without location`() {

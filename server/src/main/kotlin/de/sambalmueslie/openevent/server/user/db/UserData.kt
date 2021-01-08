@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.user.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
+import de.sambalmueslie.openevent.server.common.EmptyConvertContent
 import de.sambalmueslie.openevent.server.user.api.User
 import java.time.LocalDateTime
 import javax.persistence.*
@@ -27,7 +28,7 @@ data class UserData(
 	var lastSync: LocalDateTime = LocalDateTime.now(),
 	@Column(nullable = false)
 	val serviceUser: Boolean = false
-) : DataObject<User> {
+) : DataObject<User, EmptyConvertContent> {
 
 	companion object {
 		fun convert(user: User): UserData {
@@ -45,7 +46,8 @@ data class UserData(
 		}
 	}
 
-	override fun convert(): User {
+	fun convert() = convert(EmptyConvertContent())
+	override fun convert(content: EmptyConvertContent): User {
 		return User(id, externalId, userName, firstName, lastName, email, iconUrl, serviceUser)
 	}
 }

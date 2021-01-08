@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.location.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
+import de.sambalmueslie.openevent.server.common.EmptyConvertContent
 import de.sambalmueslie.openevent.server.location.api.Address
 import de.sambalmueslie.openevent.server.location.api.AddressChangeRequest
 import javax.persistence.*
@@ -23,11 +24,12 @@ data class AddressData(
 	val country: String = "",
 	@Column
 	val additionalInfo: String = ""
-) : DataObject<Address> {
+) : DataObject<Address, EmptyConvertContent> {
 	companion object {
 		fun convert(address: AddressChangeRequest) =
 			AddressData(0L, address.street, address.streetNumber, address.zip, address.city, address.country, address.additionalInfo)
 	}
 
-	override fun convert() = Address(id, street, streetNumber, zip, city, country, additionalInfo)
+	fun convert() = convert(EmptyConvertContent())
+	override fun convert(content: EmptyConvertContent) = Address(id, street, streetNumber, zip, city, country, additionalInfo)
 }

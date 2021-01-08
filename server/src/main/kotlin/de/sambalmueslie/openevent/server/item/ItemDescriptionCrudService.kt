@@ -4,6 +4,7 @@ package de.sambalmueslie.openevent.server.item
 import de.sambalmueslie.openevent.server.common.BaseCrudService
 import de.sambalmueslie.openevent.server.common.CommonChangeEvent
 import de.sambalmueslie.openevent.server.common.CommonChangeEventType
+import de.sambalmueslie.openevent.server.common.findByIdOrNull
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
 import de.sambalmueslie.openevent.server.item.db.ItemDescriptionData
@@ -22,18 +23,21 @@ class ItemDescriptionCrudService(private val repository: ItemDescriptionReposito
 	}
 
 	override fun create(user: User, request: ItemDescriptionChangeRequest): ItemDescription {
-		return createData(user, request).second
+		val result = repository.save(ItemDescriptionData.convert(request)).convert()
+		notifyCreated(user, result)
+		return result
 	}
 
-	fun createData(user: User, request: ItemDescriptionChangeRequest): Pair<ItemDescriptionData, ItemDescription> {
-		val data = repository.save(ItemDescriptionData.convert(request))
-		val result = data.convert()
-		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
-		return Pair(data, result)
+	override fun update(user: User, objId: Long, request: ItemDescriptionChangeRequest): ItemDescription {
+		val current = repository.findByIdOrNull(objId) ?: return create(user, request)
+		current.update(request)
+		val result = repository.update(current).convert()
+		notifyUpdated(user, result)
+		return result
 	}
 
-	override fun update(user: User, objId: Long, request: ItemDescriptionChangeRequest): ItemDescription? {
-		TODO("Not yet implemented")
+	override fun convert(data: ItemDescriptionData): ItemDescription {
+		return data.convert()
 	}
 
 

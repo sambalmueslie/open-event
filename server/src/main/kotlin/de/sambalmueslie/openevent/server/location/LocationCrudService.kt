@@ -2,8 +2,7 @@ package de.sambalmueslie.openevent.server.location
 
 
 import de.sambalmueslie.openevent.server.common.BaseCrudService
-import de.sambalmueslie.openevent.server.common.CommonChangeEvent
-import de.sambalmueslie.openevent.server.common.CommonChangeEventType
+import de.sambalmueslie.openevent.server.common.findByIdOrNull
 import de.sambalmueslie.openevent.server.location.api.Location
 import de.sambalmueslie.openevent.server.location.api.LocationChangeRequest
 import de.sambalmueslie.openevent.server.location.db.*
@@ -26,21 +25,30 @@ class LocationCrudService(
 	}
 
 	override fun create(user: User, request: LocationChangeRequest): Location {
-		return createData(user, request).second
+		val address = addressRepository.save(AddressData.convert(request.address)).convert()
+		val geoLocation = geoLocationRepository.save(GeoLocationData.convert(request.geoLocation)).convert()
+		val properties = propertiesRepository.save(LocationPropertiesData.convert(request.properties)).convert()
+		val data = repository.save(LocationData.convert(address, geoLocation, properties))
+		val result = data.convert(LocationConvertContent(address, geoLocation, properties))
+		notifyCreated(user, result)
+		return result
 	}
 
-	fun createData(user: User, request: LocationChangeRequest): Pair<LocationData, Location> {
-		val address = addressRepository.save(AddressData.convert(request.address))
-		val geoLocation = geoLocationRepository.save(GeoLocationData.convert(request.geoLocation))
-		val properties = propertiesRepository.save(LocationPropertiesData.convert(request.properties))
-		val data = repository.save(LocationData.convert(address, geoLocation, properties))
-		val result = data.convert()
-		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
-		return Pair(data, result)
-	}
 
 	override fun update(user: User, objId: Long, request: LocationChangeRequest): Location? {
 		TODO("Not yet implemented")
+	}
+
+	override fun convert(data: LocationData): Location {
+		val address = addressRepository.findByIdOrNull(data.addressId)
+			?: throw IllegalArgumentException("Cannot find address by ${data.addressId}")
+
+		val geoLocation = geoLocationRepository.findByIdOrNull(data.geoLocationId)
+			?: throw IllegalArgumentException("Cannot find geo location by ${data.geoLocationId}")
+
+		val properties = propertiesRepository.findByIdOrNull(data.propertiesId)
+			?: throw IllegalArgumentException("Cannot find properties by ${data.propertiesId}")
+		return data.convert(LocationConvertContent(address.convert(), geoLocation.convert(), properties.convert()))
 	}
 
 

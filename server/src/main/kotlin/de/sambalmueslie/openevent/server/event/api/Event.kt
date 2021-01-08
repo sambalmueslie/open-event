@@ -21,5 +21,6 @@ data class Event(
 	override val description: ItemDescription,
 	@JsonProperty("location")
 	val location: Location?,
+	@JsonProperty("type")
 	override val type: ItemType = ItemType.EVENT
 ) : BusinessObject, Item

@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.entitlement.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
+import de.sambalmueslie.openevent.server.common.EmptyConvertContent
 import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
 import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementChangeRequest
 import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementEntry
@@ -25,12 +26,14 @@ data class ItemEntitlementEntryData(
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	var entitlement: Entitlement = Entitlement.VIEWER
-) : DataObject<ItemEntitlementEntry> {
+) : DataObject<ItemEntitlementEntry, EmptyConvertContent> {
 
 	companion object {
 		fun convert(user: User, request: ItemEntitlementChangeRequest) =
 			ItemEntitlementEntryData(0L, user.id, request.itemId, request.type, request.entitlement)
 	}
 
-	override fun convert() = ItemEntitlementEntry(id, userId, itemId, type, entitlement)
+	fun convert() = convert(EmptyConvertContent())
+
+	override fun convert(content: EmptyConvertContent) = ItemEntitlementEntry(id, userId, itemId, type, entitlement)
 }

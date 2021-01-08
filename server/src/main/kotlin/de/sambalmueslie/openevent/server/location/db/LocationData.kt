@@ -1,7 +1,10 @@
 package de.sambalmueslie.openevent.server.location.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
+import de.sambalmueslie.openevent.server.location.api.Address
+import de.sambalmueslie.openevent.server.location.api.GeoLocation
 import de.sambalmueslie.openevent.server.location.api.Location
+import de.sambalmueslie.openevent.server.location.api.LocationProperties
 import javax.persistence.*
 
 @Entity(name = "Location")
@@ -10,18 +13,18 @@ data class LocationData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long = 0L,
-	@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-	var address: AddressData = AddressData(),
-	@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-	var geoLocation: GeoLocationData = GeoLocationData(),
-	@OneToOne(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-	var properties: LocationPropertiesData = LocationPropertiesData()
-) : DataObject<Location> {
+	@Column(nullable = false)
+	var addressId: Long = 0L,
+	@Column(nullable = false)
+	var geoLocationId: Long = 0L,
+	@Column(nullable = false)
+	var propertiesId: Long = 0L,
+) : DataObject<Location, LocationConvertContent> {
 	companion object {
-		fun convert(addressData: AddressData, geoLocationData: GeoLocationData, propertiesData: LocationPropertiesData): LocationData {
-			return LocationData(0L, addressData, geoLocationData, propertiesData)
+		fun convert(address: Address, geoLocation: GeoLocation, properties: LocationProperties): LocationData {
+			return LocationData(0L, address.id, geoLocation.id, properties.id)
 		}
 	}
 
-	override fun convert() = Location(id, address.convert(), geoLocation.convert(), properties.convert())
+	override fun convert(content: LocationConvertContent) = Location(id, content.address, content.geoLocation, content.properties)
 }

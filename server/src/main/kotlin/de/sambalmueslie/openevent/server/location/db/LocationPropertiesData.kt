@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.location.db
 
 import de.sambalmueslie.openevent.server.common.DataObject
+import de.sambalmueslie.openevent.server.common.EmptyConvertContent
 import de.sambalmueslie.openevent.server.location.api.LocationProperties
 import de.sambalmueslie.openevent.server.location.api.LocationPropertiesChangeRequest
 import javax.persistence.*
@@ -13,11 +14,12 @@ data class LocationPropertiesData(
 	var id: Long = 0L,
 	@Column
 	var size: Int = 0
-) : DataObject<LocationProperties> {
+) : DataObject<LocationProperties, EmptyConvertContent> {
 
 	companion object {
 		fun convert(properties: LocationPropertiesChangeRequest) = LocationPropertiesData(0L, properties.size)
 	}
 
-	override fun convert() = LocationProperties(id, size)
+	fun convert() = convert(EmptyConvertContent())
+	override fun convert(content: EmptyConvertContent) = LocationProperties(id, size)
 }

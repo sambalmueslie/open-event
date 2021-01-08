@@ -40,4 +40,8 @@ class ItemEntitlementCrudService(private val repository: ItemEntitlementEntryRep
 	}
 
 
+	override fun convert(data: ItemEntitlementEntryData): ItemEntitlementEntry {
+		return data.convert()
+	}
+
 }
