@@ -10,14 +10,14 @@ CREATE TABLE cache_settings
     modified TIMESTAMP WITHOUT TIME ZONE,
 
     CONSTRAINT cache_settings_pk UNIQUE (id),
-    constraint cache_settings_name unique (name)
+    CONSTRAINT cache_settings_name UNIQUE (name)
 );
 
 /* user */
-CREATE SEQUENCE _user_id_seq;
-CREATE TABLE _user
+CREATE SEQUENCE db_user_id_seq;
+CREATE TABLE db_user
 (
-    id           bigint       not null primary key default nextval('_user_id_seq'::regclass),
+    id           bigint       not null primary key default nextval('db_user_id_seq'::regclass),
     external_id  varchar(255) NOT NULL,
     user_name    varchar(255) NOT NULL,
     first_name   varchar(255) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE _user
     modified     TIMESTAMP WITHOUT TIME ZONE,
 
     CONSTRAINT user_pk UNIQUE (id),
-    constraint   _user_external_id unique (external_id)
+    CONSTRAINT db_user_external_id UNIQUE (external_id)
 );
 
 
@@ -68,7 +68,7 @@ CREATE TABLE item_entitlement_entry
 
     CONSTRAINT item_entitlement_entry_pk UNIQUE (id),
     CONSTRAINT fk_item_entitlement_entry_user FOREIGN KEY (user_id)
-        REFERENCES _user (id) MATCH SIMPLE
+        REFERENCES db_user (id) MATCH SIMPLE
 );
 
 /* address */
@@ -137,9 +137,10 @@ CREATE TABLE location
 CREATE SEQUENCE event_seq;
 CREATE TABLE event
 (
-    id             bigint not null primary key default nextval('event_seq'::regclass),
+    id             bigint  not null primary key default nextval('event_seq'::regclass),
     period_start   TIMESTAMP WITHOUT TIME ZONE,
     period_end     TIMESTAMP WITHOUT TIME ZONE,
+    published      boolean NOT NULL,
 
     owner_id       bigint,
     description_id bigint,
@@ -150,10 +151,36 @@ CREATE TABLE event
 
     CONSTRAINT event_pk UNIQUE (id),
     CONSTRAINT fk_event_user FOREIGN KEY (owner_id)
-        REFERENCES _user (id) MATCH SIMPLE,
+        REFERENCES db_user (id) MATCH SIMPLE,
     CONSTRAINT fk_event_description FOREIGN KEY (description_id)
         REFERENCES item_description (id) MATCH SIMPLE,
     CONSTRAINT fk_event_location FOREIGN KEY (location_id)
+        REFERENCES location (id) MATCH SIMPLE
+        ON DELETE SET NULL
+);
+
+/* structure */
+CREATE SEQUENCE structure_seq;
+CREATE TABLE structure
+(
+    id                 bigint  not null primary key default nextval('structure_seq'::regclass),
+    root               boolean NOT NULL,
+    visible            boolean NOT NULL,
+    auto_accept_viewer boolean NOT NULL,
+
+    owner_id           bigint,
+    description_id     bigint,
+    location_id        bigint,
+
+    created            TIMESTAMP WITHOUT TIME ZONE,
+    modified           TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT structure_pk UNIQUE (id),
+    CONSTRAINT fk_structure_user FOREIGN KEY (owner_id)
+        REFERENCES db_user (id) MATCH SIMPLE,
+    CONSTRAINT fk_structure_description FOREIGN KEY (description_id)
+        REFERENCES item_description (id) MATCH SIMPLE,
+    CONSTRAINT fk_structure_location FOREIGN KEY (location_id)
         REFERENCES location (id) MATCH SIMPLE
         ON DELETE SET NULL
 );

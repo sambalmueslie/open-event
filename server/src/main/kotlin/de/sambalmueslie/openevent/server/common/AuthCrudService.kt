@@ -8,11 +8,11 @@ import io.micronaut.security.authentication.Authentication
 interface AuthCrudService<T : BusinessObject, O : BusinessObjectChangeRequest> {
 	fun getAll(authentication: Authentication, user: User, pageable: Pageable): Page<T>
 
-	fun get(authentication: Authentication, user: User, eventId: Long): T?
+	fun get(authentication: Authentication, user: User, objId: Long): T?
 
 	fun create(authentication: Authentication, user: User, request: O): T?
 
-	fun update(authentication: Authentication, user: User, eventId: Long, request: O): T?
+	fun update(authentication: Authentication, user: User, objId: Long, request: O): T?
 
-	fun delete(authentication: Authentication, user: User, eventId: Long)
+	fun delete(authentication: Authentication, user: User, objId: Long)
 }

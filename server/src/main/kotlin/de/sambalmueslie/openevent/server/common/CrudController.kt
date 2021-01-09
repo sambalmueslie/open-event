@@ -12,13 +12,13 @@ abstract class CrudController<T : BusinessObject, O : BusinessObjectChangeReques
 
 	abstract fun getAll(authentication: Authentication, pageable: Pageable): Page<T>
 
-	abstract fun get(authentication: Authentication, eventId: Long): T?
+	abstract fun get(authentication: Authentication, objId: Long): T?
 
 	abstract fun create(authentication: Authentication, request: O): T?
 
-	abstract fun update(authentication: Authentication, eventId: Long, request: O): T?
+	abstract fun update(authentication: Authentication, objId: Long, request: O): T?
 
-	abstract fun delete(authentication: Authentication, eventId: Long)
+	abstract fun delete(authentication: Authentication, objId: Long)
 
 	protected fun getUser(user: Authentication): User {
 		return userService.getUser(user) ?: throw InvalidRequestException("Cannot find user for authentication ${user.name}")

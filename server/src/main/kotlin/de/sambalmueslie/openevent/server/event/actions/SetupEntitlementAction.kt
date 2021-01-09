@@ -5,24 +5,25 @@ import de.sambalmueslie.openevent.server.common.BusinessObjectChangeEvent
 import de.sambalmueslie.openevent.server.common.BusinessObjectChangeListener
 import de.sambalmueslie.openevent.server.common.CommonChangeEvent
 import de.sambalmueslie.openevent.server.common.CommonChangeEventType
-import de.sambalmueslie.openevent.server.config.EventConfig
+import de.sambalmueslie.openevent.server.entitlement.ItemEntitlementCrudService
+import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
+import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementChangeRequest
 import de.sambalmueslie.openevent.server.event.EventCrudService
 import de.sambalmueslie.openevent.server.event.api.Event
-import de.sambalmueslie.openevent.server.event.db.EventRepository
+import de.sambalmueslie.openevent.server.item.api.ItemType
 import io.micronaut.context.annotation.Context
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton
 
 @Context
-class AutoPublishAction(
+class SetupEntitlementAction(
 	service: EventCrudService,
-	private val repository: EventRepository,
-	private val config: EventConfig,
+	private val entitlementService: ItemEntitlementCrudService,
 ) {
 
 	companion object {
-		val logger: Logger = LoggerFactory.getLogger(AutoPublishAction::class.java)
+		val logger: Logger = LoggerFactory.getLogger(SetupEntitlementAction::class.java)
 	}
 
 	init {
@@ -38,12 +39,7 @@ class AutoPublishAction(
 	}
 
 	private fun handleCreatedEvent(event: CommonChangeEvent<Event>) {
-		if (config.autoPublish) {
-			repository.updatePublished(event.obj.id, true)
-		} else if (event.obj.published) {
-			repository.updatePublished(event.obj.id, false)
-		}
+		val request = ItemEntitlementChangeRequest(event.obj.id, ItemType.EVENT, Entitlement.EDITOR)
+		entitlementService.create(event.user!!, request)
 	}
-
-
 }

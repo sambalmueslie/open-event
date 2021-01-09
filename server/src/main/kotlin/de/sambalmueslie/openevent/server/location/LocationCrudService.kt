@@ -3,8 +3,7 @@ package de.sambalmueslie.openevent.server.location
 
 import de.sambalmueslie.openevent.server.common.BaseCrudService
 import de.sambalmueslie.openevent.server.common.findByIdOrNull
-import de.sambalmueslie.openevent.server.location.api.Location
-import de.sambalmueslie.openevent.server.location.api.LocationChangeRequest
+import de.sambalmueslie.openevent.server.location.api.*
 import de.sambalmueslie.openevent.server.location.db.*
 import de.sambalmueslie.openevent.server.user.api.User
 import org.slf4j.Logger
@@ -35,8 +34,63 @@ class LocationCrudService(
 	}
 
 
-	override fun update(user: User, objId: Long, request: LocationChangeRequest): Location? {
-		TODO("Not yet implemented")
+	override fun update(user: User, objId: Long, request: LocationChangeRequest): Location {
+		val location = repository.findByIdOrNull(objId) ?: return create(user, request)
+
+		val address = update(location, request.address)
+		val geoLocation = update(location, request.geoLocation)
+		val properties = update(location, request.properties)
+		location.update(address, geoLocation,properties)
+		val data = repository.update(location)
+		val result = data.convert(LocationConvertContent(address, geoLocation, properties))
+		notifyUpdated(user, result)
+		return result
+	}
+
+
+	private fun update(location: LocationData, request: AddressChangeRequest): Address {
+		val address = addressRepository.findByIdOrNull(location.addressId)
+		return if (address == null) {
+			addressRepository.save(AddressData.convert(request)).convert()
+		} else {
+			address.update(request)
+			addressRepository.update(AddressData.convert(request)).convert()
+		}
+	}
+
+
+	private fun update(location: LocationData, request: GeoLocationChangeRequest): GeoLocation {
+		val geoLocation = geoLocationRepository.findByIdOrNull(location.geoLocationId)
+		return if (geoLocation == null) {
+			geoLocationRepository.save(GeoLocationData.convert(request)).convert()
+		} else {
+			geoLocation.update(request)
+			geoLocationRepository.update(GeoLocationData.convert(request)).convert()
+		}
+	}
+
+	private fun update(location: LocationData, request: LocationPropertiesChangeRequest): LocationProperties {
+		val properties = propertiesRepository.findByIdOrNull(location.propertiesId)
+		return if (properties == null) {
+			propertiesRepository.save(LocationPropertiesData.convert(request)).convert()
+		} else {
+			properties.update(request)
+			propertiesRepository.update(LocationPropertiesData.convert(request)).convert()
+		}
+	}
+
+	fun update(user: User, objId: Long?, request: LocationChangeRequest?): Location? {
+		val deletedAndExisting = objId != null && request == null
+		if (deletedAndExisting) {
+			delete(user, objId!!)
+			return null
+		}
+
+		val createdAndNotExisting = objId == null && request != null
+		if (createdAndNotExisting) {
+			return create(user, request!!)
+		}
+		return update(user, objId!!, request!!)
 	}
 
 	override fun convert(data: LocationData): Location {

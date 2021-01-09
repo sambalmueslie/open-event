@@ -13,18 +13,19 @@ data class AddressData(
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	var id: Long = 0L,
 	@Column
-	val street: String = "",
+	var street: String = "",
 	@Column
-	val streetNumber: String = "",
+	var streetNumber: String = "",
 	@Column
-	val zip: String = "",
+	var zip: String = "",
 	@Column
-	val city: String = "",
+	var city: String = "",
 	@Column
-	val country: String = "",
+	var country: String = "",
 	@Column
-	val additionalInfo: String = ""
+	var additionalInfo: String = ""
 ) : DataObject<Address, EmptyConvertContent> {
+
 	companion object {
 		fun convert(address: AddressChangeRequest) =
 			AddressData(0L, address.street, address.streetNumber, address.zip, address.city, address.country, address.additionalInfo)
@@ -32,4 +33,14 @@ data class AddressData(
 
 	fun convert() = convert(EmptyConvertContent())
 	override fun convert(content: EmptyConvertContent) = Address(id, street, streetNumber, zip, city, country, additionalInfo)
+
+
+	fun update(request: AddressChangeRequest) {
+		street = request.street
+		streetNumber = request.streetNumber
+		zip = request.zip
+		city = request.city
+		country = request.country
+		additionalInfo = request.additionalInfo
+	}
 }

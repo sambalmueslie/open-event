@@ -3,9 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.allopen")
     id("org.sonarqube") version "3.0"
-    id("com.github.johnrengelman.shadow") version "6.0.0"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
     id("application")
-    id("com.google.cloud.tools.jib") version "2.6.0"
+    id("com.google.cloud.tools.jib") version "2.7.1"
 }
 
 apply plugin: 'jacoco'
@@ -81,8 +81,8 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // keycloak
-    compile("org.keycloak:keycloak-common:11.0.3")
-    compile("org.keycloak:keycloak-core:11.0.3")
+    compile("org.keycloak:keycloak-common:12.0.1")
+    compile("org.keycloak:keycloak-core:12.0.1")
 }
 
 mainClassName = "de.sambalmueslie.openevent.server.OpenEventApplication"

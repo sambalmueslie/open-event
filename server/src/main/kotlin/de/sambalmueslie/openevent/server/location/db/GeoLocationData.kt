@@ -23,5 +23,10 @@ data class GeoLocationData(
 
 	fun convert() = convert(EmptyConvertContent())
 	override fun convert(content: EmptyConvertContent) = GeoLocation(id, lat, lon)
+
+	fun update(request: GeoLocationChangeRequest) {
+		lat = request.lat
+		lon = request.lon
+	}
 }
 
