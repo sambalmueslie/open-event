@@ -1,19 +1,22 @@
 package de.sambalmueslie.openevent.server.structure
 
+import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
-import de.sambalmueslie.openevent.server.location.api.AddressChangeRequest
-import de.sambalmueslie.openevent.server.location.api.GeoLocationChangeRequest
-import de.sambalmueslie.openevent.server.location.api.LocationChangeRequest
-import de.sambalmueslie.openevent.server.location.api.LocationPropertiesChangeRequest
+import de.sambalmueslie.openevent.server.location.api.*
+import de.sambalmueslie.openevent.server.structure.api.Structure
 import de.sambalmueslie.openevent.server.structure.api.StructureChangeRequest
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
 
 @MicronautTest
+@TestMethodOrder(MethodOrderer.MethodName::class)
 internal class StructureCrudServiceTest(
 	userRepo: UserRepository,
 	private val service: StructureCrudService
@@ -32,6 +35,9 @@ internal class StructureCrudServiceTest(
 
 		val result = service.create(user.convert(), request)
 		assertNotNull(result)
+		val owner = user.convert()
+		val description = ItemDescription(2L, title, shortText, longText, imageUrl, iconUrl)
+		assertEquals(Structure(0L, true, true, true, owner, description, null), result)
 	}
 
 	@Test
@@ -50,10 +56,21 @@ internal class StructureCrudServiceTest(
 		val size = 10
 		val properties = LocationPropertiesChangeRequest(size)
 
-		val location = LocationChangeRequest(address, geoLocation, properties)
-		val request = StructureChangeRequest(item, location, null)
+		val locationRequest = LocationChangeRequest(address, geoLocation, properties)
+		val request = StructureChangeRequest(item, locationRequest, null)
 
 		val result = service.create(user.convert(), request)
 		assertNotNull(result)
+
+		val owner = user.convert()
+		val description = ItemDescription(1L, title, shortText, longText, imageUrl, iconUrl)
+		val location = Location(
+			1L,
+			Address(1L, street, steetNumber, zip, city, country, additionalInfo),
+			GeoLocation(1L, 0.0, 0.0),
+			LocationProperties(1L, size)
+		)
+		assertEquals(Structure(0L, true, true, true, owner, description, location), result)
+
 	}
 }

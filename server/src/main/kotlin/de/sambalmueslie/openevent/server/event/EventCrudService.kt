@@ -19,8 +19,8 @@ import javax.inject.Singleton
 @Singleton
 open class EventCrudService(
 	private val repository: EventRepository,
-	private val userService: UserService,
-	private val itemDescriptionCrudService: ItemDescriptionCrudService,
+	userService: UserService,
+	itemDescriptionCrudService: ItemDescriptionCrudService,
 	private val locationCrudService: LocationCrudService
 ) : ItemCrudService<Event, EventChangeRequest, EventData>(repository, userService, itemDescriptionCrudService, logger) {
 

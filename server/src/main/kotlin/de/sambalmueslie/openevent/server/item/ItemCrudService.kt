@@ -43,7 +43,7 @@ abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObje
 		val description = itemDescriptionCrudService.create(user, request.item)
 		val result = create(user, request, description)
 		notifyCreated(user, result)
-		return result
+		return get(result.id)
 	}
 
 	protected abstract fun create(user: User, request: O, description: ItemDescription): T
@@ -55,11 +55,11 @@ abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObje
 		return repository.findByIdOrNull(objId)?.let { update(user, it, request) }
 	}
 
-	private fun update(user: User, data: D, request: O): T {
+	private fun update(user: User, data: D, request: O): T? {
 		val description = itemDescriptionCrudService.update(user, data.descriptionId, request.item)
 		val result = update(user, data, request, description)
 		notifyUpdated(user, result)
-		return result
+		return get(result.id)
 	}
 
 	protected abstract fun update(user: User, data: D, request: O, description: ItemDescription): T

@@ -9,11 +9,12 @@ import de.sambalmueslie.openevent.server.config.EventConfig
 import de.sambalmueslie.openevent.server.event.EventCrudService
 import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.event.db.EventRepository
+import io.micronaut.context.annotation.Context
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton
 
-@Singleton
+@Context
 class AutoPublishAction(
 	service: EventCrudService,
 	private val repository: EventRepository,

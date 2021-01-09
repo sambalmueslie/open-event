@@ -137,9 +137,10 @@ CREATE TABLE location
 CREATE SEQUENCE event_seq;
 CREATE TABLE event
 (
-    id             bigint not null primary key default nextval('event_seq'::regclass),
+    id             bigint  not null primary key default nextval('event_seq'::regclass),
     period_start   TIMESTAMP WITHOUT TIME ZONE,
     period_end     TIMESTAMP WITHOUT TIME ZONE,
+    published      boolean NOT NULL,
 
     owner_id       bigint,
     description_id bigint,

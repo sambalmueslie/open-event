@@ -11,11 +11,12 @@ import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementChangeRe
 import de.sambalmueslie.openevent.server.event.EventCrudService
 import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.item.api.ItemType
+import io.micronaut.context.annotation.Context
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton
 
-@Singleton
+@Context
 class SetupEntitlementAction(
 	service: EventCrudService,
 	private val entitlementService: ItemEntitlementCrudService,
