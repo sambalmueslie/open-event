@@ -25,10 +25,10 @@ internal class ItemDescriptionCrudServiceTest(
 
 	@Test
 	fun `create update and delete item description`() {
-		val objId = 1L
 		val u = user.convert()
 		val createRequest = ItemDescriptionChangeRequest(title, shortText, longText, imageUrl, iconUrl)
 		val createResult = service.create(u, createRequest)
+		val objId = createResult.id
 		assertEquals(ItemDescription(objId, title, shortText, longText, imageUrl, iconUrl), createResult)
 
 		val changedShortText = "Changed short text"

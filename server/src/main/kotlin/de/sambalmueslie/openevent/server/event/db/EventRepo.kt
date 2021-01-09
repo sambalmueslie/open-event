@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.event.db
 
 import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.server.item.api.ItemChangeRequest
 import de.sambalmueslie.openevent.server.user.api.User
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.jdbc.annotation.JdbcRepository
@@ -11,7 +12,7 @@ import io.micronaut.data.model.query.builder.sql.Dialect
 @JdbcRepository(dialect = Dialect.POSTGRES)
 abstract class EventRepo(private val jdbcOperations: JdbcOperations) : EventRepository {
 
-	override fun findExisting(user: User, request: EventChangeRequest): EventData? {
+	override fun findExisting(user: User, request: ItemChangeRequest): EventData? {
 		val sql = "SELECT * FROM event AS e JOIN item_description AS d on e.id = d.id WHERE d.title = ? and e.owner_id = ?"
 		return jdbcOperations.prepareStatement(sql) { statement ->
 			statement.setString(1, request.item.title)

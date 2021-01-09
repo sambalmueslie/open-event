@@ -1,9 +1,9 @@
-package de.sambalmueslie.openevent.server.event
+package de.sambalmueslie.openevent.server.structure
 
 
 import de.sambalmueslie.openevent.server.common.AuthCrudService
-import de.sambalmueslie.openevent.server.event.api.Event
-import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
+import de.sambalmueslie.openevent.server.structure.api.Structure
+import de.sambalmueslie.openevent.server.structure.api.StructureChangeRequest
 import de.sambalmueslie.openevent.server.user.api.User
 import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
@@ -13,30 +13,30 @@ import org.slf4j.LoggerFactory
 import javax.inject.Singleton
 
 @Singleton
-class EventService(
-	private val crudService: EventCrudService
-) : AuthCrudService<Event, EventChangeRequest> {
+class StructureService(
+	private val crudService: StructureCrudService
+) : AuthCrudService<Structure, StructureChangeRequest> {
 
 	companion object {
-		val logger: Logger = LoggerFactory.getLogger(EventService::class.java)
+		val logger: Logger = LoggerFactory.getLogger(StructureService::class.java)
 	}
 
-	override fun getAll(authentication: Authentication, user: User, pageable: Pageable): Page<Event> {
+	override fun getAll(authentication: Authentication, user: User, pageable: Pageable): Page<Structure> {
 		// TODO check authentication
 		return crudService.getAll(pageable)
 	}
 
-	override fun get(authentication: Authentication, user: User, objId: Long): Event? {
+	override fun get(authentication: Authentication, user: User, objId: Long): Structure? {
 		// TODO check authentication
 		return crudService.get(objId)
 	}
 
-	override fun create(authentication: Authentication, user: User, request: EventChangeRequest): Event? {
+	override fun create(authentication: Authentication, user: User, request: StructureChangeRequest): Structure? {
 		// TODO check authentication
 		return crudService.create(user, request)
 	}
 
-	override fun update(authentication: Authentication, user: User, objId: Long, request: EventChangeRequest): Event? {
+	override fun update(authentication: Authentication, user: User, objId: Long, request: StructureChangeRequest): Structure? {
 		// TODO check authentication
 		return crudService.update(user, objId, request)
 	}

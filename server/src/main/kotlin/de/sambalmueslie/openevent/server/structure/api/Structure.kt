@@ -1,4 +1,4 @@
-package de.sambalmueslie.openevent.server.event.api
+package de.sambalmueslie.openevent.server.structure.api
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -10,19 +10,21 @@ import de.sambalmueslie.openevent.server.location.api.Location
 import de.sambalmueslie.openevent.server.user.api.User
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Event(
+data class Structure(
 	@JsonProperty("id")
 	override val id: Long,
-	@JsonProperty("period")
-	val period: Period,
+	@JsonProperty("root")
+	val root: Boolean,
+	@JsonProperty("visible")
+	val visible: Boolean,
+	@JsonProperty("autoAcceptViewer")
+	val autoAcceptViewer: Boolean,
 	@JsonProperty("owner")
 	override val owner: User,
 	@JsonProperty("description")
 	override val description: ItemDescription,
 	@JsonProperty("location")
 	val location: Location?,
-	@JsonProperty("published")
-	val published: Boolean,
 	@JsonProperty("type")
-	override val type: ItemType = ItemType.EVENT,
+	override val type: ItemType = ItemType.STRUCTURE
 ) : BusinessObject, Item

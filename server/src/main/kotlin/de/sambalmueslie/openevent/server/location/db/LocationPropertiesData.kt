@@ -22,4 +22,7 @@ data class LocationPropertiesData(
 
 	fun convert() = convert(EmptyConvertContent())
 	override fun convert(content: EmptyConvertContent) = LocationProperties(id, size)
+	fun update(request: LocationPropertiesChangeRequest) {
+		size = request.size
+	}
 }

@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity(name = "User")
-@Table(name = "_user")
+@Table(name = "db_user")
 data class UserData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

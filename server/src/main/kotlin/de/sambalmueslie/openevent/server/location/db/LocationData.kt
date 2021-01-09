@@ -27,4 +27,10 @@ data class LocationData(
 	}
 
 	override fun convert(content: LocationConvertContent) = Location(id, content.address, content.geoLocation, content.properties)
+
+	fun update(address: Address, geoLocation: GeoLocation, properties: LocationProperties) {
+		addressId = address.id
+		geoLocationId = geoLocation.id
+		propertiesId = properties.id
+	}
 }

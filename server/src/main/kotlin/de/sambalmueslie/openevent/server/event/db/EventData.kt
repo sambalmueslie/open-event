@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.server.event.api.Period
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
+import de.sambalmueslie.openevent.server.item.db.ItemDataObject
 import de.sambalmueslie.openevent.server.location.api.Location
 import de.sambalmueslie.openevent.server.user.api.User
 import java.time.LocalDateTime
@@ -23,12 +24,14 @@ data class EventData(
 	@Column(name = "period_end")
 	var end: LocalDateTime = LocalDateTime.now(),
 	@Column(nullable = false)
-	var ownerId: Long = 0L,
+	override var ownerId: Long = 0L,
 	@Column(nullable = false)
-	var descriptionId: Long = 0L,
+	override var descriptionId: Long = 0L,
 	@Column(nullable = false)
 	var locationId: Long? = null,
-) : DataObject<Event, EventConvertContent> {
+	@Column
+	var published: Boolean = false
+) : ItemDataObject<Event, EventConvertContent> {
 
 	companion object {
 		fun convert(user: User, request: EventChangeRequest, description: ItemDescription, location: Location? = null): EventData {
@@ -36,5 +39,5 @@ data class EventData(
 		}
 	}
 
-	override fun convert(content: EventConvertContent) = Event(id, Period(start, end), content.owner, content.description, content.location)
+	override fun convert(content: EventConvertContent) = Event(id, Period(start, end), content.owner, content.description, content.location, published)
 }
