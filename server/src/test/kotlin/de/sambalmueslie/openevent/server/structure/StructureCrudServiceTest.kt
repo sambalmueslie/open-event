@@ -1,8 +1,7 @@
 package de.sambalmueslie.openevent.server.structure
 
-import de.sambalmueslie.openevent.server.item.api.ItemDescription
-import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
-import de.sambalmueslie.openevent.server.location.api.*
+import de.sambalmueslie.openevent.server.item.ItemDescriptionUtil
+import de.sambalmueslie.openevent.server.location.LocationUtil
 import de.sambalmueslie.openevent.server.structure.api.Structure
 import de.sambalmueslie.openevent.server.structure.api.StructureChangeRequest
 import de.sambalmueslie.openevent.server.user.UserUtils
@@ -22,55 +21,48 @@ internal class StructureCrudServiceTest(
 	private val service: StructureCrudService
 ) {
 	private val user: UserData = UserUtils.getUser(userRepo)
-	private val title = "Test title"
-	private val shortText = "Test short text"
-	private val longText = "Test long text"
-	private val imageUrl = "Test image url"
-	private val iconUrl = "Test icon url"
 
 	@Test
 	fun `create new structure without location`() {
-		val item = ItemDescriptionChangeRequest(title, shortText, longText, imageUrl, iconUrl)
-		val request = StructureChangeRequest(item, null, null)
+		val item = ItemDescriptionUtil.getCreateRequest()
+		val request = StructureChangeRequest(item, null, null, true)
 
 		val result = service.create(user.convert(), request)
 		assertNotNull(result)
 		val owner = user.convert()
-		val description = ItemDescription(2L, title, shortText, longText, imageUrl, iconUrl)
-		assertEquals(Structure(0L, true, true, true, owner, description, null), result)
+		val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
+		assertEquals(Structure(result.id, true, true, true, owner, description, null, emptyList()), result)
 	}
 
 	@Test
 	fun `create new event with location`() {
-		val item = ItemDescriptionChangeRequest(title, shortText, longText, imageUrl, iconUrl)
-
-		val street = "Test street"
-		val steetNumber = "Test street number"
-		val zip = "Test zip"
-		val city = "Test city"
-		val country = "Test country"
-		val additionalInfo = "Test additional info"
-		val address = AddressChangeRequest(street, steetNumber, zip, city, country, additionalInfo)
-
-		val geoLocation = GeoLocationChangeRequest()
-		val size = 10
-		val properties = LocationPropertiesChangeRequest(size)
-
-		val locationRequest = LocationChangeRequest(address, geoLocation, properties)
-		val request = StructureChangeRequest(item, locationRequest, null)
+		val item = ItemDescriptionUtil.getCreateRequest()
+		val locationRequest = LocationUtil.getCreateRequest()
+		val request = StructureChangeRequest(item, locationRequest, null, true)
 
 		val result = service.create(user.convert(), request)
 		assertNotNull(result)
 
 		val owner = user.convert()
-		val description = ItemDescription(1L, title, shortText, longText, imageUrl, iconUrl)
-		val location = Location(
-			1L,
-			Address(1L, street, steetNumber, zip, city, country, additionalInfo),
-			GeoLocation(1L, 0.0, 0.0),
-			LocationProperties(1L, size)
-		)
-		assertEquals(Structure(0L, true, true, true, owner, description, location), result)
+		val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
+		val location = LocationUtil.getCreateLocation(result.location!!.id)
+		assertEquals(Structure(result.id, true, true, true, owner, description, location, emptyList()), result)
+	}
+
+	@Test
+	fun `create new structure with children`() {
+		val parentRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true)
+		val parent = service.create(user.convert(), parentRequest)
+		assertNotNull(parent)
+
+		val childRequest = StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, parent!!.id, true)
+		val children = service.create(user.convert(), childRequest)
+		assertNotNull(children)
+
+		val parentWithChildren = service.get(parent.id)
+		assertNotNull(children)
+
+		assertEquals(listOf(children), parentWithChildren!!.children)
 
 	}
 }

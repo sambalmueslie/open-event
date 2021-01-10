@@ -5,8 +5,10 @@ import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.server.event.api.Period
 import de.sambalmueslie.openevent.server.event.api.PeriodChangeRequest
+import de.sambalmueslie.openevent.server.item.ItemDescriptionUtil
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
+import de.sambalmueslie.openevent.server.location.LocationUtil
 import de.sambalmueslie.openevent.server.location.api.*
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
@@ -31,33 +33,24 @@ internal class EventControllerTest(userRepo: UserRepository) {
 
 	private val baseUrl = "/api/event"
 	private val user: UserData = UserUtils.getUser(userRepo)
-	private val title = "Test title"
-	private val shortText = "Test short text"
-	private val longText = "Test long text"
-	private val imageUrl = "Test image url"
-	private val iconUrl = "Test icon url"
 	private val start = LocalDateTime.of(2020, 12, 1, 20, 15)
 	private val end = LocalDateTime.of(2020, 12, 1, 22, 30)
-	private val street = "Test street"
-	private val steetNumber = "Test street number"
-	private val zip = "Test zip"
-	private val city = "Test city"
-	private val country = "Test country"
-	private val additionalInfo = "Test additional info"
+
 
 	@Test
 	fun `create, read update and delete`() {
 		val accessToken = getAuthToken(client)
 
-		val item = ItemDescriptionChangeRequest(title, shortText, longText, imageUrl, iconUrl)
+		val item = ItemDescriptionUtil.getCreateRequest()
 		val period = PeriodChangeRequest(start, end)
 		val createRequest = HttpRequest.POST(baseUrl, EventChangeRequest(item, period, null)).bearerAuth(accessToken)
 		val createResult = client.toBlocking().exchange(createRequest, Event::class.java)
 		assertEquals(HttpStatus.OK, createResult.status)
+		val createEvent = createResult.body()!!
 		val owner = user.convert()
-		val description = ItemDescription(1L, title, shortText, longText, imageUrl, iconUrl)
-		val event = Event(0L, Period(period.start, period.end), owner, description, null, true)
-		assertEquals(event, createResult.body())
+		val description = ItemDescriptionUtil.getCreateDescription(createEvent.description.id)
+		val event = Event(createEvent.id, Period(period.start, period.end), owner, description, null, true)
+		assertEquals(event, createEvent)
 
 		val getRequest = HttpRequest.GET<String>("$baseUrl/${event.id}").bearerAuth(accessToken)
 		val getResult = client.toBlocking().exchange(getRequest, Event::class.java)
@@ -70,22 +63,13 @@ internal class EventControllerTest(userRepo: UserRepository) {
 		assertEquals(listOf(event), getAllResult.body()?.content)
 
 
-		val address = AddressChangeRequest(street, steetNumber, zip, city, country, additionalInfo)
-		val geoLocation = GeoLocationChangeRequest()
-		val size = 10
-		val properties = LocationPropertiesChangeRequest(size)
-		val locationRequest = LocationChangeRequest(address, geoLocation, properties)
-
+		val locationRequest = LocationUtil.getCreateRequest()
 		val updateRequest = HttpRequest.PUT("$baseUrl/${event.id}", EventChangeRequest(item, period, locationRequest)).bearerAuth(accessToken)
 		val updateResult = client.toBlocking().exchange(updateRequest, Event::class.java)
 		assertEquals(HttpStatus.OK, updateResult.status)
-		val location = Location(
-			1L,
-			Address(1L, street, steetNumber, zip, city, country, additionalInfo),
-			GeoLocation(1L, 0.0, 0.0),
-			LocationProperties(1L, size)
-		)
-		assertEquals(Event(0L, Period(period.start, period.end), owner, description, location, true), updateResult.body())
+		val updateEvent = updateResult.body()!!
+		val location = LocationUtil.getCreateLocation(updateEvent.location!!.id)
+		assertEquals(Event(updateEvent.id, Period(period.start, period.end), owner, description, location, true), updateResult.body())
 
 		val deleteRequest = HttpRequest.DELETE<Any>("$baseUrl/${event.id}").bearerAuth(accessToken)
 		val deleteResult = client.toBlocking().exchange(deleteRequest, Argument.STRING)

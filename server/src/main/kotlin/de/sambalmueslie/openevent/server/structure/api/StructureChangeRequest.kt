@@ -13,5 +13,7 @@ data class StructureChangeRequest(
 	@JsonProperty("location")
 	val location: LocationChangeRequest?,
 	@JsonProperty("parent")
-	val parentStructureId: Long?
+	val parentStructureId: Long?,
+	@JsonProperty("autoAcceptViewer")
+	val autoAcceptViewer: Boolean
 ) : ItemChangeRequest

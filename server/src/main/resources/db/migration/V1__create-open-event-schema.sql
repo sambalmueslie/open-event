@@ -163,17 +163,18 @@ CREATE TABLE event
 CREATE SEQUENCE structure_seq;
 CREATE TABLE structure
 (
-    id                 bigint  not null primary key default nextval('structure_seq'::regclass),
-    root               boolean NOT NULL,
-    visible            boolean NOT NULL,
-    auto_accept_viewer boolean NOT NULL,
+    id                  bigint  not null primary key default nextval('structure_seq'::regclass),
+    root                boolean NOT NULL,
+    visible             boolean NOT NULL,
+    auto_accept_viewer  boolean NOT NULL,
+    parent_structure_id bigint,
 
-    owner_id           bigint,
-    description_id     bigint,
-    location_id        bigint,
+    owner_id            bigint,
+    description_id      bigint,
+    location_id         bigint,
 
-    created            TIMESTAMP WITHOUT TIME ZONE,
-    modified           TIMESTAMP WITHOUT TIME ZONE,
+    created             TIMESTAMP WITHOUT TIME ZONE,
+    modified            TIMESTAMP WITHOUT TIME ZONE,
 
     CONSTRAINT structure_pk UNIQUE (id),
     CONSTRAINT fk_structure_user FOREIGN KEY (owner_id)
@@ -182,5 +183,7 @@ CREATE TABLE structure
         REFERENCES item_description (id) MATCH SIMPLE,
     CONSTRAINT fk_structure_location FOREIGN KEY (location_id)
         REFERENCES location (id) MATCH SIMPLE
-        ON DELETE SET NULL
+        ON DELETE SET NULL,
+    CONSTRAINT fk_structure_parent_structure FOREIGN KEY (parent_structure_id)
+        REFERENCES structure (id) MATCH SIMPLE
 );
