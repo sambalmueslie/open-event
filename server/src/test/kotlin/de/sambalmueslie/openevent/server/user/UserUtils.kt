@@ -16,9 +16,11 @@ class UserUtils {
 		private val userName = "Test user name"
 
 		fun getUser(userRepo: UserRepository): UserData {
-			return userRepo.findByUserName(userName).firstOrNull()
-				?: userRepo.save(UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false))
+			val userData = createSampleUser()
+			return userRepo.findByUserName(userName).firstOrNull() ?: userRepo.save(userData)
 		}
+
+		fun createSampleUser() = UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false)
 
 	}
 

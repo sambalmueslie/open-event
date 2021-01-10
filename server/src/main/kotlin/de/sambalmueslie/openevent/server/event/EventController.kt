@@ -1,7 +1,6 @@
 package de.sambalmueslie.openevent.server.event
 
 
-import de.sambalmueslie.openevent.server.auth.AuthenticationHelper
 import de.sambalmueslie.openevent.server.common.CrudController
 import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.event.api.EventChangeRequest

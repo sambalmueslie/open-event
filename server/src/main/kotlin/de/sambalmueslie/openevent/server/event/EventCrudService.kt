@@ -38,8 +38,7 @@ open class EventCrudService(
 
 	override fun update(user: User, data: EventData, request: EventChangeRequest, description: ItemDescription): Event {
 		val location = locationCrudService.update(user, data.locationId, request.location)
-		data.locationId = location?.id
-		val data = EventData.convert(user, request, description, location)
+		data.update(request, description, location)
 		return repository.update(data).convert(EventConvertContent(user, description, location))
 	}
 
