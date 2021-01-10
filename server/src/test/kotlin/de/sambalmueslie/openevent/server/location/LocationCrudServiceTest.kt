@@ -17,63 +17,30 @@ internal class LocationCrudServiceTest(
 	private val service: LocationCrudService
 ) {
 	private val user: UserData = UserUtils.getUser(userRepo)
-	private val street = "Test street"
-	private val steetNumber = "Test street number"
-	private val zip = "Test zip"
-	private val city = "Test city"
-	private val country = "Test country"
-	private val additionalInfo = "Test additional info"
-	private val size = 10
 
 	@Test
 	fun `create new location`() {
-		val address = AddressChangeRequest(street, steetNumber, zip, city, country, additionalInfo)
-		val geoLocation = GeoLocationChangeRequest()
-		val properties = LocationPropertiesChangeRequest(size)
-		val request = LocationChangeRequest(address, geoLocation, properties)
+		val request = LocationUtil.getCreateRequest()
 		val result = service.create(user.convert(), request)
-		val location = Location(
-			1L,
-			Address(1L, street, steetNumber, zip, city, country, additionalInfo),
-			GeoLocation(1L, 0.0, 0.0),
-			LocationProperties(1L, size)
-		)
-		assertEquals(location, result)
+		assertEquals(LocationUtil.getCreateLocation(result.id), result)
 	}
 
 
 	@Test
 	fun `update location - create, modify, delete`() {
-		val address = AddressChangeRequest(street, steetNumber, zip, city, country, additionalInfo)
-		val geoLocation = GeoLocationChangeRequest()
-		val properties = LocationPropertiesChangeRequest(size)
-		val request = LocationChangeRequest(address, geoLocation, properties)
+		val request = LocationUtil.getCreateRequest()
 		val result = service.update(user.convert(), null, request)
 		assertNotNull(result)
-		val location = Location(
-			2L,
-			Address(2L, street, steetNumber, zip, city, country, additionalInfo),
-			GeoLocation(2L, 0.0, 0.0),
-			LocationProperties(2L, size)
-		)
-		assertEquals(location, result)
+		val objId = result!!.id
+		assertEquals(LocationUtil.getCreateLocation(objId), result)
 
-		val updateAddress = AddressChangeRequest("$street update", steetNumber, zip, city, country, additionalInfo)
-		val updateGeoLocation = GeoLocationChangeRequest(1.0, 2.0)
-		val updateProperties = LocationPropertiesChangeRequest(size + 5)
-		val updateRequest = LocationChangeRequest(updateAddress, updateGeoLocation, updateProperties)
-		val updateResult = service.update(user.convert(), location.id, updateRequest)
+		val updateRequest = LocationUtil.getUpdateRequest()
+		val updateResult = service.update(user.convert(), objId, updateRequest)
 		assertNotNull(updateResult)
 
-		val updateLocation = Location(
-			2L,
-			Address(2L, updateAddress.street, steetNumber, zip, city, country, additionalInfo),
-			GeoLocation(2L, updateGeoLocation.lat, updateGeoLocation.lon),
-			LocationProperties(2L, updateProperties.size)
-		)
-		assertEquals(updateLocation, updateResult)
+		assertEquals(LocationUtil.getUpdateLocation(objId), updateResult)
 
-		val deleteResult = service.update(user.convert(), location.id, null)
+		val deleteResult = service.update(user.convert(), objId, null)
 		assertNull(deleteResult)
 
 		val ignoreResult = service.update(user.convert(), null, null)

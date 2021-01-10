@@ -1,10 +1,7 @@
 package de.sambalmueslie.openevent.server.structure
 
 import de.sambalmueslie.openevent.server.auth.AuthUtils.Companion.getAuthToken
-import de.sambalmueslie.openevent.server.event.api.Event
-import de.sambalmueslie.openevent.server.event.api.Period
-import de.sambalmueslie.openevent.server.item.api.ItemDescription
-import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
+import de.sambalmueslie.openevent.server.item.ItemDescriptionUtil
 import de.sambalmueslie.openevent.server.structure.api.Structure
 import de.sambalmueslie.openevent.server.structure.api.StructureChangeRequest
 import de.sambalmueslie.openevent.server.user.UserUtils
@@ -28,23 +25,21 @@ internal class StructureControllerTest(userRepo: UserRepository) {
 	lateinit var client: RxHttpClient
 	private val baseUrl = "/api/structure"
 	private val user: UserData = UserUtils.getUser(userRepo)
-	private val title = "Test title"
-	private val shortText = "Test short text"
-	private val longText = "Test long text"
-	private val imageUrl = "Test image url"
-	private val iconUrl = "Test icon url"
+
 
 	@Test
 	fun `create, read update and delete`() {
 		val accessToken = getAuthToken(client)
-		val item = ItemDescriptionChangeRequest(title, shortText, longText, imageUrl, iconUrl)
-		val createRequest = HttpRequest.POST(baseUrl, StructureChangeRequest(item, null, null)).bearerAuth(accessToken)
+		val item = ItemDescriptionUtil.getCreateRequest()
+		val createRequest = HttpRequest.POST(baseUrl, StructureChangeRequest(item, null, null, true)).bearerAuth(accessToken)
 		val createResult = client.toBlocking().exchange(createRequest, Structure::class.java)
 		assertEquals(HttpStatus.OK, createResult.status)
+		val createStructure = createResult.body()!!
+
 		val owner = user.convert()
-		val description = ItemDescription(1L, title, shortText, longText, imageUrl, iconUrl)
-		val structure = Structure(0L, true, true, true, owner, description, null)
-		assertEquals(structure, createResult.body())
+		val description = ItemDescriptionUtil.getCreateDescription(createStructure.description.id)
+		val structure = Structure(createStructure.id, true, true, true, owner, description, null, emptyList())
+		assertEquals(structure, createStructure)
 
 		val getRequest = HttpRequest.GET<String>("$baseUrl/${structure.id}").bearerAuth(accessToken)
 		val getResult = client.toBlocking().exchange(getRequest, Structure::class.java)
@@ -56,12 +51,12 @@ internal class StructureControllerTest(userRepo: UserRepository) {
 		assertEquals(HttpStatus.OK, getAllResult.status)
 		assertEquals(listOf(structure), getAllResult.body()?.content)
 
-		val updateItem = ItemDescriptionChangeRequest("update title", shortText, longText, imageUrl, iconUrl)
-		val updateRequest = HttpRequest.PUT("$baseUrl/${structure.id}", StructureChangeRequest(updateItem, null, null)).bearerAuth(accessToken)
+		val updateItem = ItemDescriptionUtil.getUpdateRequest()
+		val updateRequest = HttpRequest.PUT("$baseUrl/${structure.id}", StructureChangeRequest(updateItem, null, null, true)).bearerAuth(accessToken)
 		val updateResult = client.toBlocking().exchange(updateRequest, Structure::class.java)
 		assertEquals(HttpStatus.OK, updateResult.status)
-		val updateDescription = ItemDescription(1L, updateItem.title, shortText, longText, imageUrl, iconUrl)
-		val updateStructure = Structure(0L, true, true, true, owner, updateDescription, null)
+		val updateDescription = ItemDescriptionUtil.getUpdateDescription(createStructure.description.id)
+		val updateStructure = Structure(createStructure.id, true, true, true, owner, updateDescription, null, emptyList())
 		assertEquals(updateStructure, updateResult.body())
 
 		val deleteRequest = HttpRequest.DELETE<Any>("$baseUrl/${structure.id}").bearerAuth(accessToken)
