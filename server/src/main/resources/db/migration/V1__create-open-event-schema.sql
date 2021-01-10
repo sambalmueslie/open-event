@@ -187,3 +187,25 @@ CREATE TABLE structure
     CONSTRAINT fk_structure_parent_structure FOREIGN KEY (parent_structure_id)
         REFERENCES structure (id) MATCH SIMPLE
 );
+
+/* category */
+CREATE SEQUENCE category_seq;
+CREATE TABLE category
+(
+    id       bigint                 not null primary key default nextval('category_seq'::regclass),
+    name     character varying(255) NOT NULL,
+    icon_url character varying(255) NOT NULL,
+
+    created  TIMESTAMP WITHOUT TIME ZONE,
+    modified TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT category_pk UNIQUE (id)
+);
+
+CREATE TABLE category_item_relation
+(
+    category_id bigint not null,
+    item_id     bigint not null,
+    CONSTRAINT fk_category FOREIGN KEY (category_id)
+        REFERENCES category (id) MATCH SIMPLE
+);

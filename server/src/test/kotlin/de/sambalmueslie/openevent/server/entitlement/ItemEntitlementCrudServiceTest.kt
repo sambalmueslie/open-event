@@ -36,7 +36,7 @@ internal class ItemEntitlementCrudServiceTest(
 
 		val getResult = service.get(objId)
 		assertNotNull(getResult)
-		assertEquals(ItemEntitlementEntry(objId, u.id, itemId, type, Entitlement.EDITOR), updateResult)
+		assertEquals(ItemEntitlementEntry(objId, u.id, itemId, type, Entitlement.EDITOR), getResult)
 
 		val getAllResult = service.getAll(Pageable.from(0))
 		assertEquals(1, getAllResult.totalSize)
