@@ -40,7 +40,7 @@ class LocationCrudService(
 		val address = update(location, request.address)
 		val geoLocation = update(location, request.geoLocation)
 		val properties = update(location, request.properties)
-		location.update(address, geoLocation,properties)
+		location.update(address, geoLocation, properties)
 		val data = repository.update(location)
 		val result = data.convert(LocationConvertContent(address, geoLocation, properties))
 		notifyUpdated(user, result)
@@ -80,6 +80,8 @@ class LocationCrudService(
 	}
 
 	fun update(user: User, objId: Long?, request: LocationChangeRequest?): Location? {
+		if (objId == null && request == null) return null
+
 		val deletedAndExisting = objId != null && request == null
 		if (deletedAndExisting) {
 			delete(user, objId!!)

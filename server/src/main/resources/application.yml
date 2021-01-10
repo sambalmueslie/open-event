@@ -31,15 +31,6 @@ micronaut:
         enabled: false
       oauth:
         enabled: false
-    token:
-      jwt:
-        enabled: true
-        signatures:
-          jwks:
-            keycloak:
-              url: ""
-        bearer:
-          enabled: true
     oauth2:
       clients:
         keycloak:
@@ -70,5 +61,5 @@ flyway:
 
 jackson:
   bean-introspection-module: true
-  serialization-inclusion: NON_NULL
+  serialization-inclusion: always
 

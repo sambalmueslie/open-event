@@ -1,8 +1,6 @@
 package de.sambalmueslie.openevent.server.structure.db
 
 
-import de.sambalmueslie.openevent.server.common.DataObject
-import de.sambalmueslie.openevent.server.event.db.EventData
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.item.db.ItemDataObject
 import de.sambalmueslie.openevent.server.location.api.Location
@@ -42,6 +40,12 @@ data class StructureData(
 
 	override fun convert(content: StructureConvertContent): Structure {
 		return Structure(id, root, visible, autoAcceptViewer, content.owner, content.description, content.location)
+	}
+
+	fun update(request: StructureChangeRequest, description: ItemDescription, location: Location?) {
+		descriptionId = description.id
+		locationId = location?.id
+		root = request.parentStructureId == null
 	}
 
 }

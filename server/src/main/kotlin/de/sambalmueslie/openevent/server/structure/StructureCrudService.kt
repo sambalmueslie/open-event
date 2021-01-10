@@ -1,7 +1,6 @@
 package de.sambalmueslie.openevent.server.structure
 
 
-import de.sambalmueslie.openevent.server.common.findByIdOrNull
 import de.sambalmueslie.openevent.server.item.ItemCrudService
 import de.sambalmueslie.openevent.server.item.ItemDescriptionCrudService
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
@@ -16,7 +15,6 @@ import de.sambalmueslie.openevent.server.user.api.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton
-import javax.transaction.Transactional
 
 @Singleton
 open class StructureCrudService(
@@ -43,8 +41,7 @@ open class StructureCrudService(
 
 	override fun update(user: User, data: StructureData, request: StructureChangeRequest, description: ItemDescription): Structure {
 		val location = locationCrudService.update(user, data.locationId, request.location)
-		data.locationId = location?.id
-		val data = StructureData.convert(user, request, description, location)
+		data.update(request, description, location)
 		return repository.update(data).convert(StructureConvertContent(user, description, location))
 	}
 

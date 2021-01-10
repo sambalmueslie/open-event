@@ -1,6 +1,5 @@
 package de.sambalmueslie.openevent.server.event.db
 
-import de.sambalmueslie.openevent.server.common.DataObject
 import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.server.event.api.Period
@@ -40,4 +39,11 @@ data class EventData(
 	}
 
 	override fun convert(content: EventConvertContent) = Event(id, Period(start, end), content.owner, content.description, content.location, published)
+
+	fun update(request: EventChangeRequest, description: ItemDescription, location: Location?) {
+		start = request.period.start
+		end = request.period.end
+		descriptionId = description.id
+		locationId = location?.id
+	}
 }
