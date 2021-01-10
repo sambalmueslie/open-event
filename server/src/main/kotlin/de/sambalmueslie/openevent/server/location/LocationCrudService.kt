@@ -54,7 +54,7 @@ class LocationCrudService(
 			addressRepository.save(AddressData.convert(request)).convert()
 		} else {
 			address.update(request)
-			addressRepository.update(AddressData.convert(request)).convert()
+			addressRepository.update(address).convert()
 		}
 	}
 
@@ -65,7 +65,7 @@ class LocationCrudService(
 			geoLocationRepository.save(GeoLocationData.convert(request)).convert()
 		} else {
 			geoLocation.update(request)
-			geoLocationRepository.update(GeoLocationData.convert(request)).convert()
+			geoLocationRepository.update(geoLocation).convert()
 		}
 	}
 
@@ -75,7 +75,7 @@ class LocationCrudService(
 			propertiesRepository.save(LocationPropertiesData.convert(request)).convert()
 		} else {
 			properties.update(request)
-			propertiesRepository.update(LocationPropertiesData.convert(request)).convert()
+			propertiesRepository.update(properties).convert()
 		}
 	}
 

@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.server.event.api.Period
 import de.sambalmueslie.openevent.server.event.api.PeriodChangeRequest
 import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.item.api.ItemDescriptionChangeRequest
+import de.sambalmueslie.openevent.server.location.api.*
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
@@ -37,6 +38,12 @@ internal class EventControllerTest(userRepo: UserRepository) {
 	private val iconUrl = "Test icon url"
 	private val start = LocalDateTime.of(2020, 12, 1, 20, 15)
 	private val end = LocalDateTime.of(2020, 12, 1, 22, 30)
+	private val street = "Test street"
+	private val steetNumber = "Test street number"
+	private val zip = "Test zip"
+	private val city = "Test city"
+	private val country = "Test country"
+	private val additionalInfo = "Test additional info"
 
 	@Test
 	fun `create, read update and delete`() {
@@ -62,10 +69,23 @@ internal class EventControllerTest(userRepo: UserRepository) {
 		assertEquals(HttpStatus.OK, getAllResult.status)
 		assertEquals(listOf(event), getAllResult.body()?.content)
 
-		val updateRequest = HttpRequest.PUT("$baseUrl/${event.id}", EventChangeRequest(item, PeriodChangeRequest(end, start), null)).bearerAuth(accessToken)
+
+		val address = AddressChangeRequest(street, steetNumber, zip, city, country, additionalInfo)
+		val geoLocation = GeoLocationChangeRequest()
+		val size = 10
+		val properties = LocationPropertiesChangeRequest(size)
+		val locationRequest = LocationChangeRequest(address, geoLocation, properties)
+
+		val updateRequest = HttpRequest.PUT("$baseUrl/${event.id}", EventChangeRequest(item, period, locationRequest)).bearerAuth(accessToken)
 		val updateResult = client.toBlocking().exchange(updateRequest, Event::class.java)
 		assertEquals(HttpStatus.OK, updateResult.status)
-		assertEquals(Event(0L, Period(period.end, period.start), owner, description, null, true), updateResult.body())
+		val location = Location(
+			1L,
+			Address(1L, street, steetNumber, zip, city, country, additionalInfo),
+			GeoLocation(1L, 0.0, 0.0),
+			LocationProperties(1L, size)
+		)
+		assertEquals(Event(0L, Period(period.start, period.end), owner, description, location, true), updateResult.body())
 
 		val deleteRequest = HttpRequest.DELETE<Any>("$baseUrl/${event.id}").bearerAuth(accessToken)
 		val deleteResult = client.toBlocking().exchange(deleteRequest, Argument.STRING)
