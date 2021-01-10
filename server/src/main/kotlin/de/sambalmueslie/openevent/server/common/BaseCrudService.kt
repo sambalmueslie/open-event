@@ -29,12 +29,17 @@ abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeReque
 
 	final override fun delete(user: User, objId: Long) {
 		val data = repository.findByIdOrNull(objId) ?: return logger.error("Cannot delete unknown element $objId")
+		prepareDeletion(user, data)
 		repository.deleteById(objId)
 		handleDeletion(user, data)
 		notifyDeleted(user, convert(data))
 	}
 
-	protected fun handleDeletion(user: User, data: D) {
+	protected open fun prepareDeletion(user: User, data: D) {
+		// intentionally left empty
+	}
+
+	protected open fun handleDeletion(user: User, data: D) {
 		// intentionally left empty
 	}
 
