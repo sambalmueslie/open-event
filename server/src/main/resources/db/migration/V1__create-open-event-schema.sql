@@ -209,3 +209,22 @@ CREATE TABLE category_item_relation
     CONSTRAINT fk_category FOREIGN KEY (category_id)
         REFERENCES category (id) MATCH SIMPLE
 );
+
+/* announcement */
+CREATE SEQUENCE announcement_seq;
+CREATE TABLE announcement
+(
+    id        bigint                 not null primary key default nextval('announcement_seq'::regclass),
+    subject   character varying(255) NOT NULL,
+    content   TEXT                   NOT NULL,
+
+    author_id bigint,
+    item_id   bigint,
+
+    created   TIMESTAMP WITHOUT TIME ZONE,
+    modified  TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT announcement_pk UNIQUE (id),
+    CONSTRAINT fk_announcement_user FOREIGN KEY (author_id)
+        REFERENCES db_user (id) MATCH SIMPLE
+);
