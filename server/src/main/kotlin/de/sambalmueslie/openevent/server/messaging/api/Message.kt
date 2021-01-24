@@ -14,6 +14,6 @@ data class Message(
 	val content: String,
 	@JsonProperty("status")
 	val status: MessageStatus,
-	@JsonProperty("status")
+	@JsonProperty("statusHistory")
 	val statusHistory: Map<MessageStatus, LocalDateTime>
 ) : BusinessObject
