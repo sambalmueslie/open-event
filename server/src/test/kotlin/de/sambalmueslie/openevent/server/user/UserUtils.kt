@@ -12,15 +12,21 @@ class UserUtils {
 	companion object {
 		val logger: Logger = LoggerFactory.getLogger(UserUtils::class.java)
 
-		private val userId = "Test user id"
-		private val userName = "Test user name"
+		private val userId = "Test user 1"
+		private val userName = "Test user name 1"
+		private val secondUserId = "Test user 2"
+		private val secondUserName = "Test user name 2"
 
-		fun getUser(userRepo: UserRepository): UserData {
-			val userData = createSampleUser()
-			return userRepo.findByUserName(userName).firstOrNull() ?: userRepo.save(userData)
+		fun getFirstUser(userRepo: UserRepository): UserData {
+			return userRepo.findByUserName(userName).firstOrNull() ?: userRepo.save(createFirstSampleUser())
 		}
 
-		fun createSampleUser() = UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false)
+		fun getSecondUser(userRepo: UserRepository): UserData {
+			return userRepo.findByUserName(secondUserName).firstOrNull() ?: userRepo.save(createSecondSampleUser())
+		}
+
+		fun createFirstSampleUser() = UserData(0L, userId, userName, "", "", "", "", LocalDateTime.now(), false)
+		fun createSecondSampleUser() = UserData(0L, secondUserId, secondUserName, "", "", "", "", LocalDateTime.now(), false)
 
 	}
 

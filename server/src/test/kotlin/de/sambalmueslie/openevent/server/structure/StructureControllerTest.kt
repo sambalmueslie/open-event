@@ -24,7 +24,7 @@ internal class StructureControllerTest(userRepo: UserRepository) {
 	@field:Client("/")
 	lateinit var client: RxHttpClient
 	private val baseUrl = "/api/structure"
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 
 
 	@Test

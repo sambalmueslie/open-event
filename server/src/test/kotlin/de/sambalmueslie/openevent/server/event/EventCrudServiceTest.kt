@@ -8,7 +8,6 @@ import de.sambalmueslie.openevent.server.event.api.EventChangeRequest
 import de.sambalmueslie.openevent.server.event.api.Period
 import de.sambalmueslie.openevent.server.event.api.PeriodChangeRequest
 import de.sambalmueslie.openevent.server.item.ItemDescriptionUtil
-import de.sambalmueslie.openevent.server.item.api.ItemDescription
 import de.sambalmueslie.openevent.server.item.api.ItemType
 import de.sambalmueslie.openevent.server.location.LocationUtil
 import de.sambalmueslie.openevent.server.user.UserUtils
@@ -30,7 +29,7 @@ internal class EventCrudServiceTest(
 	private val entitlementService: ItemEntitlementCrudService
 ) {
 
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 	private val start = LocalDateTime.of(2020, 12, 1, 20, 15)
 	private val end = LocalDateTime.of(2020, 12, 1, 22, 30)
 

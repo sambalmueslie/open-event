@@ -18,7 +18,7 @@ class MockIdpConnector : IdpConnector {
 	}
 
 	override fun read(externalId: String): UserData? {
-		return UserUtils.createSampleUser()
+		return UserUtils.createFirstSampleUser()
 	}
 
 

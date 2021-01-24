@@ -20,7 +20,7 @@ internal class StructureCrudServiceTest(
 	userRepo: UserRepository,
 	private val service: StructureCrudService
 ) {
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 
 	@Test
 	fun `create new structure without location`() {

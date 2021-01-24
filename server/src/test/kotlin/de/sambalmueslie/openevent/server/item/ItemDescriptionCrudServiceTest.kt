@@ -14,7 +14,7 @@ internal class ItemDescriptionCrudServiceTest(
 	userRepo: UserRepository,
 	private val service: ItemDescriptionCrudService
 ) {
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 
 	@Test
 	fun `create update and delete item description`() {

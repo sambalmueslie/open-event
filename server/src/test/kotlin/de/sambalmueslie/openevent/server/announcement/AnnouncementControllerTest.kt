@@ -26,7 +26,7 @@ internal class AnnouncementControllerTest(userRepo: UserRepository) {
 	lateinit var client: RxHttpClient
 
 	private val baseUrl = "/api/announcement"
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 	private val subject = "Test subject"
 	private val content = "Test content"
 	private val itemId = 10L
