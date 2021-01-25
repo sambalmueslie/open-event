@@ -19,7 +19,7 @@ class AuthUtils {
 		fun getAuthToken(client: HttpClient): String {
 			val credentials = UsernamePasswordCredentials("sherlock", "password")
 			val request: HttpRequest<Any> = HttpRequest.POST("/login", credentials)
-			val rsp: HttpResponse<BearerAccessRefreshToken> = client.toBlocking().exchange(request, BearerAccessRefreshToken::class.java) // <5>
+			val rsp: HttpResponse<BearerAccessRefreshToken> = client.toBlocking().exchange(request, BearerAccessRefreshToken::class.java)
 			Assertions.assertEquals(HttpStatus.OK, rsp.status)
 
 			val bearerAccessRefreshToken: BearerAccessRefreshToken = rsp.body()!!

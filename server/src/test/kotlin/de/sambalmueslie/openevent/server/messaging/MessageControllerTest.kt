@@ -1,13 +1,13 @@
 package de.sambalmueslie.openevent.server.messaging
 
-import de.sambalmueslie.openevent.server.announcement.api.Announcement
-import de.sambalmueslie.openevent.server.announcement.api.AnnouncementChangeRequest
 import de.sambalmueslie.openevent.server.auth.AuthUtils
 import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.messaging.api.Message
 import de.sambalmueslie.openevent.server.messaging.api.MessageChangeRequest
 import de.sambalmueslie.openevent.server.messaging.api.MessageHeader
 import de.sambalmueslie.openevent.server.messaging.api.MessageStatus
+import de.sambalmueslie.openevent.server.messaging.db.MessageData
+import de.sambalmueslie.openevent.server.messaging.db.MessageRepository
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
@@ -20,11 +20,18 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestMethodOrder
 import javax.inject.Inject
 
 @MicronautTest
-internal class MessageControllerTest(userRepository: UserRepository) {
+@TestMethodOrder(MethodOrderer.MethodName::class)
+internal class MessageControllerTest(
+	private val messageRepository: MessageRepository,
+	userRepository: UserRepository
+) {
 	@Inject
 	@field:Client("/")
 	lateinit var client: RxHttpClient
@@ -36,7 +43,7 @@ internal class MessageControllerTest(userRepository: UserRepository) {
 	private val content = "Test content"
 
 	@Test
-	fun `create, read update and delete`() {
+	fun `01 create, read update and delete`() {
 		val accessToken = AuthUtils.getAuthToken(client)
 		val u = user1.convert()
 
@@ -64,7 +71,7 @@ internal class MessageControllerTest(userRepository: UserRepository) {
 		assertEquals(setOf(MessageStatus.CREATED), getResult.statusHistory.keys)
 
 		val getAllRequest = HttpRequest.GET<String>(baseUrl).bearerAuth(accessToken)
-		val getAllResponse = client.toBlocking().exchange(getAllRequest, Argument.of(Page::class.java, Message::class.java))
+		val getAllResponse = client.toBlocking().exchange(getAllRequest, pageType())
 		assertEquals(HttpStatus.OK, getAllResponse.status)
 		val getAllResult = getAllResponse.body()!!
 		assertEquals(1, getAllResult.totalSize)
@@ -88,9 +95,47 @@ internal class MessageControllerTest(userRepository: UserRepository) {
 		assertEquals(HttpStatus.OK, deleteResult.status)
 
 		val getAllEmptyResult = client.toBlocking()
-			.exchange(HttpRequest.GET<String>(baseUrl).bearerAuth(accessToken), Argument.of(Page::class.java, Message::class.java))
+			.exchange(HttpRequest.GET<String>(baseUrl).bearerAuth(accessToken), pageType())
 		assertEquals(HttpStatus.OK, getAllEmptyResult.status)
 		assertEquals(emptyList<Event>(), getAllEmptyResult.body()?.content)
-
 	}
+
+	@Test
+	@Disabled
+	fun `02 check getter endpoints`() {
+		val accessToken = AuthUtils.getAuthToken(client)
+		val u = user1.convert()
+
+		val sentSubject = "send message"
+		val receivedSubject = "received message"
+		messageRepository.save(MessageData(authorId = user1.id, recipientId = user2.id, subject = sentSubject, content = content))
+		messageRepository.save(MessageData(authorId = user2.id, recipientId = user1.id, subject = receivedSubject, content = content))
+
+		val sentMessagesResponse = client.toBlocking().exchange(HttpRequest.GET<Any>("${baseUrl}/sent").bearerAuth(accessToken), pageType())
+		assertEquals(HttpStatus.OK, sentMessagesResponse.status)
+		val sentMessagesResult = sentMessagesResponse.body()
+		assertNotNull(sentMessagesResult)
+		val firstSent = sentMessagesResult!!.content.first() as Message
+		assertEquals(sentSubject, firstSent.header.subject)
+
+		val receivedMessagesResponse = client.toBlocking().exchange(HttpRequest.GET<Any>("${baseUrl}/received").bearerAuth(accessToken), pageType())
+		assertEquals(HttpStatus.OK, receivedMessagesResponse.status)
+		val receivedMessagesResult = receivedMessagesResponse.body()
+		assertNotNull(receivedMessagesResult)
+		val firstReceived = receivedMessagesResult!!.content.first() as Message
+		assertEquals(receivedSubject, firstReceived.header.subject)
+
+		val unreadMessagesResponse = client.toBlocking().exchange(HttpRequest.GET<Any>("${baseUrl}/unread").bearerAuth(accessToken), pageType())
+		assertEquals(HttpStatus.OK, unreadMessagesResponse.status)
+		val unreadMessagesResult = unreadMessagesResponse.body()
+		assertNotNull(unreadMessagesResult)
+		val firstUnread = unreadMessagesResult!!.content.first() as Message
+		assertEquals(receivedSubject, firstUnread.header.subject)
+
+		val unreadMessagesCountResponse = client.toBlocking().exchange(HttpRequest.GET<Any>("${baseUrl}/unread/count").bearerAuth(accessToken),Argument.INT)
+		assertEquals(HttpStatus.OK, unreadMessagesResponse.status)
+		assertEquals(1, unreadMessagesCountResponse.body())
+	}
+
+	private fun pageType() = Argument.of(Page::class.java, Message::class.java)
 }

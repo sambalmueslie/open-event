@@ -41,13 +41,16 @@ class CategoryCrudService(
 
 	override fun update(user: User, objId: Long, request: CategoryChangeRequest): Category? {
 		val existing = repository.findByIdOrNull(objId) ?: return create(user, request)
+		return update(user, existing, request)
+	}
+
+	override fun update(user: User, obj: CategoryData, request: CategoryChangeRequest): Category? {
 		val duplicate = repository.findExisting(request)
-		if (duplicate != null && duplicate.id != existing.id) return null
+		if (duplicate != null && duplicate.id != obj.id) return null
+		obj.update(request)
+		val result = repository.update(obj).convert()
 
-		existing.update(request)
-		val result = repository.update(existing).convert()
-
-		val existingRelation = relationRepository.findByCategoryIdAndItemId(objId, request.itemId)
+		val existingRelation = relationRepository.findByCategoryIdAndItemId(obj.id, request.itemId)
 		if (existingRelation == null) {
 			createRelation(user, result, request)
 		}

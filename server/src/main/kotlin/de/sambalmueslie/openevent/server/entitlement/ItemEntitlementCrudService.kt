@@ -24,7 +24,7 @@ class ItemEntitlementCrudService(private val repository: ItemEntitlementEntryRep
 	override fun create(user: User, request: ItemEntitlementChangeRequest): ItemEntitlementEntry {
 		val existing = repository.findByUserIdAndItemIdAndType(user.id, request.itemId, request.type)
 		if (existing != null) {
-			return update(request, existing)
+			return update(user, existing, request)
 		}
 
 		val data = ItemEntitlementEntryData.convert(user, request)
@@ -33,14 +33,13 @@ class ItemEntitlementCrudService(private val repository: ItemEntitlementEntryRep
 
 	override fun update(user: User, objId: Long, request: ItemEntitlementChangeRequest): ItemEntitlementEntry {
 		val current = repository.findByIdOrNull(objId) ?: return create(user, request)
-		return update(request, current)
+		return update(user, current, request)
 	}
 
-	private fun update(request: ItemEntitlementChangeRequest, data: ItemEntitlementEntryData): ItemEntitlementEntry {
-		data.entitlement = request.entitlement
-		return repository.update(data).convert()
+	override fun update(user: User, obj: ItemEntitlementEntryData, request: ItemEntitlementChangeRequest): ItemEntitlementEntry {
+		obj.entitlement = request.entitlement
+		return repository.update(obj).convert()
 	}
-
 
 	override fun convert(data: ItemEntitlementEntryData): ItemEntitlementEntry {
 		return data.convert()

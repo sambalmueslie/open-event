@@ -30,8 +30,12 @@ class ItemDescriptionCrudService(private val repository: ItemDescriptionReposito
 
 	override fun update(user: User, objId: Long, request: ItemDescriptionChangeRequest): ItemDescription {
 		val current = repository.findByIdOrNull(objId) ?: return create(user, request)
-		current.update(request)
-		val result = repository.update(current).convert()
+		return update(user, current, request)
+	}
+
+	override fun update(user: User, obj: ItemDescriptionData, request: ItemDescriptionChangeRequest): ItemDescription {
+		obj.update(request)
+		val result = repository.update(obj).convert()
 		notifyUpdated(user, result)
 		return result
 	}

@@ -55,9 +55,9 @@ abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObje
 		return repository.findByIdOrNull(objId)?.let { update(user, it, request) }
 	}
 
-	private fun update(user: User, data: D, request: O): T? {
-		val description = itemDescriptionCrudService.update(user, data.descriptionId, request.item)
-		val result = update(user, data, request, description)
+	override fun update(user: User, obj: D, request: O): T? {
+		val description = itemDescriptionCrudService.update(user, obj.descriptionId, request.item)
+		val result = update(user, obj, request, description)
 		notifyUpdated(user, result)
 		return get(result.id)
 	}
