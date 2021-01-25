@@ -11,16 +11,14 @@ import org.slf4j.LoggerFactory
 abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeRequest, D : DataObject<T, out ConvertContent>>(
 	private val repository: PageableRepository<D, Long>,
 	private val logger: Logger
-) : BaseService<T>(logger), CrudService<T, O> {
+) : BaseService<T>(logger), CrudService<T, O, D> {
 
 	companion object {
 		val logger: Logger = LoggerFactory.getLogger(BaseCrudService::class.java)
 	}
 
-	override fun get(objId: Long): T? {
-		return repository.findByIdOrNull(objId)?.let { convert(it) }
-	}
-
+	override fun get(objId: Long) = getData(objId)?.let { convert(it) }
+	override fun getData(objId: Long) = repository.findByIdOrNull(objId)
 	abstract fun convert(data: D): T
 
 	override fun getAll(pageable: Pageable): Page<T> {
@@ -29,10 +27,14 @@ abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeReque
 
 	final override fun delete(user: User, objId: Long) {
 		val data = repository.findByIdOrNull(objId) ?: return logger.error("Cannot delete unknown element $objId")
-		prepareDeletion(user, data)
-		repository.deleteById(objId)
-		handleDeletion(user, data)
-		notifyDeleted(user, convert(data))
+		delete(user, data)
+	}
+
+	final override fun delete(user: User, obj: D) {
+		prepareDeletion(user, obj)
+		repository.delete(obj)
+		handleDeletion(user, obj)
+		notifyDeleted(user, convert(obj))
 	}
 
 	protected open fun prepareDeletion(user: User, data: D) {
@@ -43,15 +45,15 @@ abstract class BaseCrudService<T : BusinessObject, O : BusinessObjectChangeReque
 		// intentionally left empty
 	}
 
-	protected fun notifyCreated(user: User, result: T) {
+	protected open fun notifyCreated(user: User, result: T) {
 		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.CREATED))
 	}
 
-	protected fun notifyUpdated(user: User, result: T) {
+	protected  open fun notifyUpdated(user: User, result: T) {
 		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.UPDATED))
 	}
 
-	protected fun notifyDeleted(user: User, result: T) {
+	protected  open fun notifyDeleted(user: User, result: T) {
 		notifyCommon(CommonChangeEvent(user, result, CommonChangeEventType.DELETED))
 	}
 

@@ -41,5 +41,14 @@ class MessageCrudService(
 		return get(objId)
 	}
 
+	override fun update(user: User, obj: MessageData, request: MessageChangeRequest): Message {
+		return convert(obj)
+	}
+
+	fun update(user: User, obj: MessageData): Message {
+		val result = convert(repository.save(obj))
+		notifyUpdated(user, result)
+		return result
+	}
 
 }

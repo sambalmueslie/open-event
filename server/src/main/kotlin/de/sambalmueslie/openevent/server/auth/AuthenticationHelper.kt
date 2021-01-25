@@ -11,7 +11,11 @@ import javax.inject.Singleton
 class AuthenticationHelper(private val config: IdpConfig) {
 
 	fun checkForAdmin(authentication: Authentication) {
-		if (!hasRole(authentication, config.adminRoleName)) throw InsufficientPermissionsException("")
+		if (!isAdmin(authentication)) throw InsufficientPermissionsException("")
+	}
+
+	fun isAdmin(authentication: Authentication): Boolean {
+		return hasRole(authentication, config.adminRoleName)
 	}
 
 	fun checkForEntitlement(authentication: Authentication, entitlement: Entitlement): Boolean {
@@ -25,5 +29,6 @@ class AuthenticationHelper(private val config: IdpConfig) {
 		val roles = backend["roles"] as JSONArray? ?: return false
 		return roles.toArray().any { it.toString().equals(role, true) }
 	}
+
 
 }
