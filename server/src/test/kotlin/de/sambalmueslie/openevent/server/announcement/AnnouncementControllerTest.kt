@@ -33,8 +33,8 @@ internal class AnnouncementControllerTest(userRepo: UserRepository) {
 
 	@Test
 	fun `create, read update and delete`() {
-		val accessToken = AuthUtils.getAuthToken(client)
 		val u = user.convert()
+		val accessToken = AuthUtils.getAuthToken(client, u)
 
 		val createRequest = HttpRequest.POST(baseUrl, AnnouncementChangeRequest(subject, content, itemId)).bearerAuth(accessToken)
 		val createResponse = client.toBlocking().exchange(createRequest, Announcement::class.java)

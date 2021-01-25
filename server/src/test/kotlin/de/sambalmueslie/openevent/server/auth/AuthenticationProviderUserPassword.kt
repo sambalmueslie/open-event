@@ -14,7 +14,7 @@ class AuthenticationProviderUserPassword : AuthenticationProvider {
 
 	override fun authenticate(httpRequest: HttpRequest<*>?, authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse> {
 		return Flowable.create({ emitter: FlowableEmitter<AuthenticationResponse> ->
-								   if (authenticationRequest.identity == "sherlock" && authenticationRequest.secret == "password") {
+								   if (authenticationRequest.secret == "password") {
 									   emitter.onNext(UserDetails(authenticationRequest.identity as String, ArrayList()))
 									   emitter.onComplete()
 								   } else {

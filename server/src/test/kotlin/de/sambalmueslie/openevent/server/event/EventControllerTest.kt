@@ -36,7 +36,7 @@ internal class EventControllerTest(userRepo: UserRepository) {
 
 	@Test
 	fun `create, read update and delete`() {
-		val accessToken = getAuthToken(client)
+		val accessToken = getAuthToken(client, user.convert())
 
 		val item = ItemDescriptionUtil.getCreateRequest()
 		val period = PeriodChangeRequest(start, end)

@@ -29,7 +29,7 @@ internal class StructureControllerTest(userRepo: UserRepository) {
 
 	@Test
 	fun `create, read update and delete`() {
-		val accessToken = getAuthToken(client)
+		val accessToken = getAuthToken(client, user.convert())
 		val item = ItemDescriptionUtil.getCreateRequest()
 		val createRequest = HttpRequest.POST(baseUrl, StructureChangeRequest(item, null, null, true)).bearerAuth(accessToken)
 		val createResult = client.toBlocking().exchange(createRequest, Structure::class.java)
