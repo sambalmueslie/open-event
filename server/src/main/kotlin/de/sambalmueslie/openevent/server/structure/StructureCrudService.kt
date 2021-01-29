@@ -30,24 +30,23 @@ open class StructureCrudService(
 
 	override fun convert(data: StructureData, owner: User, description: ItemDescription): Structure {
 		val location = data.locationId?.let { locationCrudService.get(it) }
-		val content = StructureConvertContent(owner, description, location, getChildren(data))
+		val content = StructureConvertContent(owner, description, location)
 		return data.convert(content)
 	}
 
 	override fun create(user: User, request: StructureChangeRequest, description: ItemDescription): Structure {
 		val location = request.location?.let { locationCrudService.create(user, it) }
 		val data = StructureData.convert(user, request, description, location)
-		return repository.save(data).convert(StructureConvertContent(user, description, location, emptyList()))
+		return repository.save(data).convert(StructureConvertContent(user, description, location))
 	}
 
 	override fun update(user: User, data: StructureData, request: StructureChangeRequest, description: ItemDescription): Structure {
 		val location = locationCrudService.update(user, data.locationId, request.location)
 		data.update(request, description, location)
-		val content = StructureConvertContent(user, description, location, getChildren(data))
+		val content = StructureConvertContent(user, description, location)
 		return repository.update(data).convert(content)
 	}
 
-	private fun getChildren(data: StructureData) = repository.findByParentStructureId(data.id).map { convert(it) }
 
 
 }

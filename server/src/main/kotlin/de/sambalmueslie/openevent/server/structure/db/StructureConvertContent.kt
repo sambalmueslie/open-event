@@ -9,6 +9,5 @@ import de.sambalmueslie.openevent.server.user.api.User
 data class StructureConvertContent(
 	override val owner: User,
 	override val description: ItemDescription,
-	val location: Location?,
-	val children: List<Structure>
+	val location: Location?
 ) : ItemConvertContent
