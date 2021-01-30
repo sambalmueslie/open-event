@@ -38,7 +38,7 @@ internal class StructureControllerTest(userRepo: UserRepository) {
 
 		val owner = user.convert()
 		val description = ItemDescriptionUtil.getCreateDescription(createStructure.description.id)
-		val structure = Structure(createStructure.id, true, true, true, owner, description, null, emptyList())
+		val structure = Structure(createStructure.id, true, true, true, owner, description, null)
 		assertEquals(structure, createStructure)
 
 		val getRequest = HttpRequest.GET<String>("$baseUrl/${structure.id}").bearerAuth(accessToken)
@@ -56,7 +56,7 @@ internal class StructureControllerTest(userRepo: UserRepository) {
 		val updateResult = client.toBlocking().exchange(updateRequest, Structure::class.java)
 		assertEquals(HttpStatus.OK, updateResult.status)
 		val updateDescription = ItemDescriptionUtil.getUpdateDescription(createStructure.description.id)
-		val updateStructure = Structure(createStructure.id, true, true, true, owner, updateDescription, null, emptyList())
+		val updateStructure = Structure(createStructure.id, true, true, true, owner, updateDescription, null)
 		assertEquals(updateStructure, updateResult.body())
 
 		val deleteRequest = HttpRequest.DELETE<Any>("$baseUrl/${structure.id}").bearerAuth(accessToken)

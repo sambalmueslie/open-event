@@ -1,6 +1,7 @@
 package de.sambalmueslie.openevent.server.auth
 
 
+import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
 import de.sambalmueslie.openevent.server.user.api.User
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse

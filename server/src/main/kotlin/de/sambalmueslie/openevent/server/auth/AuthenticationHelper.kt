@@ -26,7 +26,7 @@ class AuthenticationHelper(private val config: IdpConfig) {
 		val attributes = authentication.attributes
 		val resourceAccess = attributes["resource_access"] as JSONObject? ?: return false
 		val backend = resourceAccess[config.backendResource] as JSONObject? ?: return false
-		val roles = backend["roles"] as JSONArray? ?: return false
+		val roles = backend["roles"] as ArrayList<*>? ?: return false
 		return roles.toArray().any { it.toString().equals(role, true) }
 	}
 

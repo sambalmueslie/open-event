@@ -31,7 +31,7 @@ internal class StructureCrudServiceTest(
 		assertNotNull(result)
 		val owner = user.convert()
 		val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
-		assertEquals(Structure(result.id, true, true, true, owner, description, null, emptyList()), result)
+		assertEquals(Structure(result.id, true, true, true, owner, description, null), result)
 	}
 
 	@Test
@@ -46,7 +46,7 @@ internal class StructureCrudServiceTest(
 		val owner = user.convert()
 		val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
 		val location = LocationUtil.getCreateLocation(result.location!!.id)
-		assertEquals(Structure(result.id, true, true, true, owner, description, location, emptyList()), result)
+		assertEquals(Structure(result.id, true, true, true, owner, description, location), result)
 	}
 
 	@Test
@@ -61,8 +61,5 @@ internal class StructureCrudServiceTest(
 
 		val parentWithChildren = service.get(parent.id)
 		assertNotNull(children)
-
-		assertEquals(listOf(children), parentWithChildren!!.children)
-
 	}
 }
