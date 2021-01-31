@@ -49,4 +49,10 @@ class ItemEntitlementCrudService(private val repository: ItemEntitlementEntryRep
 		return repository.findByUserIdAndItemIdAndType(userId, itemId, type)?.convert() ?: ItemEntitlementEntry(0L, userId, itemId, type, Entitlement.NONE)
 	}
 
+	fun findByUserIdAndItemId(userId: Long, itemId: Long): ItemEntitlementEntry {
+		return repository.findByUserIdAndItemId(userId, itemId)
+			.maxByOrNull { it.entitlement.level }?.convert()
+			?: ItemEntitlementEntry(0L, userId, itemId, ItemType.OTHER, Entitlement.NONE)
+	}
+
 }
