@@ -6,7 +6,6 @@ import de.sambalmueslie.openevent.server.messaging.api.Message
 import de.sambalmueslie.openevent.server.messaging.api.MessageChangeRequest
 import de.sambalmueslie.openevent.server.messaging.api.MessageHeader
 import de.sambalmueslie.openevent.server.messaging.api.MessageStatus
-import de.sambalmueslie.openevent.server.messaging.db.MessageRepository
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
@@ -19,32 +18,26 @@ import io.micronaut.http.client.RxHttpClient
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestMethodOrder
 import javax.inject.Inject
 
 @MicronautTest
 @TestMethodOrder(MethodOrderer.MethodName::class)
-internal class MessageControllerTest(	userRepository: UserRepository) {
+internal class MessageControllerTest(userRepository: UserRepository) {
 
 	@Inject
 	@field:Client("/")
-	var _client: RxHttpClient? = null
+	lateinit var client: RxHttpClient
 
-	private val client: RxHttpClient
-		get() = _client!!
-
-
+	private val subject = "Test subject"
+	private val content = "Test content"
 	private val baseUrl = "/api/message"
+
 	private val adminUser: UserData = UserUtils.getUserByEntitlement(Entitlement.ADMINISTRATOR, userRepository)
 	private val editorUser: UserData = UserUtils.getUserByEntitlement(Entitlement.EDITOR, userRepository)
 	private val viewerUser: UserData = UserUtils.getUserByEntitlement(Entitlement.VIEWER, userRepository)
 	private val otherUser: UserData = UserUtils.getUserByEntitlement(Entitlement.MANAGER, userRepository)
-	private val subject = "Test subject"
-	private val content = "Test content"
-
 	private val admin = adminUser.convert()
 	private val editor = editorUser.convert()
 	private val viewer = viewerUser.convert()
@@ -55,7 +48,8 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 	private lateinit var otherToken: String
 	private var tokenGenerated: Boolean = false
 
-	private fun generateToken() {
+	@BeforeEach
+	fun generateToken() {
 		if (tokenGenerated) return
 		adminToken = AuthUtils.getAuthToken(client, admin)
 		editorToken = AuthUtils.getAuthToken(client, editor)
@@ -66,7 +60,6 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 
 	@Test
 	fun `01 create, read update and delete`() {
-		generateToken()
 		val createRequest = HttpRequest.POST(baseUrl, MessageChangeRequest(subject, content, viewerUser.id)).bearerAuth(editorToken)
 		val createResponse = client.toBlocking().exchange(createRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, createResponse.status)
@@ -116,7 +109,7 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		// update as recipient (viewer)
 		val viewerUpdateRequest = HttpRequest.PUT("$baseUrl/$objId", MessageChangeRequest(subject, changedContent, viewerUser.id)).bearerAuth(viewerToken)
 		assertThrows(HttpClientResponseException::class.java) {
-		 client.toBlocking().exchange(viewerUpdateRequest, Message::class.java)
+			client.toBlocking().exchange(viewerUpdateRequest, Message::class.java)
 		}
 
 		// delete as recipient (viewer)
@@ -138,14 +131,11 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		val getAllEmptyResult = client.toBlocking().exchange(HttpRequest.GET<String>(baseUrl).bearerAuth(adminToken), pageType())
 		assertEquals(HttpStatus.OK, getAllEmptyResult.status)
 		assertTrue(pageEquals(setOf(), getAllEmptyResult))
-
-		deleteAll()
 	}
 
 
 	@Test
 	fun `02 check getter endpoints`() {
-		generateToken()
 		val sentSubject = "send message"
 		val receivedSubject = "received message"
 
@@ -187,13 +177,10 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		val unreadMessagesCountResponse = client.toBlocking().exchange(HttpRequest.GET<Any>("${baseUrl}/unread/count").bearerAuth(adminToken), Argument.INT)
 		assertEquals(HttpStatus.OK, unreadMessagesResponse.status)
 		assertEquals(1, unreadMessagesCountResponse.body())
-
-		deleteAll()
 	}
 
 	@Test
 	fun `03 get update and delete as other - not allowed`() {
-		generateToken()
 		val createRequest = HttpRequest.POST(baseUrl, MessageChangeRequest(subject, content, viewerUser.id)).bearerAuth(editorToken)
 		val createResponse = client.toBlocking().exchange(createRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, createResponse.status)
@@ -229,13 +216,10 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		val editorGetResponse = client.toBlocking().exchange(editorGetRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, editorGetResponse.status)
 		assertEquals(objId, editorGetResponse.body()!!.id)
-
-		deleteAll()
 	}
 
 	@Test
 	fun `04 get update and delete as admin`() {
-		generateToken()
 		val createRequest = HttpRequest.POST(baseUrl, MessageChangeRequest(subject, content, viewerUser.id)).bearerAuth(editorToken)
 		val createResponse = client.toBlocking().exchange(createRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, createResponse.status)
@@ -275,13 +259,10 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		assertThrows(HttpClientResponseException::class.java) {
 			val editorGetResponse = client.toBlocking().exchange(editorGetRequest, Message::class.java)
 		}
-
-		deleteAll()
 	}
 
 	@Test
 	fun `05 update not existing message`() {
-		generateToken()
 		val editorUpdateRequest = HttpRequest.PUT("$baseUrl/4711", MessageChangeRequest(subject, content, viewerUser.id)).bearerAuth(editorToken)
 		val editorUpdateResponse = client.toBlocking().exchange(editorUpdateRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, editorUpdateResponse.status)
@@ -289,13 +270,10 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		assertNotNull(editorUpdateResult)
 		assertEquals(subject, editorUpdateResult!!.header.subject)
 		assertEquals(content, editorUpdateResult.content)
-
-		deleteAll()
 	}
 
 	@Test
 	fun `06 mark message read`() {
-		generateToken()
 		val createRequest = HttpRequest.POST(baseUrl, MessageChangeRequest(subject, content, viewerUser.id)).bearerAuth(editorToken)
 		val createResponse = client.toBlocking().exchange(createRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, createResponse.status)
@@ -312,13 +290,10 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		val viewerReadRequest = HttpRequest.PUT("$baseUrl/$objId/read", "").bearerAuth(viewerToken)
 		val viewerReadResponse = client.toBlocking().exchange(viewerReadRequest, Message::class.java)
 		assertEquals(MessageStatus.READ, viewerReadResponse.body()!!.status)
-
-		deleteAll()
 	}
 
 	@Test
 	fun `07 reply to message`() {
-		generateToken()
 		val createRequest = HttpRequest.POST(baseUrl, MessageChangeRequest(subject, content, viewerUser.id)).bearerAuth(editorToken)
 		val createResponse = client.toBlocking().exchange(createRequest, Message::class.java)
 		assertEquals(HttpStatus.OK, createResponse.status)
@@ -337,13 +312,12 @@ internal class MessageControllerTest(	userRepository: UserRepository) {
 		assertEquals(HttpStatus.OK, editorGetResponse.status)
 		assertEquals(objId, editorGetResponse.body()!!.id)
 		assertEquals(MessageStatus.REPLIED, editorGetResponse.body()!!.status)
-
-		deleteAll()
 	}
 
 	private fun pageType() = Argument.of(Page::class.java, Message::class.java)
 
-	private fun deleteAll() {
+	@AfterEach
+	fun deleteAll() {
 		client.toBlocking().exchange(HttpRequest.DELETE<Any>(baseUrl).bearerAuth(adminToken), Argument.STRING)
 	}
 
