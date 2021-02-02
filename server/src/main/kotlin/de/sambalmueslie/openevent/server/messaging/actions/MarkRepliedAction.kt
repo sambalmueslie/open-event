@@ -36,7 +36,7 @@ class MarkRepliedAction(
 		val parentMessageId = message.header.parentMessageId ?: return
 
 		val parent = repository.findByIdOrNull(parentMessageId) ?: return
-		parent.status = MessageStatus.REPLIED
+		parent.markReplied()
 		service.update(event.user!!, parent)
 	}
 

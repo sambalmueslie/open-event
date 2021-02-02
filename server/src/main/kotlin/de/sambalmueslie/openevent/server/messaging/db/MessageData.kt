@@ -36,9 +36,9 @@ data class MessageData(
 	@Column
 	val createdTimestamp: LocalDateTime = LocalDateTime.now(),
 	@Column
-	val readTimestamp: LocalDateTime? = null,
+	var readTimestamp: LocalDateTime? = null,
 	@Column
-	val repliedTimestamp: LocalDateTime? = null,
+	var repliedTimestamp: LocalDateTime? = null,
 
 	) : DataObject<Message, MessageConvertContent> {
 	companion object {
@@ -65,6 +65,19 @@ data class MessageData(
 		readTimestamp?.let { result[MessageStatus.READ] = it }
 		repliedTimestamp?.let { result[MessageStatus.REPLIED] = it }
 		return result
+	}
+
+	fun markRead() {
+		if (status != MessageStatus.CREATED) return
+
+		status = MessageStatus.READ
+		readTimestamp = LocalDateTime.now()
+	}
+
+	fun markReplied() {
+		if (status == MessageStatus.REPLIED) return
+		status = MessageStatus.REPLIED
+		repliedTimestamp = LocalDateTime.now()
 	}
 
 }

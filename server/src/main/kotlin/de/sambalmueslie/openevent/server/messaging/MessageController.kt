@@ -6,7 +6,6 @@ import de.sambalmueslie.openevent.server.messaging.api.Message
 import de.sambalmueslie.openevent.server.messaging.api.MessageChangeRequest
 import de.sambalmueslie.openevent.server.messaging.api.MessagingAPI
 import de.sambalmueslie.openevent.server.user.UserService
-import io.micronaut.data.model.Page
 import io.micronaut.data.model.Pageable
 import io.micronaut.http.annotation.*
 import io.micronaut.security.authentication.Authentication
@@ -22,19 +21,19 @@ class MessageController(
 		service.getAll(authentication, getUser(authentication), pageable)
 
 	@Get("/{objId}")
-	override fun get(authentication: Authentication, objId: Long) =
+	override fun get(authentication: Authentication, @PathVariable objId: Long) =
 		service.get(authentication, getUser(authentication), objId)
 
 	@Post()
-	override fun create(authentication: Authentication, request: MessageChangeRequest) =
+	override fun create(authentication: Authentication, @Body request: MessageChangeRequest) =
 		service.create(authentication, getUser(authentication), request)
 
 	@Put("/{objId}")
-	override fun update(authentication: Authentication, objId: Long, request: MessageChangeRequest) =
+	override fun update(authentication: Authentication, @PathVariable objId: Long, @Body request: MessageChangeRequest) =
 		service.update(authentication, getUser(authentication), objId, request)
 
 	@Delete("/{objId}")
-	override fun delete(authentication: Authentication, objId: Long) =
+	override fun delete(authentication: Authentication, @PathVariable objId: Long) =
 		service.delete(authentication, getUser(authentication), objId)
 
 
@@ -47,7 +46,7 @@ class MessageController(
 		service.getSentMessages(authentication, getUser(authentication), pageable)
 
 	@Get("/unread/count")
-	override fun getUnreadMessageCount(authentication: Authentication)=
+	override fun getUnreadMessageCount(authentication: Authentication) =
 		service.getUnreadMessageCount(authentication, getUser(authentication))
 
 	@Get("/unread")
@@ -55,7 +54,9 @@ class MessageController(
 		service.getUnreadMessages(authentication, getUser(authentication), pageable)
 
 	@Put("/{messageId}/read")
-	override fun markRead(authentication: Authentication, messageId: Long) =
+	override fun markRead(authentication: Authentication, @PathVariable messageId: Long) =
 		service.markRead(authentication, getUser(authentication), messageId)
 
+	@Delete()
+	fun deleteAll(authentication: Authentication) = service.deleteAll(authentication, getUser(authentication))
 }

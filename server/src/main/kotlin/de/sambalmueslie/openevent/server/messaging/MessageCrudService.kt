@@ -46,7 +46,7 @@ class MessageCrudService(
 	}
 
 	fun update(user: User, obj: MessageData): Message {
-		val result = convert(repository.save(obj))
+		val result = convert(repository.update(obj))
 		notifyUpdated(user, result)
 		return result
 	}

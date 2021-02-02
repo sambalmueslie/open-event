@@ -13,7 +13,7 @@ data class MessageChangeRequest(
 	@JsonProperty("recipientId")
 	val recipientId: Long,
 	@JsonProperty("parentMessageId")
-	val parentMessageId: Long?,
+	val parentMessageId: Long? = null,
 	@JsonProperty("itemId")
-	val itemId: Long?
+	val itemId: Long? = null
 ) : BusinessObjectChangeRequest

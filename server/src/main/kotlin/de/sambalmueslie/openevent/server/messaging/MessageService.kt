@@ -49,7 +49,7 @@ class MessageService(
 			crudService.update(user, objId, request)
 		} else {
 			val message = crudService.getData(objId) ?: return create(authentication, user, request)
-			if (hasWriteAccess(user, message)) crudService.update(user, message, request) else null
+			return if (hasWriteAccess(user, message))  crudService.update(user, message, request) else null
 		}
 	}
 
@@ -70,15 +70,13 @@ class MessageService(
 	}
 
 	private fun hasWriteAccess(user: User, message: MessageData): Boolean {
-		val isAuthor = message.authorId == user.id
-		val isRecipient = message.recipientId == user.id
-		return isAuthor || isRecipient
+		return message.authorId == user.id
 	}
 
 	fun markRead(authentication: Authentication, user: User, messageId: Long): Message? {
 		val message = crudService.getData(messageId) ?: return null
-		return if (message.recipientId == user.id && message.status == MessageStatus.CREATED) {
-			message.status = MessageStatus.READ
+		return if (message.recipientId == user.id) {
+			message.markRead()
 			crudService.update(user, message)
 		} else {
 			crudService.convert(message)
@@ -99,6 +97,12 @@ class MessageService(
 
 	fun getUnreadMessageCount(authentication: Authentication, user: User): Int {
 		return repository.countByRecipientIdAndStatus(user.id, MessageStatus.CREATED)
+	}
+
+	fun deleteAll(authentication: Authentication, user: User) {
+		if (authHelper.isAdmin(authentication)) {
+			repository.deleteAll()
+		}
 	}
 
 }
