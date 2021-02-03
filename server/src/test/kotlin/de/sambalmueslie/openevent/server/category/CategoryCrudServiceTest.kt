@@ -19,7 +19,7 @@ internal class CategoryCrudServiceTest(
 	userRepo: UserRepository,
 	private val service: CategoryCrudService
 ) {
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 	private val name = "Test Name"
 	private val iconUrl = "Test Icon Url"
 	private val itemId = 10L

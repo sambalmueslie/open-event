@@ -36,12 +36,15 @@ class LocationCrudService(
 
 	override fun update(user: User, objId: Long, request: LocationChangeRequest): Location {
 		val location = repository.findByIdOrNull(objId) ?: return create(user, request)
+		return update(user, location, request)
+	}
 
-		val address = update(location, request.address)
-		val geoLocation = update(location, request.geoLocation)
-		val properties = update(location, request.properties)
-		location.update(address, geoLocation, properties)
-		val data = repository.update(location)
+	override fun update(user: User, obj: LocationData, request: LocationChangeRequest): Location {
+		val address = update(obj, request.address)
+		val geoLocation = update(obj, request.geoLocation)
+		val properties = update(obj, request.properties)
+		obj.update(address, geoLocation, properties)
+		val data = repository.update(obj)
 		val result = data.convert(LocationConvertContent(address, geoLocation, properties))
 		notifyUpdated(user, result)
 		return result

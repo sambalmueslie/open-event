@@ -41,9 +41,13 @@ class AnnouncementCrudService(
 	override fun update(user: User, objId: Long, request: AnnouncementChangeRequest): Announcement? {
 		val existing = repository.findByIdOrNull(objId) ?: return create(user, request)
 		if (existing.itemId != request.itemId) return create(user, request)
-		val author = userService.getUser(existing.authorId) ?: return null
-		existing.update(request)
-		val result = repository.update(existing).convert(AnnouncementConvertContent(author))
+		return update(user, existing, request)
+	}
+
+	override fun update(user: User, obj: AnnouncementData, request: AnnouncementChangeRequest): Announcement? {
+		val author = userService.getUser(obj.authorId) ?: return null
+		obj.update(request)
+		val result = repository.update(obj).convert(AnnouncementConvertContent(author))
 		notifyUpdated(user, result)
 		return result
 	}
@@ -52,5 +56,6 @@ class AnnouncementCrudService(
 		val result = repository.findByItemId(itemId, pageable)
 		return result.map { convert(it) }
 	}
+
 
 }

@@ -40,7 +40,7 @@ data class StructureData(
 	}
 
 	override fun convert(content: StructureConvertContent): Structure {
-		return Structure(id, root, visible, autoAcceptViewer, content.owner, content.description, content.location, content.children)
+		return Structure(id, root, visible, autoAcceptViewer, content.owner, content.description, content.location)
 	}
 
 	fun update(request: StructureChangeRequest, description: ItemDescription, location: Location?) {

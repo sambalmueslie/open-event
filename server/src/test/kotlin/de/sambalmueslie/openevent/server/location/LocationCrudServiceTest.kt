@@ -1,6 +1,5 @@
 package de.sambalmueslie.openevent.server.location
 
-import de.sambalmueslie.openevent.server.location.api.*
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
@@ -16,7 +15,7 @@ internal class LocationCrudServiceTest(
 	userRepo: UserRepository,
 	private val service: LocationCrudService
 ) {
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 
 	@Test
 	fun `create new location`() {

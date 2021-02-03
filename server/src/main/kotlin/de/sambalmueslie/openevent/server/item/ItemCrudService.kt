@@ -15,7 +15,7 @@ import org.slf4j.Logger
 import javax.transaction.Transactional
 
 abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObject<T, out ItemConvertContent>>(
-	private val repository: ItemRepository<D>,
+	private val repository: ItemRepository<D, O>,
 	private val userService: UserService,
 	private val itemDescriptionCrudService: ItemDescriptionCrudService,
 	private val logger: Logger,
@@ -55,9 +55,9 @@ abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObje
 		return repository.findByIdOrNull(objId)?.let { update(user, it, request) }
 	}
 
-	private fun update(user: User, data: D, request: O): T? {
-		val description = itemDescriptionCrudService.update(user, data.descriptionId, request.item)
-		val result = update(user, data, request, description)
+	override fun update(user: User, obj: D, request: O): T? {
+		val description = itemDescriptionCrudService.update(user, obj.descriptionId, request.item)
+		val result = update(user, obj, request, description)
 		notifyUpdated(user, result)
 		return get(result.id)
 	}

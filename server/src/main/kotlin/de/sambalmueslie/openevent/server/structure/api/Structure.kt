@@ -25,8 +25,6 @@ data class Structure(
 	override val description: ItemDescription,
 	@JsonProperty("location")
 	val location: Location?,
-	@JsonProperty("children")
-	val children: List<Structure>,
 	@JsonProperty("type")
 	override val type: ItemType = ItemType.STRUCTURE
 ) : BusinessObject, Item

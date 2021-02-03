@@ -19,7 +19,7 @@ internal class AnnouncementCrudServiceTest(
 	private val service: AnnouncementCrudService
 ) {
 
-	private val user: UserData = UserUtils.getUser(userRepo)
+	private val user: UserData = UserUtils.getFirstUser(userRepo)
 	private val subject = "Test subject"
 	private val content = "Test content"
 	private val itemId = 10L

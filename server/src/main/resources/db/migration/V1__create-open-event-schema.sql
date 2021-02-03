@@ -228,3 +228,31 @@ CREATE TABLE announcement
     CONSTRAINT fk_announcement_user FOREIGN KEY (author_id)
         REFERENCES db_user (id) MATCH SIMPLE
 );
+
+/* message */
+CREATE SEQUENCE message_seq;
+CREATE TABLE message
+(
+    id                bigint                 not null primary key default nextval('message_seq'::regclass),
+    subject           character varying(255) NOT NULL,
+    content           TEXT                   NOT NULL,
+    status            character varying(255) NOT NULL,
+
+    author_id         bigint,
+    recipient_id      bigint,
+    item_id           bigint,
+    parent_message_id bigint,
+
+    created_timestamp TIMESTAMP WITHOUT TIME ZONE,
+    read_timestamp    TIMESTAMP WITHOUT TIME ZONE,
+    replied_timestamp TIMESTAMP WITHOUT TIME ZONE,
+    modified          TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT message_pk UNIQUE (id),
+    CONSTRAINT fk_message_author FOREIGN KEY (author_id)
+        REFERENCES db_user (id) MATCH SIMPLE,
+    CONSTRAINT fk_message_recipient FOREIGN KEY (recipient_id)
+        REFERENCES db_user (id) MATCH SIMPLE,
+    CONSTRAINT fk_message_item FOREIGN KEY (parent_message_id)
+        REFERENCES message (id) MATCH SIMPLE
+);

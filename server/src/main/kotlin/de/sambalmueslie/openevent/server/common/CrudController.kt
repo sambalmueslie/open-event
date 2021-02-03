@@ -8,17 +8,7 @@ import io.micronaut.security.authentication.Authentication
 
 abstract class CrudController<T : BusinessObject, O : BusinessObjectChangeRequest>(
 	private val userService: UserService
-) {
-
-	abstract fun getAll(authentication: Authentication, pageable: Pageable): Page<T>
-
-	abstract fun get(authentication: Authentication, objId: Long): T?
-
-	abstract fun create(authentication: Authentication, request: O): T?
-
-	abstract fun update(authentication: Authentication, objId: Long, request: O): T?
-
-	abstract fun delete(authentication: Authentication, objId: Long)
+) : CrudAPI<T, O> {
 
 	protected fun getUser(user: Authentication): User {
 		return userService.getUser(user) ?: throw InvalidRequestException("Cannot find user for authentication ${user.name}")

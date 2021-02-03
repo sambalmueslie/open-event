@@ -44,7 +44,7 @@ class IdpConfig {
 		}
 
 	@NotBlank
-	var backendResource: String = ""
+	var backendResource: String = "backendRessource"
 		set(value) {
 			logger.debug("Set backendResource from '$backendResource' to '$value'")
 			field = value

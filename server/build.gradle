@@ -2,7 +2,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.allopen")
-    id("org.sonarqube") version "3.0"
+    id("org.sonarqube") version "3.1.1"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("application")
     id("com.google.cloud.tools.jib") version "2.7.1"
@@ -72,7 +72,7 @@ dependencies {
     testCompile("io.micronaut.test:micronaut-test-junit5:2.3.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-    testImplementation "io.mockk:mockk:1.10.4"
+    testImplementation "io.mockk:mockk:1.10.5"
 
     // graalvm
     compileOnly("org.graalvm.nativeimage:svm")
@@ -81,8 +81,8 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // keycloak
-    compile("org.keycloak:keycloak-common:12.0.1")
-    compile("org.keycloak:keycloak-core:12.0.1")
+    compile("org.keycloak:keycloak-common:12.0.2")
+    compile("org.keycloak:keycloak-core:12.0.2")
 }
 
 mainClassName = "de.sambalmueslie.openevent.server.OpenEventApplication"

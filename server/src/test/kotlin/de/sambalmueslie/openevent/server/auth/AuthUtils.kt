@@ -1,6 +1,8 @@
 package de.sambalmueslie.openevent.server.auth
 
 
+import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
+import de.sambalmueslie.openevent.server.user.api.User
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
@@ -16,10 +18,10 @@ class AuthUtils {
 	companion object {
 		val logger: Logger = LoggerFactory.getLogger(AuthUtils::class.java)
 
-		fun getAuthToken(client: HttpClient): String {
-			val credentials = UsernamePasswordCredentials("sherlock", "password")
+		fun getAuthToken(client: HttpClient, user: User): String {
+			val credentials = UsernamePasswordCredentials(user.externalId, "password")
 			val request: HttpRequest<Any> = HttpRequest.POST("/login", credentials)
-			val rsp: HttpResponse<BearerAccessRefreshToken> = client.toBlocking().exchange(request, BearerAccessRefreshToken::class.java) // <5>
+			val rsp: HttpResponse<BearerAccessRefreshToken> = client.toBlocking().exchange(request, BearerAccessRefreshToken::class.java)
 			Assertions.assertEquals(HttpStatus.OK, rsp.status)
 
 			val bearerAccessRefreshToken: BearerAccessRefreshToken = rsp.body()!!

@@ -1,7 +1,7 @@
 package de.sambalmueslie.openevent.server.entitlement.api
 
 
-enum class Entitlement(val level: Int) {
+enum class Entitlement(val level: Int)  {
 	NONE(0),
 	VIEWER(1),
 	EDITOR(2),
@@ -16,6 +16,4 @@ enum class Entitlement(val level: Int) {
 	fun isGreaterThanEquals(second: Entitlement): Boolean {
 		return this.level >= second.level
 	}
-
-
 }
