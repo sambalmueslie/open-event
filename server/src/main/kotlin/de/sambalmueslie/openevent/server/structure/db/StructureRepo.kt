@@ -20,13 +20,14 @@ abstract class StructureRepo(private val jdbcOperations: JdbcOperations) : Struc
 		val logger: Logger = LoggerFactory.getLogger(StructureRepo::class.java)
 	}
 
-	override fun findExisting(user: User, request: ItemChangeRequest): StructureData? {
-		val sql = "SELECT * FROM structure AS s JOIN item_description AS d on s.id = d.id WHERE d.title = ? and s.owner_id = ?"
+	override fun findExisting(user: User, request: StructureChangeRequest): StructureData? {
+		val sql = "SELECT * FROM structure AS s JOIN item_description AS d on s.id = d.id " +
+				"WHERE d.title = ? and s.owner_id = ?"
 		return jdbcOperations.prepareStatement(sql) { statement ->
 			statement.setString(1, request.item.title)
 			statement.setLong(2, user.id)
 			val resultSet = statement.executeQuery()
-			jdbcOperations.entityStream(resultSet, StructureData::class.java).findFirst().orElseGet { null }
+			jdbcOperations.entityStream(resultSet, StructureData::class.java).filter { it.parentStructureId == request.parentStructureId }.findFirst().orElseGet { null }
 		}
 	}
 }

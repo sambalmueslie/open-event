@@ -52,5 +52,7 @@ class StructureController(
 		service.delete(authentication, getUser(authentication), objId)
 
 
+	@Delete()
+	fun deleteAll(authentication: Authentication) = service.deleteAll(authentication, getUser(authentication))
 
 }

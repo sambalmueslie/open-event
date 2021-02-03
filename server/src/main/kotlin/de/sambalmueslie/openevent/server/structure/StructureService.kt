@@ -23,7 +23,7 @@ class StructureService(
 	private val crudService: StructureCrudService,
 	private val authenticationHelper: AuthenticationHelper,
 	private val entitlementService: ItemEntitlementCrudService,
-	private val structureRepository: StructureRepository,
+	private val repository: StructureRepository,
 ) : AuthCrudService<Structure, StructureChangeRequest> {
 
 	companion object {
@@ -32,9 +32,9 @@ class StructureService(
 
 	fun getRoots(authentication: Authentication, user: User, pageable: Pageable): Page<Structure> {
 		return if (authenticationHelper.isAdmin(authentication)) {
-			structureRepository.findByParentStructureIdIsNull(pageable)
+			repository.findByParentStructureIdIsNull(pageable)
 		} else {
-			structureRepository.getAllRootAccessible(user.id, pageable)
+			repository.getAllRootAccessible(user.id, pageable)
 		}.map { crudService.convert(it) }
 	}
 
@@ -42,7 +42,7 @@ class StructureService(
 		return if (authenticationHelper.isAdmin(authentication)) {
 			crudService.getAll(pageable)
 		} else {
-			structureRepository.getAllAccessible(user.id, pageable).map { crudService.convert(it) }
+			repository.getAllAccessible(user.id, pageable).map { crudService.convert(it) }
 		}
 	}
 
@@ -54,9 +54,9 @@ class StructureService(
 
 	fun getChildren(authentication: Authentication, user: User, objId: Long, pageable: Pageable): Page<Structure> {
 		return if (authenticationHelper.isAdmin(authentication)) {
-			structureRepository.findByParentStructureId(objId,pageable)
+			repository.findByParentStructureId(objId, pageable)
 		} else {
-			structureRepository.getAllChildAccessible(user.id, objId, pageable)
+			repository.getAllChildAccessible(user.id, objId, pageable)
 		}.map { crudService.convert(it) }
 	}
 
@@ -92,6 +92,12 @@ class StructureService(
 	private fun isAccessAllowed(authentication: Authentication, user: User, objId: Long): Boolean {
 		if (authenticationHelper.isAdmin(authentication)) return true
 		return getEntitlement(user, objId).isGreaterThanEquals(Entitlement.VIEWER)
+	}
+
+	fun deleteAll(authentication: Authentication, user: User) {
+		if (authenticationHelper.isAdmin(authentication)) {
+			repository.deleteAll()
+		}
 	}
 
 	private fun getEntitlement(user: User, objId: Long) = entitlementService.findByUserIdAndItemIdAndType(user.id, objId, ItemType.STRUCTURE).entitlement

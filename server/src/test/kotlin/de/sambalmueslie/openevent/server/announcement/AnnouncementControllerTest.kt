@@ -5,6 +5,7 @@ import de.sambalmueslie.openevent.server.announcement.api.AnnouncementChangeRequ
 import de.sambalmueslie.openevent.server.auth.AuthUtils
 import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
 import de.sambalmueslie.openevent.server.event.api.Event
+import de.sambalmueslie.openevent.server.structure.api.Structure
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
 @MicronautTest
-internal class AnnouncementControllerTest(userRepository: UserRepository): BaseControllerTest(userRepository) {
+internal class AnnouncementControllerTest(userRepository: UserRepository): BaseControllerTest<Announcement>(userRepository) {
 
 	private val baseUrl = "/api/announcement"
 	private val subject = "Test subject"
@@ -84,4 +85,7 @@ internal class AnnouncementControllerTest(userRepository: UserRepository): BaseC
 		assertEquals(emptyList<Event>(), getAllEmptyResult.body()?.content)
 
 	}
+
+
+	override fun getDefaultType() = Announcement::class.java
 }

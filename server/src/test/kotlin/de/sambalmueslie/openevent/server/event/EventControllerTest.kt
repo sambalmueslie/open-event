@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.server.event.api.Period
 import de.sambalmueslie.openevent.server.event.api.PeriodChangeRequest
 import de.sambalmueslie.openevent.server.item.ItemDescriptionUtil
 import de.sambalmueslie.openevent.server.location.LocationUtil
+import de.sambalmueslie.openevent.server.messaging.api.Message
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
@@ -24,7 +25,7 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 @MicronautTest
-internal class EventControllerTest(userRepository: UserRepository): BaseControllerTest(userRepository) {
+internal class EventControllerTest(userRepository: UserRepository): BaseControllerTest<Event>(userRepository) {
 
 	private val baseUrl = "/api/event"
 	private val start = LocalDateTime.of(2020, 12, 1, 20, 15)
@@ -72,4 +73,6 @@ internal class EventControllerTest(userRepository: UserRepository): BaseControll
 		assertEquals(emptyList<Event>(), getAllEmptyResult.body()?.content)
 
 	}
+
+	override fun getDefaultType() = Event::class.java
 }

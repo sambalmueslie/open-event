@@ -4,6 +4,6 @@ import de.sambalmueslie.openevent.server.item.api.ItemChangeRequest
 import de.sambalmueslie.openevent.server.user.api.User
 import io.micronaut.data.repository.PageableRepository
 
-interface ItemRepository<E> : PageableRepository<E, Long> {
-	fun findExisting(user: User, request: ItemChangeRequest): E?
+interface ItemRepository<E, O : ItemChangeRequest> : PageableRepository<E, Long> {
+	fun findExisting(user: User, request: O): E?
 }

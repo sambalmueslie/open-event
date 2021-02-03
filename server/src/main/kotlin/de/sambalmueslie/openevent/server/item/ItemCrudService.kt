@@ -15,7 +15,7 @@ import org.slf4j.Logger
 import javax.transaction.Transactional
 
 abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObject<T, out ItemConvertContent>>(
-	private val repository: ItemRepository<D>,
+	private val repository: ItemRepository<D, O>,
 	private val userService: UserService,
 	private val itemDescriptionCrudService: ItemDescriptionCrudService,
 	private val logger: Logger,

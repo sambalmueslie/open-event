@@ -11,7 +11,7 @@
     </root>
 
     <logger name="io.micronaut" level="INFO"/>
-    <logger name="io.micronaut.data" level="INFO"/>
+    <logger name="io.micronaut.data" level="DEBUG"/>
     <logger name="io.micronaut.security.oauth2.client.clientcredentials" level="INFO"/>
     <logger name="com.zaxxer.hikari" level="INFO"/>
     <logger name="org.hibernate" level="INFO"/>

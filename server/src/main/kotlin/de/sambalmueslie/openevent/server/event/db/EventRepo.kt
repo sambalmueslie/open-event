@@ -12,7 +12,7 @@ import io.micronaut.data.model.query.builder.sql.Dialect
 @JdbcRepository(dialect = Dialect.POSTGRES)
 abstract class EventRepo(private val jdbcOperations: JdbcOperations) : EventRepository {
 
-	override fun findExisting(user: User, request: ItemChangeRequest): EventData? {
+	override fun findExisting(user: User, request: EventChangeRequest): EventData? {
 		val sql = "SELECT * FROM event AS e JOIN item_description AS d on e.id = d.id WHERE d.title = ? and e.owner_id = ?"
 		return jdbcOperations.prepareStatement(sql) { statement ->
 			statement.setString(1, request.item.title)

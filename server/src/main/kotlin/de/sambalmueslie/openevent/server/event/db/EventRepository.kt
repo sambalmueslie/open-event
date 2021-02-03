@@ -6,6 +6,6 @@ import de.sambalmueslie.openevent.server.user.api.User
 import io.micronaut.data.annotation.Id
 import io.micronaut.data.repository.PageableRepository
 
-interface EventRepository : ItemRepository<EventData> {
+interface EventRepository : ItemRepository<EventData, EventChangeRequest> {
 	fun updatePublished(@Id id: Long, published: Boolean)
 }
