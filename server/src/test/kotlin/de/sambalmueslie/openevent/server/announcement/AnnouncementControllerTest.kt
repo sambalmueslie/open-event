@@ -8,6 +8,7 @@ import de.sambalmueslie.openevent.server.event.api.Event
 import de.sambalmueslie.openevent.server.user.UserUtils
 import de.sambalmueslie.openevent.server.user.db.UserData
 import de.sambalmueslie.openevent.server.user.db.UserRepository
+import de.sambalmueslie.openevent.test.BaseControllerTest
 import io.micronaut.core.type.Argument
 import io.micronaut.data.model.Page
 import io.micronaut.http.HttpRequest
@@ -22,39 +23,12 @@ import org.junit.jupiter.api.Test
 import javax.inject.Inject
 
 @MicronautTest
-internal class AnnouncementControllerTest(userRepository: UserRepository) {
-	@Inject
-	@field:Client("/")
-	lateinit var client: RxHttpClient
+internal class AnnouncementControllerTest(userRepository: UserRepository): BaseControllerTest(userRepository) {
 
 	private val baseUrl = "/api/announcement"
 	private val subject = "Test subject"
 	private val content = "Test content"
 	private val itemId = 10L
-
-	private val adminUser: UserData = UserUtils.getUserByEntitlement(Entitlement.ADMINISTRATOR, userRepository)
-	private val editorUser: UserData = UserUtils.getUserByEntitlement(Entitlement.EDITOR, userRepository)
-	private val viewerUser: UserData = UserUtils.getUserByEntitlement(Entitlement.VIEWER, userRepository)
-	private val otherUser: UserData = UserUtils.getUserByEntitlement(Entitlement.MANAGER, userRepository)
-	private val admin = adminUser.convert()
-	private val editor = editorUser.convert()
-	private val viewer = viewerUser.convert()
-	private val other = otherUser.convert()
-	private lateinit var adminToken: String
-	private lateinit var editorToken: String
-	private lateinit var viewerToken: String
-	private lateinit var otherToken: String
-	private var tokenGenerated: Boolean = false
-
-	@BeforeEach
-	fun generateToken() {
-		if (tokenGenerated) return
-		adminToken = AuthUtils.getAuthToken(client, admin)
-		editorToken = AuthUtils.getAuthToken(client, editor)
-		viewerToken = AuthUtils.getAuthToken(client, viewer)
-		otherToken = AuthUtils.getAuthToken(client, other)
-		tokenGenerated = true
-	}
 
 	@Test
 	fun `create, read update and delete - admin`() {
