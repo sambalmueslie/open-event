@@ -134,10 +134,9 @@ CREATE TABLE location
 
 
 /* event */
-CREATE SEQUENCE event_seq;
 CREATE TABLE event
 (
-    id             bigint  not null primary key default nextval('event_seq'::regclass),
+    id             bigint  not null,
     period_start   TIMESTAMP WITHOUT TIME ZONE,
     period_end     TIMESTAMP WITHOUT TIME ZONE,
     published      boolean NOT NULL,
@@ -160,17 +159,15 @@ CREATE TABLE event
 );
 
 /* structure */
-CREATE SEQUENCE structure_seq;
 CREATE TABLE structure
 (
-    id                  bigint  not null primary key default nextval('structure_seq'::regclass),
+    id                  bigint  not null,
     root                boolean NOT NULL,
     visible             boolean NOT NULL,
     auto_accept_viewer  boolean NOT NULL,
     parent_structure_id bigint,
 
     owner_id            bigint,
-    description_id      bigint,
     location_id         bigint,
 
     created             TIMESTAMP WITHOUT TIME ZONE,
@@ -179,7 +176,7 @@ CREATE TABLE structure
     CONSTRAINT structure_pk UNIQUE (id),
     CONSTRAINT fk_structure_user FOREIGN KEY (owner_id)
         REFERENCES db_user (id) MATCH SIMPLE,
-    CONSTRAINT fk_structure_description FOREIGN KEY (description_id)
+    CONSTRAINT fk_structure_description FOREIGN KEY (id)
         REFERENCES item_description (id) MATCH SIMPLE,
     CONSTRAINT fk_structure_location FOREIGN KEY (location_id)
         REFERENCES location (id) MATCH SIMPLE
@@ -253,6 +250,47 @@ CREATE TABLE message
         REFERENCES db_user (id) MATCH SIMPLE,
     CONSTRAINT fk_message_recipient FOREIGN KEY (recipient_id)
         REFERENCES db_user (id) MATCH SIMPLE,
-    CONSTRAINT fk_message_item FOREIGN KEY (parent_message_id)
-        REFERENCES message (id) MATCH SIMPLE
+    CONSTRAINT fk_parent_message FOREIGN KEY (parent_message_id)
+        REFERENCES message (id) MATCH SIMPLE,
+    CONSTRAINT fk_message_item FOREIGN KEY (item_id)
+        REFERENCES item_description (id) MATCH SIMPLE
+);
+
+/* entry process */
+CREATE SEQUENCE entry_process_seq;
+CREATE TABLE entry_process
+(
+    id          bigint                 not null primary key default nextval('entry_process_seq'::regclass),
+    type        character varying(255) NOT NULL,
+    status      character varying(255) NOT NULL,
+    entitlement character varying(255) NOT NULL,
+
+    user_id     bigint,
+    item_id     bigint,
+
+    created     TIMESTAMP WITHOUT TIME ZONE,
+    modified    TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT entry_process_pk UNIQUE (id),
+    CONSTRAINT fk_entry_process_user FOREIGN KEY (user_id)
+        REFERENCES db_user (id) MATCH SIMPLE
+);
+
+/* member */
+CREATE SEQUENCE member_seq;
+CREATE TABLE member
+(
+    id           bigint                 not null primary key default nextval('member_seq'::regclass),
+    entitlement  character varying(255) NOT NULL,
+    service_user boolean                NOT NULL,
+
+    user_id      bigint,
+    item_id      bigint,
+
+    created      TIMESTAMP WITHOUT TIME ZONE,
+    modified     TIMESTAMP WITHOUT TIME ZONE,
+
+    CONSTRAINT member_pk UNIQUE (id),
+    CONSTRAINT fk_member_user FOREIGN KEY (user_id)
+        REFERENCES db_user (id) MATCH SIMPLE
 );

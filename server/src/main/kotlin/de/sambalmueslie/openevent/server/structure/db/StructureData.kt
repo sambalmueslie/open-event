@@ -14,12 +14,9 @@ import javax.persistence.*
 @Table(name = "structure")
 data class StructureData(
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0,
+	override var id: Long = 0,
 	@Column(nullable = false)
 	override var ownerId: Long = 0L,
-	@Column(nullable = false)
-	override var descriptionId: Long = 0L,
 	@Column(nullable = false)
 	var locationId: Long? = null,
 	@Column(nullable = false)
@@ -35,7 +32,7 @@ data class StructureData(
 	companion object {
 		fun convert(user: User, request: StructureChangeRequest, description: ItemDescription, location: Location? = null): StructureData {
 			val root = request.parentStructureId == null
-			return StructureData(0L, user.id, description.id, location?.id, root, request.parentStructureId, request.autoAcceptViewer)
+			return StructureData(description.id, user.id, location?.id, root, request.parentStructureId, request.autoAcceptViewer)
 		}
 	}
 
@@ -43,8 +40,7 @@ data class StructureData(
 		return Structure(id, root, visible, autoAcceptViewer, content.owner, content.description, content.location)
 	}
 
-	fun update(request: StructureChangeRequest, description: ItemDescription, location: Location?) {
-		descriptionId = description.id
+	fun update(request: StructureChangeRequest, location: Location?) {
 		locationId = location?.id
 		root = request.parentStructureId == null
 		parentStructureId = request.parentStructureId

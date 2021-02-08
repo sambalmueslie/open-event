@@ -11,7 +11,7 @@ import javax.persistence.*
 data class CategoryData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0L,
+	override var id: Long = 0L,
 	@Column(nullable = false)
 	var name: String = "",
 	@Column(nullable = false)

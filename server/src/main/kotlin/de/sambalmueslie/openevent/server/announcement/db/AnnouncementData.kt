@@ -11,7 +11,7 @@ import javax.persistence.*
 @Table(name = "announcement")
 data class AnnouncementData(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0L,
+	override var id: Long = 0L,
 	@Column(nullable = false)
 	var subject: String = "",
 	@Column(columnDefinition = "TEXT", nullable = false)

@@ -11,7 +11,7 @@ import javax.persistence.*
 data class UserData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0,
+	override var id: Long = 0L,
 	@Column(unique = true)
 	val externalId: String = "",
 	@Column(nullable = false)

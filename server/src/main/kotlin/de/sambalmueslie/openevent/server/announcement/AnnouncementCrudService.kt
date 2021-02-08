@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.server.announcement.db.AnnouncementConvertCont
 import de.sambalmueslie.openevent.server.announcement.db.AnnouncementData
 import de.sambalmueslie.openevent.server.announcement.db.AnnouncementRepository
 import de.sambalmueslie.openevent.server.common.BaseCrudService
+import de.sambalmueslie.openevent.server.common.PageableIterator
 import de.sambalmueslie.openevent.server.common.findByIdOrNull
 import de.sambalmueslie.openevent.server.user.UserService
 import de.sambalmueslie.openevent.server.user.api.User
@@ -55,6 +56,11 @@ class AnnouncementCrudService(
 	fun getForItem(itemId: Long, pageable: Pageable): Page<Announcement> {
 		val result = repository.findByItemId(itemId, pageable)
 		return result.map { convert(it) }
+	}
+
+	fun deleteAllForItem(user: User, itemId: Long) {
+		val iterator = PageableIterator{ repository.findByItemId(itemId, it) }
+		iterator.forEach { delete(user, it) }
 	}
 
 

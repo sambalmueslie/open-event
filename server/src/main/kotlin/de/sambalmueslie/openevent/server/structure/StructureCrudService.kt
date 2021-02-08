@@ -42,11 +42,10 @@ open class StructureCrudService(
 
 	override fun update(user: User, data: StructureData, request: StructureChangeRequest, description: ItemDescription): Structure {
 		val location = locationCrudService.update(user, data.locationId, request.location)
-		data.update(request, description, location)
+		data.update(request, location)
 		val content = StructureConvertContent(user, description, location)
 		return repository.update(data).convert(content)
 	}
-
 
 
 }
