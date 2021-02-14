@@ -28,7 +28,7 @@ internal class EntryProcessCrudServiceTest(
 	private val entitlement = Entitlement.VIEWER
 
 	@Test
-	fun `create update and delete user entitlement`() {
+	fun `create update and delete user entry process`() {
 		val createResult = service.create(admin, EntryProcessChangeRequest(itemId, itemType, entitlement))
 		assertEquals(EntryProcess(objId, admin, itemId, itemType, entitlement, EntryProcessStatus.REQUESTED), createResult)
 
