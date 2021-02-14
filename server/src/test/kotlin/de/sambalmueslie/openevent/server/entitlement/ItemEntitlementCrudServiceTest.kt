@@ -19,7 +19,7 @@ internal class ItemEntitlementCrudServiceTest(
 	private val service: ItemEntitlementCrudService
 ) {
 
-	private val user: UserData = UserUtils.getFirstUser(userRepo)
+	private val user = UserUtils.getFirstUser(userRepo)
 
 	@Test
 	fun `create update and delete user entitlement`() {

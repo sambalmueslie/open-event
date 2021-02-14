@@ -14,9 +14,10 @@ import de.sambalmueslie.openevent.server.user.api.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton
+import javax.transaction.Transactional
 
 @Singleton
-class MemberCrudService(
+open class MemberCrudService(
 	private val repository: MemberRepository,
 	private val userService: UserService,
 ) : BaseCrudService<Member, MemberChangeRequest, MemberData>(repository, logger) {
@@ -59,7 +60,8 @@ class MemberCrudService(
 		return result
 	}
 
-	fun deleteAllForItem(user: User, itemId: Long) {
+	@Transactional
+	open fun deleteAllForItem(user: User, itemId: Long) {
 		val iterator = PageableIterator { repository.findByItemId(itemId, it) }
 		iterator.forEach { delete(user, it) }
 	}

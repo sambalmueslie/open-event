@@ -1,7 +1,6 @@
 package de.sambalmueslie.openevent.server.entry
 
 
-import de.sambalmueslie.openevent.server.announcement.AnnouncementCrudService
 import de.sambalmueslie.openevent.server.common.BaseCrudService
 import de.sambalmueslie.openevent.server.common.PageableIterator
 import de.sambalmueslie.openevent.server.common.findByIdOrNull
@@ -20,7 +19,7 @@ import javax.inject.Singleton
 open class EntryProcessCrudService(
 	private val repository: EntryProcessRepository,
 	private val userService: UserService,
-) : BaseCrudService<EntryProcess, EntryProcessChangeRequest, EntryProcessData>(repository, logger){
+) : BaseCrudService<EntryProcess, EntryProcessChangeRequest, EntryProcessData>(repository, logger) {
 
 	companion object {
 		val logger: Logger = LoggerFactory.getLogger(EntryProcessCrudService::class.java)
@@ -54,7 +53,7 @@ open class EntryProcessCrudService(
 
 
 	fun deleteAllForItem(user: User, itemId: Long) {
-		val iterator = PageableIterator{ repository.findByItemId(itemId, it) }
+		val iterator = PageableIterator { repository.findByItemId(itemId, it) }
 		iterator.forEach { delete(user, it) }
 	}
 
