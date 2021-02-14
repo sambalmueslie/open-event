@@ -280,15 +280,15 @@ CREATE TABLE entry_process
 CREATE SEQUENCE member_seq;
 CREATE TABLE member
 (
-    id           bigint                 not null primary key default nextval('member_seq'::regclass),
-    entitlement  character varying(255) NOT NULL,
-    service_user boolean                NOT NULL,
+    id          bigint                 not null primary key default nextval('member_seq'::regclass),
+    entitlement character varying(255) NOT NULL,
+    contact     boolean                NOT NULL,
 
-    user_id      bigint,
-    item_id      bigint,
+    user_id     bigint,
+    item_id     bigint,
 
-    created      TIMESTAMP WITHOUT TIME ZONE,
-    modified     TIMESTAMP WITHOUT TIME ZONE,
+    created     TIMESTAMP WITHOUT TIME ZONE,
+    modified    TIMESTAMP WITHOUT TIME ZONE,
 
     CONSTRAINT member_pk UNIQUE (id),
     CONSTRAINT fk_member_user FOREIGN KEY (user_id)
