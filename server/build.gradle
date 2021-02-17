@@ -82,7 +82,7 @@ dependencies {
 
     // keycloak
     compile("org.keycloak:keycloak-common:12.0.2")
-    compile("org.keycloak:keycloak-core:12.0.2")
+    compile("org.keycloak:keycloak-core:12.0.3")
 }
 
 mainClassName = "de.sambalmueslie.openevent.server.OpenEventApplication"
