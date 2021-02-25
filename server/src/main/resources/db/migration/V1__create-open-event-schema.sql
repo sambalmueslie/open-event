@@ -165,6 +165,7 @@ CREATE TABLE structure
     root                boolean NOT NULL,
     visible             boolean NOT NULL,
     auto_accept_viewer  boolean NOT NULL,
+    public              boolean NOT NULL,
     parent_structure_id bigint,
 
     owner_id            bigint,

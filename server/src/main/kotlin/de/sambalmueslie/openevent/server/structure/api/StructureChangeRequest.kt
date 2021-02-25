@@ -15,5 +15,7 @@ data class StructureChangeRequest(
 	@JsonProperty("parent")
 	val parentStructureId: Long?,
 	@JsonProperty("autoAcceptViewer")
-	val autoAcceptViewer: Boolean
+	val autoAcceptViewer: Boolean,
+	@JsonProperty("public")
+	val public: Boolean
 ) : ItemChangeRequest

@@ -20,87 +20,87 @@ import javax.inject.Singleton
 
 @Singleton
 class StructureService(
-	private val crudService: StructureCrudService,
-	private val authenticationHelper: AuthenticationHelper,
-	private val entitlementService: ItemEntitlementCrudService,
-	private val repository: StructureRepository,
+        private val crudService: StructureCrudService,
+        private val authenticationHelper: AuthenticationHelper,
+        private val entitlementService: ItemEntitlementCrudService,
+        private val repository: StructureRepository,
 ) : AuthCrudService<Structure, StructureChangeRequest> {
 
-	companion object {
-		val logger: Logger = LoggerFactory.getLogger(StructureService::class.java)
-	}
+    companion object {
+        val logger: Logger = LoggerFactory.getLogger(StructureService::class.java)
+    }
 
-	fun getRoots(authentication: Authentication, user: User, pageable: Pageable): Page<Structure> {
-		return if (authenticationHelper.isAdmin(authentication)) {
-			repository.findByParentStructureIdIsNull(pageable)
-		} else {
-			repository.getAllRootAccessible(user.id, pageable)
-		}.map { crudService.convert(it) }
-	}
+    fun getRoots(authentication: Authentication, user: User, pageable: Pageable): Page<Structure> {
+        return if (authenticationHelper.isAdmin(authentication)) {
+            repository.findByParentStructureIdIsNull(pageable)
+        } else {
+            repository.getAllRootAccessible(user.id, pageable)
+        }.map { crudService.convert(it) }
+    }
 
-	override fun getAll(authentication: Authentication, user: User, pageable: Pageable): Page<Structure> {
-		return if (authenticationHelper.isAdmin(authentication)) {
-			crudService.getAll(pageable)
-		} else {
-			repository.getAllAccessible(user.id, pageable).map { crudService.convert(it) }
-		}
-	}
+    override fun getAll(authentication: Authentication, user: User, pageable: Pageable): Page<Structure> {
+        return if (authenticationHelper.isAdmin(authentication)) {
+            crudService.getAll(pageable)
+        } else {
+            repository.getAllAccessible(user.id, pageable).map { crudService.convert(it) }
+        }
+    }
 
-	override fun get(authentication: Authentication, user: User, objId: Long): Structure? {
-		if (!isAccessAllowed(authentication, user, objId))
-			throw InsufficientPermissionsException("Cannot access structure due to insufficient permissions")
-		return crudService.get(objId)
-	}
+    override fun get(authentication: Authentication, user: User, objId: Long): Structure? {
+        if (!isAccessAllowed(authentication, user, objId))
+            throw InsufficientPermissionsException("Cannot access structure due to insufficient permissions")
+        return crudService.get(objId)
+    }
 
-	fun getChildren(authentication: Authentication, user: User, objId: Long, pageable: Pageable): Page<Structure> {
-		return if (authenticationHelper.isAdmin(authentication)) {
-			repository.findByParentStructureId(objId, pageable)
-		} else {
-			repository.getAllChildAccessible(user.id, objId, pageable)
-		}.map { crudService.convert(it) }
-	}
+    fun getChildren(authentication: Authentication, user: User, objId: Long, pageable: Pageable): Page<Structure> {
+        return if (authenticationHelper.isAdmin(authentication)) {
+            repository.findByParentStructureId(objId, pageable)
+        } else {
+            repository.getAllChildAccessible(user.id, objId, pageable)
+        }.map { crudService.convert(it) }
+    }
 
-	override fun create(authentication: Authentication, user: User, request: StructureChangeRequest): Structure? {
-		if (!isCreationAllowed(authentication, user, request))
-			throw InsufficientPermissionsException("Cannot create structure due to insufficient permissions")
-		return crudService.create(user, request)
-	}
+    override fun create(authentication: Authentication, user: User, request: StructureChangeRequest): Structure? {
+        if (!isCreationAllowed(authentication, user, request))
+            throw InsufficientPermissionsException("Cannot create structure due to insufficient permissions")
+        return crudService.create(user, request)
+    }
 
-	override fun update(authentication: Authentication, user: User, objId: Long, request: StructureChangeRequest): Structure? {
-		if (!isModificationAllowed(authentication, user, objId))
-			throw InsufficientPermissionsException("Cannot update structure due to insufficient permissions")
-		return crudService.update(user, objId, request)
-	}
+    override fun update(authentication: Authentication, user: User, objId: Long, request: StructureChangeRequest): Structure? {
+        if (!isModificationAllowed(authentication, user, objId))
+            throw InsufficientPermissionsException("Cannot update structure due to insufficient permissions")
+        return crudService.update(user, objId, request)
+    }
 
-	override fun delete(authentication: Authentication, user: User, objId: Long) {
-		if (!isModificationAllowed(authentication, user, objId))
-			throw InsufficientPermissionsException("Cannot delete structure due to insufficient permissions")
-		return crudService.delete(user, objId)
-	}
+    override fun delete(authentication: Authentication, user: User, objId: Long) {
+        if (!isModificationAllowed(authentication, user, objId))
+            throw InsufficientPermissionsException("Cannot delete structure due to insufficient permissions")
+        return crudService.delete(user, objId)
+    }
 
-	private fun isCreationAllowed(authentication: Authentication, user: User, request: StructureChangeRequest): Boolean {
-		if (authenticationHelper.isAdmin(authentication)) return true
-		val parentId = request.parentStructureId ?: return false
-		return getEntitlement(user, parentId).isGreaterThanEquals(Entitlement.ADMINISTRATOR)
-	}
+    private fun isCreationAllowed(authentication: Authentication, user: User, request: StructureChangeRequest): Boolean {
+        if (authenticationHelper.isAdmin(authentication)) return true
+        val parentId = request.parentStructureId ?: return false
+        return getEntitlement(user, parentId).isGreaterThanEquals(Entitlement.ADMINISTRATOR)
+    }
 
-	private fun isModificationAllowed(authentication: Authentication, user: User, objId: Long): Boolean {
-		if (authenticationHelper.isAdmin(authentication)) return true
-		return getEntitlement(user, objId).isGreaterThanEquals(Entitlement.ADMINISTRATOR)
-	}
+    private fun isModificationAllowed(authentication: Authentication, user: User, objId: Long): Boolean {
+        if (authenticationHelper.isAdmin(authentication)) return true
+        return getEntitlement(user, objId).isGreaterThanEquals(Entitlement.ADMINISTRATOR)
+    }
 
-	private fun isAccessAllowed(authentication: Authentication, user: User, objId: Long): Boolean {
-		if (authenticationHelper.isAdmin(authentication)) return true
-		return getEntitlement(user, objId).isGreaterThanEquals(Entitlement.VIEWER)
-	}
+    private fun isAccessAllowed(authentication: Authentication, user: User, objId: Long): Boolean {
+        if (authenticationHelper.isAdmin(authentication)) return true
+        return getEntitlement(user, objId).isGreaterThanEquals(Entitlement.VIEWER)
+    }
 
-	fun deleteAll(authentication: Authentication, user: User) {
-		if (authenticationHelper.isAdmin(authentication)) {
-			repository.deleteAll()
-		}
-	}
+    fun deleteAll(authentication: Authentication, user: User) {
+        if (authenticationHelper.isAdmin(authentication)) {
+            repository.deleteAll()
+        }
+    }
 
-	private fun getEntitlement(user: User, objId: Long) = entitlementService.findByUserIdAndItemIdAndType(user.id, objId, ItemType.STRUCTURE).entitlement
+    private fun getEntitlement(user: User, objId: Long) = entitlementService.findByUserIdAndItemIdAndType(user.id, objId, ItemType.STRUCTURE).entitlement
 
 
 }

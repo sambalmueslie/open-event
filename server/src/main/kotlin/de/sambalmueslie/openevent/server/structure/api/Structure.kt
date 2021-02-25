@@ -19,6 +19,8 @@ data class Structure(
 	val visible: Boolean,
 	@JsonProperty("autoAcceptViewer")
 	val autoAcceptViewer: Boolean,
+	@JsonProperty("public")
+	val public: Boolean,
 	@JsonProperty("owner")
 	override val owner: User,
 	@JsonProperty("description")
