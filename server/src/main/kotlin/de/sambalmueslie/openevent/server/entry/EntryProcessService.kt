@@ -32,19 +32,19 @@ class EntryProcessService(
 	}
 
 	override fun getAllAccessible(user: User, pageable: Pageable): Page<EntryProcess> {
-		TODO("Not yet implemented")
+		return repository.getAllAccessible(user.id, pageable).map { crudService.convert(it) }
 	}
 
 	override fun isAccessAllowed(user: User, obj: EntryProcessData): Boolean {
-		TODO("Not yet implemented")
+		return obj.userId == user.id || getEntitlement(user, obj.itemId).isGreaterThanEquals(Entitlement.MANAGER)
 	}
 
 	override fun isCreationAllowed(user: User, request: EntryProcessChangeRequest): Boolean {
-		TODO("Not yet implemented")
+		return true
 	}
 
 	override fun isModificationAllowed(user: User, obj: EntryProcessData): Boolean {
-		TODO("Not yet implemented")
+		return obj.userId == user.id || getEntitlement(user, obj.itemId).isGreaterThanEquals(Entitlement.ADMINISTRATOR)
 	}
 
 	fun deleteAll(authentication: Authentication, user: User) {

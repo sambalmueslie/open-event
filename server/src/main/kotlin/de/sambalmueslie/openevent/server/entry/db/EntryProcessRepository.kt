@@ -16,4 +16,8 @@ interface EntryProcessRepository : PageableRepository<EntryProcessData, Long> {
 	fun deleteByItemId(itemId: Long)
 	fun deleteByItemIdAndUserId(itemId: Long, userId: Long)
 
+
+
+	fun getAllAccessible(userId: Long, pageable: Pageable): Page<EntryProcessData>
+
 }

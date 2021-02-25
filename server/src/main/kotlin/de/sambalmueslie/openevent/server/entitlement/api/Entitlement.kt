@@ -13,7 +13,6 @@ enum class Entitlement(val level: Int)  {
 		return second
 	}
 
-	fun isGreaterThanEquals(second: Entitlement): Boolean {
-		return this.level >= second.level
-	}
+	fun isGreaterThanEquals(second: Entitlement) = this.level >= second.level
+	fun isLessThan(second: Entitlement) = this.level < second.level
 }
