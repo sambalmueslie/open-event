@@ -1,6 +1,8 @@
 package de.sambalmueslie.openevent.server.entry
 
+import de.sambalmueslie.openevent.server.entitlement.ItemEntitlementCrudService
 import de.sambalmueslie.openevent.server.entitlement.api.Entitlement
+import de.sambalmueslie.openevent.server.entitlement.api.ItemEntitlementChangeRequest
 import de.sambalmueslie.openevent.server.entry.api.EntryProcess
 import de.sambalmueslie.openevent.server.entry.api.EntryProcessChangeRequest
 import de.sambalmueslie.openevent.server.entry.api.EntryProcessStatus
@@ -17,44 +19,64 @@ import org.junit.jupiter.api.TestMethodOrder
 @MicronautTest
 @TestMethodOrder(MethodOrderer.MethodName::class)
 internal class EntryProcessCrudServiceTest(
-	userRepo: UserRepository,
-	private val service: EntryProcessCrudService
+    userRepo: UserRepository,
+    private val entitlementService: ItemEntitlementCrudService,
+    private val service: EntryProcessCrudService
 ) {
-	private val adminData = UserUtils.getUserByEntitlement(Entitlement.ADMINISTRATOR, userRepo)
-	private val admin = adminData.convert()
-	private val objId = 1L
-	private val itemId = 2L
-	private val itemType = ItemType.STRUCTURE
-	private val entitlement = Entitlement.VIEWER
+    private val adminData = UserUtils.getUserByEntitlement(Entitlement.ADMINISTRATOR, userRepo)
+    private val admin = adminData.convert()
+    private val objId = 1L
+    private val itemId = 2L
+    private val itemType = ItemType.STRUCTURE
+    private val entitlement = Entitlement.VIEWER
 
-	@Test
-	fun `create update and delete user entry process`() {
-		val createResult = service.create(admin, EntryProcessChangeRequest(itemId, itemType, entitlement))
-		assertEquals(EntryProcess(objId, admin, itemId, itemType, entitlement, EntryProcessStatus.REQUESTED), createResult)
+    @Test
+    fun `create update and delete user entry process`() {
+        val createResult = service.create(admin, EntryProcessChangeRequest(itemId, itemType, entitlement))
+        assertEquals(EntryProcess(objId, admin, itemId, itemType, entitlement, EntryProcessStatus.REQUESTED), createResult)
 
-		val updateResult = service.update(admin, objId, EntryProcessChangeRequest(itemId, itemType, Entitlement.EDITOR))
-		assertEquals(EntryProcess(objId, admin, itemId, itemType, Entitlement.EDITOR, EntryProcessStatus.REQUESTED), updateResult)
+        val updateResult = service.update(admin, objId, EntryProcessChangeRequest(itemId, itemType, Entitlement.EDITOR))
+        assertEquals(EntryProcess(objId, admin, itemId, itemType, Entitlement.EDITOR, EntryProcessStatus.REQUESTED), updateResult)
 
-		val getResult = service.get(objId)
-		assertNotNull(getResult)
-		assertEquals(EntryProcess(objId, admin, itemId, itemType, Entitlement.EDITOR, EntryProcessStatus.REQUESTED), getResult)
+        val getResult = service.get(objId)
+        assertNotNull(getResult)
+        assertEquals(EntryProcess(objId, admin, itemId, itemType, Entitlement.EDITOR, EntryProcessStatus.REQUESTED), getResult)
 
-		val getAllResult = service.getAll(Pageable.from(0))
-		assertEquals(1, getAllResult.totalSize)
-		assertEquals(listOf(EntryProcess(objId, admin, itemId, itemType, Entitlement.EDITOR, EntryProcessStatus.REQUESTED)), getAllResult.content)
+        val getAllResult = service.getAll(Pageable.from(0))
+        assertEquals(1, getAllResult.totalSize)
+        assertEquals(listOf(EntryProcess(objId, admin, itemId, itemType, Entitlement.EDITOR, EntryProcessStatus.REQUESTED)), getAllResult.content)
 
-		service.delete(admin, objId)
+        service.delete(admin, objId)
 
-		assertEquals(null, service.get(objId))
-	}
+        assertEquals(null, service.get(objId))
+    }
 
 
-	@Test
-	fun `various update scenarios`() {
-		val updateCreateResult = service.update(admin,4711L, EntryProcessChangeRequest(itemId, itemType, entitlement))
-		assertEquals(EntryProcess(updateCreateResult!!.id, admin, itemId, itemType, entitlement, EntryProcessStatus.REQUESTED), updateCreateResult)
+    @Test
+    fun `various update scenarios`() {
+        val updateCreateResult = service.update(admin, 4711L, EntryProcessChangeRequest(itemId, itemType, entitlement))
+        assertEquals(EntryProcess(updateCreateResult!!.id, admin, itemId, itemType, entitlement, EntryProcessStatus.REQUESTED), updateCreateResult)
 
-		val updateDifferentItemResult = service.update(admin, 4711L, EntryProcessChangeRequest(itemId+1, ItemType.EVENT, entitlement))
-		assertEquals(EntryProcess(updateDifferentItemResult!!.id, admin, itemId+1, ItemType.EVENT, entitlement, EntryProcessStatus.REQUESTED), updateDifferentItemResult)
-	}
+        val updateDifferentItemResult = service.update(admin, 4711L, EntryProcessChangeRequest(itemId + 1, ItemType.EVENT, entitlement))
+        assertEquals(EntryProcess(updateDifferentItemResult!!.id, admin, itemId + 1, ItemType.EVENT, entitlement, EntryProcessStatus.REQUESTED), updateDifferentItemResult)
+
+        val updateDifferentItemTypeResult = service.update(admin, 4711L, EntryProcessChangeRequest(itemId, ItemType.EVENT, entitlement))
+        assertEquals(EntryProcess(updateDifferentItemTypeResult!!.id, admin, itemId, ItemType.EVENT, entitlement, EntryProcessStatus.REQUESTED), updateDifferentItemTypeResult)
+    }
+
+
+    @Test
+    fun `invalid requests`() {
+        entitlementService.create(admin, ItemEntitlementChangeRequest(itemId, itemType, Entitlement.MANAGER))
+
+        val createLowerEntitlementResult = service.create(admin, EntryProcessChangeRequest(itemId, itemType, Entitlement.VIEWER))
+        assertNull(createLowerEntitlementResult)
+
+        val createResult = service.create(admin, EntryProcessChangeRequest(itemId, itemType, Entitlement.ADMINISTRATOR))
+        assertNotNull(createResult)
+        assertEquals(EntryProcess(createResult!!.id, admin, itemId, itemType, Entitlement.ADMINISTRATOR, EntryProcessStatus.REQUESTED), createResult)
+
+        val lowerUpdateResult = service.update(admin, createResult.id, EntryProcessChangeRequest(itemId, itemType, Entitlement.VIEWER))
+        assertEquals(EntryProcess(createResult.id, admin, itemId, itemType, Entitlement.ADMINISTRATOR, EntryProcessStatus.REQUESTED), lowerUpdateResult)
+    }
 }

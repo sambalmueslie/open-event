@@ -57,8 +57,8 @@ open class EntryProcessCrudService(
     override fun update(user: User, obj: EntryProcessData, request: EntryProcessChangeRequest): EntryProcess? {
         val processUser = userService.getUser(obj.userId) ?: return null
         if (isEntitlementPresent(processUser, request)) {
-            logger.warn("Skip creation for ${processUser.id} cause entitlement ${request.entitlement} for ${request.itemId} is already present")
-            return null
+            logger.warn("Skip update for ${processUser.id} cause entitlement ${request.entitlement} for ${request.itemId} is already present")
+            return obj.convert(EntryProcessConvertContent(processUser))
         }
 
         obj.update(request)
