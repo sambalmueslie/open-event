@@ -55,7 +55,7 @@ class StructureService(
     }
 
     override fun isAccessAllowed(user: User, obj: StructureData): Boolean {
-        return obj.public || getEntitlement(user, obj.id).isGreaterThanEquals(Entitlement.VIEWER)
+        return !obj.restricted || getEntitlement(user, obj.id).isGreaterThanEquals(Entitlement.VIEWER)
     }
 
     override fun isModificationAllowed(user: User, obj: StructureData): Boolean {

@@ -29,8 +29,8 @@ internal class StructureControllerTest(userRepository: UserRepository) : BaseCon
 
     @Test
     fun `02 check getter endpoints`() {
-        val root = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, false), adminToken)
-        val children = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, root.id, true, false), adminToken)
+        val root = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, true), adminToken)
+        val children = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, root.id, true, true), adminToken)
 
         assertTrue(pageEquals(setOf(root.id), callGetPage("${baseUrl}/roots", adminToken)))
         assertTrue(pageEquals(setOf(children.id), callGetPage("${baseUrl}/${root.id}/children", adminToken)))
@@ -40,12 +40,12 @@ internal class StructureControllerTest(userRepository: UserRepository) : BaseCon
 
     @Test
     fun `03 get update and delete as other - not allowed`() {
-        val root = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, false), adminToken)
-        val children = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, root.id, true, false), adminToken)
+        val root = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, true), adminToken)
+        val children = callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, root.id, true, true), adminToken)
 
         // create as other
         assertThrows(HttpClientResponseException::class.java) {
-            callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, false), otherToken)
+            callPost(baseUrl, StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, true), otherToken)
         }
 
         // get as other
@@ -62,7 +62,7 @@ internal class StructureControllerTest(userRepository: UserRepository) : BaseCon
 
         // update as other
         assertThrows(HttpClientResponseException::class.java) {
-            callPut("$baseUrl/${root.id}", StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, null, true, false), otherToken)
+            callPut("$baseUrl/${root.id}", StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, null, true, true), otherToken)
         }
 
         // delete as other
@@ -77,9 +77,9 @@ internal class StructureControllerTest(userRepository: UserRepository) : BaseCon
 
     @Test
     fun `04 create, read update and delete - admin`() {
-        val createRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, false)
+        val createRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, true)
         val createStructure = callPost(baseUrl, createRequest, adminToken, Structure::class.java)
-        val structure = Structure(createStructure.id, true, true, true, false, admin, ItemDescriptionUtil.getCreateDescription(createStructure.description.id), null)
+        val structure = Structure(createStructure.id, true, true, true, true, admin, ItemDescriptionUtil.getCreateDescription(createStructure.description.id), null)
         assertEquals(structure, createStructure)
 
         assertEquals(structure, callGet("$baseUrl/${structure.id}", adminToken, Structure::class.java))
@@ -88,8 +88,8 @@ internal class StructureControllerTest(userRepository: UserRepository) : BaseCon
 
         val updateItem = ItemDescriptionUtil.getUpdateRequest()
         val updateDescription = ItemDescriptionUtil.getUpdateDescription(createStructure.description.id)
-        val updateStructure = Structure(createStructure.id, true, true, true, false, admin, updateDescription, null)
-        val updateRequest = StructureChangeRequest(updateItem, null, null, true, false)
+        val updateStructure = Structure(createStructure.id, true, true, true, true, admin, updateDescription, null)
+        val updateRequest = StructureChangeRequest(updateItem, null, null, true, true)
         assertEquals(updateStructure, callPut("$baseUrl/${structure.id}", updateRequest, adminToken, Structure::class.java))
 
         assertEquals(HttpStatus.OK, doDelete("$baseUrl/${structure.id}", adminToken).status)

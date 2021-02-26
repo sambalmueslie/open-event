@@ -25,20 +25,20 @@ internal class StructureCrudServiceTest(
     @Test
     fun `create new structure without location`() {
         val item = ItemDescriptionUtil.getCreateRequest()
-        val request = StructureChangeRequest(item, null, null, true, false)
+        val request = StructureChangeRequest(item, null, null, true, true)
 
         val result = service.create(user.convert(), request)
         assertNotNull(result)
         val owner = user.convert()
         val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
-        assertEquals(Structure(result.id, true, true, true, false, owner, description, null), result)
+        assertEquals(Structure(result.id, true, true, true, true, owner, description, null), result)
     }
 
     @Test
     fun `create new event with location`() {
         val item = ItemDescriptionUtil.getCreateRequest()
         val locationRequest = LocationUtil.getCreateRequest()
-        val request = StructureChangeRequest(item, locationRequest, null, true, false)
+        val request = StructureChangeRequest(item, locationRequest, null, true, true)
 
         val result = service.create(user.convert(), request)
         assertNotNull(result)
@@ -46,16 +46,16 @@ internal class StructureCrudServiceTest(
         val owner = user.convert()
         val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
         val location = LocationUtil.getCreateLocation(result.location!!.id)
-        assertEquals(Structure(result.id, true, true, true, false, owner, description, location), result)
+        assertEquals(Structure(result.id, true, true, true, true, owner, description, location), result)
     }
 
     @Test
     fun `create new structure with children`() {
-        val parentRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, false)
+        val parentRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, true)
         val parent = service.create(user.convert(), parentRequest)
         assertNotNull(parent)
 
-        val childRequest = StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, parent!!.id, true, false)
+        val childRequest = StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, parent!!.id, true, true)
         val children = service.create(user.convert(), childRequest)
         assertNotNull(children)
 

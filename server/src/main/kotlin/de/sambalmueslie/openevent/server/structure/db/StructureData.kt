@@ -29,7 +29,7 @@ data class StructureData(
         @Column(nullable = false)
         var autoAcceptViewer: Boolean = true,
         @Column(nullable = false)
-        var public: Boolean = true,
+        var restricted: Boolean = false,
         @Column(nullable = false)
         var visible: Boolean = true,
 ) : ItemDataObject<Structure, StructureConvertContent> {
@@ -37,12 +37,12 @@ data class StructureData(
     companion object {
         fun convert(user: User, request: StructureChangeRequest, description: ItemDescription, location: Location? = null): StructureData {
             val root = request.parentStructureId == null
-            return StructureData(description.id, user.id, location?.id, root, request.parentStructureId, request.autoAcceptViewer, request.public)
+            return StructureData(description.id, user.id, location?.id, root, request.parentStructureId, request.autoAcceptViewer, request.restricted)
         }
     }
 
     override fun convert(content: StructureConvertContent): Structure {
-        return Structure(id, root, visible, autoAcceptViewer, public, content.owner, content.description, content.location)
+        return Structure(id, root, visible, autoAcceptViewer, restricted, content.owner, content.description, content.location)
     }
 
     fun update(request: StructureChangeRequest, location: Location?) {
@@ -50,7 +50,7 @@ data class StructureData(
         root = request.parentStructureId == null
         parentStructureId = request.parentStructureId
         autoAcceptViewer = request.autoAcceptViewer
-        public = request.public
+        restricted = request.restricted
     }
 
 }

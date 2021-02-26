@@ -16,14 +16,14 @@ interface StructureRepository : ItemRepository<StructureData, StructureChangeReq
                 FROM structure AS s
                          JOIN item_entitlement_entry AS i ON i.item_id = s.id
                 WHERE s.parent_structure_id IS NULL
-                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.public = true)
+                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.restricted = false)
 			""",
             countQuery = """
 			    SELECT COUNT(*)
                 FROM structure AS s
                          JOIN item_entitlement_entry AS i ON i.item_id = s.id
                 WHERE s.parent_structure_id IS NULL
-                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.public = true)
+                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.restricted = false)
 			"""
     )
     fun getAllRootAccessible(userId: Long, pageable: Pageable): Page<StructureData>
@@ -34,14 +34,14 @@ interface StructureRepository : ItemRepository<StructureData, StructureChangeReq
                 FROM structure AS s
                          JOIN item_entitlement_entry AS i ON i.item_id = s.id
                 WHERE s.parent_structure_id = :parentId
-                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.public = true)
+                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.restricted = false)
 			""",
             countQuery = """
 			    SELECT COUNT(*)
                 FROM structure AS s
                          JOIN item_entitlement_entry AS i ON i.item_id = s.id
                 WHERE s.parent_structure_id = :parentId
-                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.public = true)
+                  AND ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.restricted = false)
 			"""
     )
     fun getAllChildAccessible(userId: Long, parentId: Long, pageable: Pageable): Page<StructureData>
@@ -51,13 +51,13 @@ interface StructureRepository : ItemRepository<StructureData, StructureChangeReq
                 SELECT s.*
                 FROM structure AS s
                          JOIN item_entitlement_entry AS i ON i.item_id = s.id
-                WHERE ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.public = true)
+                WHERE ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.restricted = false)
 			""",
             countQuery = """
 			    SELECT COUNT(*)
                 FROM structure AS s
                          JOIN item_entitlement_entry AS i ON i.item_id = s.id
-                WHERE ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.public = true)
+                WHERE ((i.user_id = :userId AND i.entitlement != 'NONE') OR s.restricted = false)
 			"""
     )
     fun getAllAccessible(userId: Long, pageable: Pageable): Page<StructureData>
