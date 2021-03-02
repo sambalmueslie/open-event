@@ -6,6 +6,9 @@ import io.micronaut.data.model.Pageable
 import io.micronaut.security.authentication.Authentication
 
 interface EntryProcessAPI : CrudAPI<EntryProcess, EntryProcessChangeRequest> {
-	fun getUserEntryProcesses(authentication: Authentication, userId: Long, pageable: Pageable): Page<EntryProcess>
-	fun getItemEntryProcesses(authentication: Authentication, itemId: Long, pageable: Pageable): Page<EntryProcess>
+    fun getUserEntryProcesses(authentication: Authentication, userId: Long, pageable: Pageable): Page<EntryProcess>
+    fun getItemEntryProcesses(authentication: Authentication, itemId: Long, pageable: Pageable): Page<EntryProcess>
+
+    fun accept(authentication: Authentication, processId: Long): EntryProcess?
+    fun decline(authentication: Authentication, processId: Long): EntryProcess?
 }

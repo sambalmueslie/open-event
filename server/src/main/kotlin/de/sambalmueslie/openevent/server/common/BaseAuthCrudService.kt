@@ -60,14 +60,14 @@ abstract class BaseAuthCrudService<T : BusinessObject, O : BusinessObjectChangeR
 	protected abstract fun isCreationAllowed(user: User, request: O): Boolean
 
 
-	private fun isModificationAllowed(authentication: Authentication, user: User, obj: D): Boolean {
+	protected fun isModificationAllowed(authentication: Authentication, user: User, obj: D): Boolean {
 		if (authenticationHelper.isAdmin(authentication)) return true
 		return isModificationAllowed(user, obj)
 	}
 
 	protected abstract fun isModificationAllowed(user: User, obj: D): Boolean
 
-	private fun isAccessAllowed(authentication: Authentication, user: User, obj: D): Boolean {
+	protected fun isAccessAllowed(authentication: Authentication, user: User, obj: D): Boolean {
 		if (authenticationHelper.isAdmin(authentication)) return true
 		return isAccessAllowed(user, obj)
 	}

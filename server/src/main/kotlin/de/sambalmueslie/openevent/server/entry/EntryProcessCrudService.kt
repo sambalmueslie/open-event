@@ -7,6 +7,7 @@ import de.sambalmueslie.openevent.server.common.findByIdOrNull
 import de.sambalmueslie.openevent.server.entitlement.ItemEntitlementCrudService
 import de.sambalmueslie.openevent.server.entry.api.EntryProcess
 import de.sambalmueslie.openevent.server.entry.api.EntryProcessChangeRequest
+import de.sambalmueslie.openevent.server.entry.api.EntryProcessStatus
 import de.sambalmueslie.openevent.server.entry.db.EntryProcessConvertContent
 import de.sambalmueslie.openevent.server.entry.db.EntryProcessData
 import de.sambalmueslie.openevent.server.entry.db.EntryProcessRepository
@@ -18,9 +19,9 @@ import javax.inject.Singleton
 
 @Singleton
 open class EntryProcessCrudService(
-        private val repository: EntryProcessRepository,
-        private val userService: UserService,
-        private val entitlementService: ItemEntitlementCrudService,
+    private val repository: EntryProcessRepository,
+    private val userService: UserService,
+    private val entitlementService: ItemEntitlementCrudService,
 ) : BaseCrudService<EntryProcess, EntryProcessChangeRequest, EntryProcessData>(repository, logger) {
 
     companion object {
@@ -71,6 +72,13 @@ open class EntryProcessCrudService(
     fun deleteAllForItem(user: User, itemId: Long) {
         val iterator = PageableIterator { repository.findByItemId(itemId, it) }
         iterator.forEach { delete(user, it) }
+    }
+
+    fun changeStatus(user: User, obj: EntryProcessData, status: EntryProcessStatus): EntryProcess? {
+        obj.status = status
+        val result = convert(repository.update(obj))
+        notifyUpdated(user, result)
+        return result
     }
 
 

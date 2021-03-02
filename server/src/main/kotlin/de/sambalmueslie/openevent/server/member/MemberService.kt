@@ -19,10 +19,10 @@ import javax.inject.Singleton
 
 @Singleton
 class MemberService(
-        private val crudService: MemberCrudService,
-        private val authenticationHelper: AuthenticationHelper,
-        private val entitlementService: ItemEntitlementCrudService,
-        private val repository: MemberRepository
+    private val crudService: MemberCrudService,
+    private val authenticationHelper: AuthenticationHelper,
+    private val entitlementService: ItemEntitlementCrudService,
+    private val repository: MemberRepository
 ) : BaseAuthCrudService<Member, MemberChangeRequest, MemberData>(crudService, authenticationHelper, logger) {
 
     companion object {
@@ -34,7 +34,7 @@ class MemberService(
     }
 
     override fun isAccessAllowed(user: User, obj: MemberData): Boolean {
-        return getEntitlement(user, obj.itemId).isGreaterThanEquals(Entitlement.MANAGER)
+        return user.id == obj.userId || getEntitlement(user, obj.itemId).isGreaterThanEquals(Entitlement.MANAGER)
     }
 
     override fun isCreationAllowed(user: User, request: MemberChangeRequest): Boolean {
@@ -53,4 +53,20 @@ class MemberService(
     }
 
     private fun getEntitlement(user: User, objId: Long) = entitlementService.findByUserIdAndItemId(user.id, objId).entitlement
+
+    fun getUserMembers(authentication: Authentication, user: User, userId: Long, pageable: Pageable): Page<Member> {
+        return if (authenticationHelper.isAdmin(authentication) || user.id == userId) {
+            repository.findByUserId(userId, pageable).map { crudService.convert(it) }
+        } else {
+            Page.empty()
+        }
+    }
+
+    fun getItemMembers(authentication: Authentication, user: User, itemId: Long, pageable: Pageable): Page<Member> {
+        return if (authenticationHelper.isAdmin(authentication) || getEntitlement(user, itemId).isGreaterThanEquals(Entitlement.MANAGER)) {
+            repository.findByItemId(itemId, pageable).map { crudService.convert(it) }
+        } else {
+            Page.empty()
+        }
+    }
 }

@@ -47,4 +47,10 @@ class EntryProcessController(
 
 	@Delete()
 	fun deleteAll(authentication: Authentication) = service.deleteAll(authentication, getUser(authentication))
+
+	@Put("/{processId}/accept")
+	override fun accept(authentication: Authentication, processId: Long): EntryProcess? = service.accept(authentication, getUser(authentication), processId)
+
+	@Put("/{processId}/decline")
+	override fun decline(authentication: Authentication, processId: Long): EntryProcess? = service.decline(authentication, getUser(authentication), processId)
 }

@@ -24,7 +24,7 @@ data class EntryProcessData(
 	var type: ItemType = ItemType.OTHER,
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
-	var status: EntryProcessStatus = EntryProcessStatus.DENIED,
+	var status: EntryProcessStatus = EntryProcessStatus.DECLINED,
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	var entitlement: Entitlement = Entitlement.VIEWER

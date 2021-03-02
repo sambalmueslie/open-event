@@ -20,13 +20,13 @@ interface MemberRepository : PageableRepository<MemberData, Long> {
                 SELECT m.*
                 FROM member AS m
                          JOIN item_entitlement_entry AS i ON i.item_id = m.item_id
-                WHERE i.user_id = :userId AND i.entitlement != 'NONE'
+                WHERE (i.user_id = :userId AND i.entitlement != 'NONE') OR m.user_id = :userId
 			""",
 			countQuery = """
 			    SELECT COUNT(*)
-                FROM event AS e
-                         JOIN item_entitlement_entry AS i ON i.item_id = e.id
-                WHERE i.user_id = :userId AND i.entitlement != 'NONE'
+                FROM member AS m
+                         JOIN item_entitlement_entry AS i ON i.item_id = m.item_id
+                WHERE (i.user_id = :userId AND i.entitlement != 'NONE') OR m.user_id = :userId
 			"""
 	)
     fun getAllAccessible(userId: Long, pageable: Pageable): Page<MemberData>
