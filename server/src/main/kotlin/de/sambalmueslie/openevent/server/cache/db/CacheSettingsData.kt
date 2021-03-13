@@ -9,7 +9,7 @@ import javax.persistence.*
 @Table(name = "cache_settings")
 data class CacheSettingsData(
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0,
+	override var id: Long = 0L,
 	@Column(nullable = false, unique = true)
 	val name: String = "",
 	@Column(nullable = false)

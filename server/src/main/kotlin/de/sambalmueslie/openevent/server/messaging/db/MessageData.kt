@@ -14,7 +14,7 @@ import javax.persistence.*
 data class MessageData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0L,
+	override var id: Long = 0L,
 	// message header
 	@Column(nullable = false)
 	val authorId: Long = 0,

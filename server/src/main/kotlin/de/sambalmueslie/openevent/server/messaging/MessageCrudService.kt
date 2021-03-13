@@ -2,6 +2,7 @@ package de.sambalmueslie.openevent.server.messaging
 
 
 import de.sambalmueslie.openevent.server.common.BaseCrudService
+import de.sambalmueslie.openevent.server.common.PageableIterator
 import de.sambalmueslie.openevent.server.messaging.api.Message
 import de.sambalmueslie.openevent.server.messaging.api.MessageChangeRequest
 import de.sambalmueslie.openevent.server.messaging.db.MessageConvertContent
@@ -49,6 +50,11 @@ class MessageCrudService(
 		val result = convert(repository.update(obj))
 		notifyUpdated(user, result)
 		return result
+	}
+
+	fun deleteAllForItem(user: User, itemId: Long) {
+		val iterator = PageableIterator{ repository.findByItemId(itemId, it) }
+		iterator.forEach { delete(user, it) }
 	}
 
 }

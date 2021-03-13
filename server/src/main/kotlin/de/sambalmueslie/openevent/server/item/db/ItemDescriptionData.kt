@@ -11,7 +11,7 @@ import javax.persistence.*
 data class ItemDescriptionData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0,
+	override var id: Long = 0L,
 	@Column
 	var title: String = "",
 	@Column

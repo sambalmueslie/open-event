@@ -25,8 +25,8 @@ abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObje
 	final override fun convert(data: D): T {
 		val owner = userService.getUser(data.ownerId)
 			?: throw IllegalArgumentException("Cannot find owner by ${data.ownerId}")
-		val description = itemDescriptionCrudService.get(data.descriptionId)
-			?: throw IllegalArgumentException("Cannot find description by ${data.descriptionId}")
+		val description = itemDescriptionCrudService.get(data.id)
+			?: throw IllegalArgumentException("Cannot find description by ${data.id}")
 		return convert(data, owner, description)
 	}
 
@@ -56,7 +56,7 @@ abstract class ItemCrudService<T : Item, O : ItemChangeRequest, D : ItemDataObje
 	}
 
 	override fun update(user: User, obj: D, request: O): T? {
-		val description = itemDescriptionCrudService.update(user, obj.descriptionId, request.item)
+		val description = itemDescriptionCrudService.update(user, obj.id, request.item)
 		val result = update(user, obj, request, description)
 		notifyUpdated(user, result)
 		return get(result.id)

@@ -15,7 +15,7 @@ import javax.persistence.*
 data class ItemEntitlementEntryData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0L,
+	override var id: Long = 0L,
 	@Column(nullable = false)
 	var userId: Long = 0L,
 	@Column(nullable = false)

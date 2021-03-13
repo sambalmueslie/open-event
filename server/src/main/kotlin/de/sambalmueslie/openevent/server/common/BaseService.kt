@@ -15,6 +15,10 @@ abstract class BaseService<T : BusinessObject>(private val logger: Logger) {
 		listeners.remove(listener)
 	}
 
+	protected fun registerAction(action: Action<T>){
+		listeners.add(action)
+	}
+
 	protected fun notifyCommon(event: CommonChangeEvent<T>) {
 		listeners.forEachWithTryCatch { it.handleCommonEvent(event) }
 	}

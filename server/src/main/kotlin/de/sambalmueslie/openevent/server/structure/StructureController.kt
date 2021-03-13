@@ -30,9 +30,9 @@ class StructureController(
 	override fun get(authentication: Authentication, @PathVariable objId: Long) =
 		service.get(authentication, getUser(authentication), objId)
 
-	@Get("/{objId}/children")
-	override fun getChildren(authentication: Authentication, @PathVariable objId: Long, pageable: Pageable) =
-		service.getChildren(authentication, getUser(authentication), objId,pageable)
+	@Get("/{structureId}/children")
+	override fun getChildren(authentication: Authentication, @PathVariable structureId: Long, pageable: Pageable) =
+		service.getChildren(authentication, getUser(authentication), structureId,pageable)
 
 	@Get("/roots")
 	override fun getRoots(authentication: Authentication, pageable: Pageable) =

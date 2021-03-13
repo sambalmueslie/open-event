@@ -12,6 +12,7 @@ abstract class CategoryItemRelationRepository(private val jdbcOperations: JdbcOp
 	abstract fun findByCategoryIdAndItemId(categoryId: Long, itemId: Long): CategoryItemRelationData?
 	abstract fun findByItemId(itemId: Long): List<CategoryItemRelationData>
 	abstract fun findByCategoryId(categoryId: Long): List<CategoryItemRelationData>
+	abstract fun deleteByItemId(itemId: Long)
 
 	fun saveAll(relations: List<CategoryItemRelationData>) {
 		val sql = "INSERT INTO category_item_relation(category_id, item_id) VALUES (?,?)"

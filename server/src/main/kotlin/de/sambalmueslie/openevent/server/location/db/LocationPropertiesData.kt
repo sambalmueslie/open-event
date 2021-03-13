@@ -11,7 +11,7 @@ import javax.persistence.*
 data class LocationPropertiesData(
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	var id: Long = 0L,
+	override var id: Long = 0L,
 	@Column
 	var size: Int = 0
 ) : DataObject<LocationProperties, EmptyConvertContent> {

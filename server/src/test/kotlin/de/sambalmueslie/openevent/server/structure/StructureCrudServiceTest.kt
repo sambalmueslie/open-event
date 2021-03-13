@@ -17,49 +17,49 @@ import org.junit.jupiter.api.TestMethodOrder
 @MicronautTest
 @TestMethodOrder(MethodOrderer.MethodName::class)
 internal class StructureCrudServiceTest(
-	userRepo: UserRepository,
-	private val service: StructureCrudService
+        userRepo: UserRepository,
+        private val service: StructureCrudService
 ) {
-	private val user: UserData = UserUtils.getFirstUser(userRepo)
+    private val user: UserData = UserUtils.getFirstUser(userRepo)
 
-	@Test
-	fun `create new structure without location`() {
-		val item = ItemDescriptionUtil.getCreateRequest()
-		val request = StructureChangeRequest(item, null, null, true)
+    @Test
+    fun `create new structure without location`() {
+        val item = ItemDescriptionUtil.getCreateRequest()
+        val request = StructureChangeRequest(item, null, null, true, true)
 
-		val result = service.create(user.convert(), request)
-		assertNotNull(result)
-		val owner = user.convert()
-		val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
-		assertEquals(Structure(result.id, true, true, true, owner, description, null), result)
-	}
+        val result = service.create(user.convert(), request)
+        assertNotNull(result)
+        val owner = user.convert()
+        val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
+        assertEquals(Structure(result.id, true, true, true, true, owner, description, null), result)
+    }
 
-	@Test
-	fun `create new event with location`() {
-		val item = ItemDescriptionUtil.getCreateRequest()
-		val locationRequest = LocationUtil.getCreateRequest()
-		val request = StructureChangeRequest(item, locationRequest, null, true)
+    @Test
+    fun `create new event with location`() {
+        val item = ItemDescriptionUtil.getCreateRequest()
+        val locationRequest = LocationUtil.getCreateRequest()
+        val request = StructureChangeRequest(item, locationRequest, null, true, true)
 
-		val result = service.create(user.convert(), request)
-		assertNotNull(result)
+        val result = service.create(user.convert(), request)
+        assertNotNull(result)
 
-		val owner = user.convert()
-		val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
-		val location = LocationUtil.getCreateLocation(result.location!!.id)
-		assertEquals(Structure(result.id, true, true, true, owner, description, location), result)
-	}
+        val owner = user.convert()
+        val description = ItemDescriptionUtil.getCreateDescription(result!!.description.id)
+        val location = LocationUtil.getCreateLocation(result.location!!.id)
+        assertEquals(Structure(result.id, true, true, true, true, owner, description, location), result)
+    }
 
-	@Test
-	fun `create new structure with children`() {
-		val parentRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true)
-		val parent = service.create(user.convert(), parentRequest)
-		assertNotNull(parent)
+    @Test
+    fun `create new structure with children`() {
+        val parentRequest = StructureChangeRequest(ItemDescriptionUtil.getCreateRequest(), null, null, true, true)
+        val parent = service.create(user.convert(), parentRequest)
+        assertNotNull(parent)
 
-		val childRequest = StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, parent!!.id, true)
-		val children = service.create(user.convert(), childRequest)
-		assertNotNull(children)
+        val childRequest = StructureChangeRequest(ItemDescriptionUtil.getUpdateRequest(), null, parent!!.id, true, true)
+        val children = service.create(user.convert(), childRequest)
+        assertNotNull(children)
 
-		val parentWithChildren = service.get(parent.id)
-		assertNotNull(children)
-	}
+        val parentWithChildren = service.get(parent.id)
+        assertNotNull(children)
+    }
 }

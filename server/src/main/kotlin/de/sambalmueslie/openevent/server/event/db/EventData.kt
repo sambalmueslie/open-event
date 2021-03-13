@@ -17,15 +17,13 @@ import javax.persistence.Table
 @Table(name = "event")
 data class EventData(
 	@Id
-	var id: Long = 0L,
+	override var id: Long = 0L,
 	@Column(name = "period_start")
 	var start: LocalDateTime = LocalDateTime.now(),
 	@Column(name = "period_end")
 	var end: LocalDateTime = LocalDateTime.now(),
 	@Column(nullable = false)
 	override var ownerId: Long = 0L,
-	@Column(nullable = false)
-	override var descriptionId: Long = 0L,
 	@Column(nullable = false)
 	var locationId: Long? = null,
 	@Column
@@ -34,7 +32,7 @@ data class EventData(
 
 	companion object {
 		fun convert(user: User, request: EventChangeRequest, description: ItemDescription, location: Location? = null): EventData {
-			return EventData(0L, request.period.start, request.period.end, user.id, description.id, location?.id)
+			return EventData(description.id, request.period.start, request.period.end, user.id, location?.id)
 		}
 	}
 
@@ -43,7 +41,6 @@ data class EventData(
 	fun update(request: EventChangeRequest, description: ItemDescription, location: Location?) {
 		start = request.period.start
 		end = request.period.end
-		descriptionId = description.id
 		locationId = location?.id
 	}
 }
