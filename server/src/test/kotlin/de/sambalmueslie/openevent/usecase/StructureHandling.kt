@@ -13,6 +13,7 @@ import de.sambalmueslie.openevent.server.structure.api.StructureChangeRequest
 import de.sambalmueslie.openevent.server.user.db.UserRepository
 import de.sambalmueslie.openevent.test.BaseControllerTest
 import io.micronaut.core.type.Argument
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.*
@@ -37,16 +38,54 @@ internal class StructureHandling(userRepository: UserRepository) : BaseControlle
         val child = createChildStructure(root)
 
         managerJoinStructure(root)
+        viewerJoinStructure(root)
 
-        // editor request to join structure
-        // user request to join structure
+        cleanupData()
     }
 
+    private fun cleanupData() {
+        var response = exchange(delete(entryServiceUrl, editorToken), Argument.of(EntryProcess::class.java))
+        assertEquals(HttpStatus.OK, response.status)
+        response = exchange(delete(entryServiceUrl, viewerToken), Argument.of(EntryProcess::class.java))
+        assertEquals(HttpStatus.OK, response.status)
+        response = exchange(delete(entryServiceUrl, otherToken), Argument.of(EntryProcess::class.java))
+        assertEquals(HttpStatus.OK, response.status)
+        response = exchange(delete(entryServiceUrl, adminToken), Argument.of(EntryProcess::class.java))
+        assertEquals(HttpStatus.OK, response.status)
+    }
+
+
     private fun managerJoinStructure(structure: Structure) {
+        // do the request
         val request = EntryProcessChangeRequest(structure.id, ItemType.STRUCTURE, Entitlement.MANAGER)
         var response = callPost(entryServiceUrl, request, otherToken, Argument.of(EntryProcess::class.java))
         assertEquals(EntryProcess(response.id, other, structure.id, ItemType.STRUCTURE, Entitlement.MANAGER, EntryProcessStatus.REQUESTED), response)
 
+        // get value
+        assertTrue(pageEquals(setOf(response.id), callGetPage(entryServiceUrl, adminToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(setOf(response.id), callGetPage(entryServiceUrl, otherToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(emptySet(), callGetPage(entryServiceUrl, editorToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(emptySet(), callGetPage(entryServiceUrl, viewerToken, EntryProcess::class.java)))
+
+        // get user entry processes (own)
+        assertTrue(pageEquals(emptySet(), callGetPage("$entryServiceUrl/user/${admin.id}", adminToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(setOf(response.id), callGetPage("$entryServiceUrl/user/${other.id}", otherToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(emptySet(), callGetPage("$entryServiceUrl/user/${editor.id}", editorToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(emptySet(), callGetPage("$entryServiceUrl/user/${viewer.id}", viewerToken, EntryProcess::class.java)))
+
+        // get user entry processes (other)
+        assertTrue(pageEquals(setOf(response.id), callGetPage("$entryServiceUrl/user/${other.id}", adminToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(setOf(response.id), callGetPage("$entryServiceUrl/user/${other.id}", otherToken, EntryProcess::class.java)))
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/user/${other.id}", editorToken, EntryProcess::class.java) }
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/user/${other.id}", viewerToken, EntryProcess::class.java) }
+
+        // get item entry processes
+        assertTrue(pageEquals(setOf(response.id), callGetPage("$entryServiceUrl/item/${structure.id}", adminToken, EntryProcess::class.java)))
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/item/${structure.id}", otherToken, EntryProcess::class.java) }
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/item/${structure.id}", editorToken, EntryProcess::class.java) }
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/item/${structure.id}", viewerToken, EntryProcess::class.java) }
+
+        // accept the request
         val acceptUrl = "$entryServiceUrl/${response.id}/accept"
         assertThrows(HttpClientResponseException::class.java) { callPut(acceptUrl, "", viewerToken, Argument.of(EntryProcess::class.java)) }
         assertThrows(HttpClientResponseException::class.java) { callPut(acceptUrl, "", editorToken, Argument.of(EntryProcess::class.java)) }
@@ -70,6 +109,26 @@ internal class StructureHandling(userRepository: UserRepository) : BaseControlle
         member = members.firstOrNull()
         assertNotNull(member)
         assertEquals(Member(member!!.id, other, Entitlement.MANAGER, structure.id, false), member)
+    }
+
+
+    private fun viewerJoinStructure(structure: Structure) {
+        // do the request
+        val request = EntryProcessChangeRequest(structure.id, ItemType.STRUCTURE, Entitlement.MANAGER)
+        var response = callPost(entryServiceUrl, request, viewerToken, Argument.of(EntryProcess::class.java))
+        assertEquals(EntryProcess(response.id, viewer, structure.id, ItemType.STRUCTURE, Entitlement.MANAGER, EntryProcessStatus.REQUESTED), response)
+
+        // get item entry processes
+        assertTrue(pageEquals(setOf(response.id), callGetPage("$entryServiceUrl/item/${structure.id}", adminToken, EntryProcess::class.java)))
+        assertTrue(pageEquals(setOf(response.id), callGetPage("$entryServiceUrl/item/${structure.id}", otherToken, EntryProcess::class.java)))
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/item/${structure.id}", editorToken, EntryProcess::class.java) }
+        assertThrows(HttpClientResponseException::class.java) { callGetPage("$entryServiceUrl/item/${structure.id}", viewerToken, EntryProcess::class.java) }
+
+        // decline
+        response = callPut("$entryServiceUrl/${response.id}/decline", "", viewerToken, Argument.of(EntryProcess::class.java))
+        assertEquals(EntryProcess(response.id, viewer, structure.id, ItemType.STRUCTURE, Entitlement.MANAGER, EntryProcessStatus.REQUESTED), response)
+        response = callPut("$entryServiceUrl/${response.id}/decline", "", otherToken, Argument.of(EntryProcess::class.java))
+        assertEquals(EntryProcess(response.id, viewer, structure.id, ItemType.STRUCTURE, Entitlement.MANAGER, EntryProcessStatus.DECLINED), response)
     }
 
     private fun checkEmptyEnvironment() {

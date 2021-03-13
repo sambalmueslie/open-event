@@ -82,7 +82,7 @@ class EntryProcessService(
 
     private fun changeStatus(authentication: Authentication, user: User, processId: Long, status: EntryProcessStatus): EntryProcess? {
         val data = crudService.getData(processId) ?: return null
-        if (authenticationHelper.isAdmin(authentication) || getEntitlement(user, data.itemId).isGreaterThanEquals(Entitlement.ADMINISTRATOR)) {
+        if (authenticationHelper.isAdmin(authentication) || getEntitlement(user, data.itemId).isGreaterThanEquals(Entitlement.MANAGER)) {
             return crudService.changeStatus(user, data, status)
         } else if (isAccessAllowed(authentication, user, data)) {
             return crudService.convert(data)
