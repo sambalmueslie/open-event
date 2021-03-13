@@ -25,12 +25,12 @@ configurations {
 }
 
 dependencies {
-    kapt(platform("io.micronaut:micronaut-bom:2.3.3"))
+    kapt(platform("io.micronaut:micronaut-bom:2.4.0"))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut:micronaut-graal")
 
-    implementation(platform("io.micronaut:micronaut-bom:2.3.3"))
+    implementation(platform("io.micronaut:micronaut-bom:2.4.0"))
     implementation("io.micronaut:micronaut-inject")
     implementation("io.micronaut:micronaut-validation")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.31")
@@ -58,7 +58,7 @@ dependencies {
 
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.2")
 
     // flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
