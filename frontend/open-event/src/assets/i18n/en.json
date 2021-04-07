@@ -1,0 +1,415 @@
+{
+  "MENU": {
+    "Home": "Home",
+    "Profile": "Profile",
+    "Logout": "Logout",
+    "Message": "Message",
+    "Collapse": "Collapse",
+    "Administration": "Administration",
+    "Info": "Info",
+    "Imprint": "Imprint"
+  },
+  "COMMON": {
+    "Common": "Common",
+    "Details": "Details",
+    "Assignment": "Assignment",
+    "Registration": "Registration",
+    "Participants": "Participant list",
+    "Waitlist": "Wait list",
+    "Owner": "Owner",
+    "Location": "Location",
+    "Period": "Period",
+    "Reload": "Reload",
+    "Question": "Question"
+  },
+  "ACTION": {
+    "SUBMIT": "Submit",
+    "CANCEL": "Cancel",
+    "YES": "Yes",
+    "NO": "No",
+    "LoadMore": "Load More"
+  },
+  "USER": {
+    "LOGOUT": {
+      "ConfirmTitle": "Confirm Logout",
+      "ConfirmText": "Do you realy want to logout?"
+    }
+  },
+  "STRUCT": {
+    "Type": "Organizations",
+    "Subtype": "Groups",
+    "Contact": "Contacts",
+    "MENU": {
+      "ADD": "Add new organization",
+      "ADD_GROUP": "Add Group",
+      "ADD_EVENT": "Add Event",
+      "DETAILS": "Show Details",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "MANAGE_EVENTS": "Manage events",
+      "MANAGE_CATEGORIES": "Manage categories",
+      "STATS": "Stats"
+    },
+    "LIST": {
+      "Title": "Title",
+      "More": "More details"
+    },
+    "ERROR": {
+      "NoStructure": "Currently no structures are available"
+    },
+    "ACTION": {
+      "CREATE": "Create new structure",
+      "EDIT": "Edit structure ",
+      "SELECTED_ORG": "Selected organizations ...",
+      "SELECTED_GRP": "Selected groups ...",
+      "SELECTED_CAT": "Selected categories ..."
+    },
+    "DIALOG": {
+      "TITLE_DELETE": "Delete Structure ",
+      "QUESTION_DELETE": "Do you really want to delete the structure?"
+    }
+  },
+  "EVENT": {
+    "Type": "Events",
+    "CHANGE": {
+      "Create": "Create new event",
+      "Update": "Change existing event: {{ event }}"
+    },
+    "MENU": {
+      "Add": "Add new Event",
+      "Edit": "Edit Event",
+      "Details": "Show Details",
+      "Delete": "Delete Event",
+      "Export": "Export (Excel)",
+      "Publish": "Publish",
+      "ShowAll": "Show all events",
+      "ShowPersonal": "Show personal events",
+      "ShowAvailable": "Show available events"
+    },
+    "LIST": {
+      "Title": "Title",
+      "Period": "Period",
+      "More": "More details",
+      "All": "All",
+      "Personal": "Personal",
+      "Available": "Available"
+    },
+    "PROPERTIES": {
+      "Title": "Properties",
+      "Kids": "Kids allowed",
+      "MaxGuest": "Max guest amount",
+      "Remaining": "Remaining"
+    },
+    "CATEGORIES": {
+      "Title": "Categories"
+    },
+    "PERIOD": {
+      "selectStart": "Select start",
+      "selectEnd": "Select end",
+      "selectStartDate": "Date",
+      "selectEndDate": "",
+      "selectStartTime": "Start time",
+      "selectEndTime": "End time"
+    },
+    "REGISTRATION": {
+      "MaxGuests": "Max guests",
+      "Tickets": "Tickets"
+    },
+    "ACTION": {
+      "FILTER_APPLY": "Apply Filter",
+      "FILTER_CLEAR": "Clear Filter"
+    },
+    "FILTER": {
+      "From": "From",
+      "To": "To"
+    },
+    "HINT": {
+      "Title": "Short and powerfull description of the event (max 40 chars)",
+      "LongDescr": "What is the event about, what is required to bring and some additonal information",
+      "StartDate": "The date of the event",
+      "StartTime": "The time the event begins",
+      "EndTime": "The time the event probably ends",
+      "MaxGuest": "How many guests coult attend to the event",
+      "Tickets": "Should a QR code generated for creating a ticket"
+    },
+    "MESSAGE": {
+      "ERROR": {
+        "FORM_INVALID": "Please fill out all required fields.",
+        "CREATION_FAILED": "Could not create the event - please contact an adminstrator open@psm.church"
+      },
+      "INFO": {
+        "CREATION_SUCCEED": "Event was successfully created."
+      }
+    },
+    "STATUS": {
+      "HISTORY": "History"
+    },
+    "DIALOG": {
+      "TITLE_DELETE": "Delete event ",
+      "QUESTION_DELETE": "Do you really want to delete the event?"
+    }
+  },
+  "ITEM": {
+    "Title": "Title",
+    "TitleError": "Please input some title",
+    "ShortText": "Short description",
+    "ShortTextError": "Please input some short description",
+    "LongText": "Long description",
+    "LongTextError": "Please input some long description"
+  },
+  "MEMBER": {
+    "Type": "Member",
+    "List": "Member List",
+    "Requests": "Join Requests",
+    "Action": "Action",
+    "CONTACT": "Contact",
+    "MENU": {
+      "Join": "Join",
+      "Cancel": "Cancel",
+      "Leave": "Leave",
+      "Remove": "Remove"
+    },
+    "ENTITLEMENT": {
+      "ADMINISTRATOR": "Administrator",
+      "MANAGER": "Moderator",
+      "EDITOR": "Editor",
+      "VIEWER": "Viewer"
+    },
+    "LIST": {
+      "User": "User",
+      "Status": "Status",
+      "Entitlement": "Entitlement",
+      "Actions": "Actions"
+    },
+    "STATUS": {
+      "REQUESTED": "Requested"
+    },
+    "DIALOG": {
+      "LEAVE": {
+        "Title": "Leave structure",
+        "Question": "Do you realy want to leave the structure?"
+      }
+    }
+  },
+  "I18n": {
+    "de": "Deutsch",
+    "en": "English"
+  },
+  "ERROR": {
+    "NoLocation": "No location defined",
+    "NoPeriod": "No period defined"
+  },
+  "LOCATION": {
+    "FORM": {
+      "ADD_INFO": "Additional Info",
+      "STREET": "Street",
+      "NR": "Nr",
+      "ZIP": "Zip",
+      "CITY": "City",
+      "COUNTRY": "Country"
+    },
+    "ACTION": {
+      "HAS_LOC": "Has Location?"
+    },
+    "MAP": {
+      "Title": "Map",
+      "Description": "Click to show the map"
+    }
+  },
+  "MESSAGE": {
+    "Type": "Messages",
+    "Inbox": "Inbox",
+    "Outbox": "Outbox",
+    "Content": "Content",
+    "Message": "Message",
+    "Send": "Send",
+    "LIST": {
+      "Title": "List",
+      "Subject": "Subject",
+      "Timestamp": "Timestamp",
+      "Sender": "Sender",
+      "Receiver": "Receiver"
+    }
+  },
+  "REGISTRATION": {
+    "MENU": {
+      "Accept": "Accept",
+      "Cancel": "Cancel",
+      "Interest": "Interest"
+    },
+    "COMMON": {
+      "People": "people",
+      "PeopleAmount": "Amount of people"
+    },
+    "DIALOG": {
+      "ACCEPT": {
+        "Title": "Participate on event",
+        "Question": "With how much people will you attend on the event?"
+      },
+      "EDIT": {
+        "Title": "Modify participation",
+        "Question": "With how much people will you attend on the event?",
+        "Message": "Participation change successfull processed"
+      },
+      "CANCEL": {
+        "Title": "Cancel participation",
+        "Question": "Do you relay want to cancel the participation?",
+        "Message": "Participation cancel successfull processed"
+      },
+      "Message": {
+        "ACCEPTED": "Participation change successfull processed",
+        "WAITING_LIST_DECREASE_SIZE": "You have been added to the waiting list, but increase the size will help",
+        "WAITING_LIST": "You have been added to the waiting list",
+        "DECLINED": "Participation cancel successfull processed",
+        "FAILED": "Some critical error occured contact open@psm.church"
+      }
+    },
+    "STATUS": {
+      "Full": "Full",
+      "Available": "Available",
+      "Accepted": "Accepted",
+      "Waiting": "Waiting list"
+    },
+    "VERIFY": {
+      "TITLE": "Ticket verification",
+      "EVENT": "Ticket event data",
+      "PARTICIPANT": "Ticket participant data",
+      "ACCEPT": "Accept ticket",
+      "PROCESSED": "Ticket succesfully accepted",
+      "CHECK": {
+        "FAILED": "Failed to verify ticket.",
+        "OK": "Ticket verified successfully."
+      }
+    }
+  },
+  "ISSUE": {
+    "Type": "Issue",
+    "LIST": {
+      "Title": "Title",
+      "Description": "Description",
+      "Priority": "Priority",
+      "Type": "Type"
+    },
+    "MENU": {
+      "Setup": "Setup issues",
+      "Show": "Show issues",
+      "Create": "Create"
+    }
+  },
+  "CATEGORY": {
+    "Type": "Category",
+    "LIST": {
+      "Name": "Name",
+      "Icon": "Icon",
+      "Actions": "Actions"
+    },
+    "MENU": {
+      "ADD": "Add",
+      "UPDATE": "Update",
+      "DELETE": "Delete"
+    },
+    "DIALOG": {
+      "TITLE_ADD": "Create new category",
+      "TITLE_UPDATE": "Update category",
+      "TITLE_DELETE": "Delete category",
+      "QUESTION_DELETE": "Do you really want to delete the category?"
+    }
+  },
+  "ANNOUNCEMENT": {
+    "Type": "Announcement",
+    "DIALOG": {
+      "TITLE_CREATE": "Create new announcement",
+      "TITLE_UPDATE": "Update announcement",
+      "TITLE_DELETE": "Delete announcement",
+      "QUESTION_DELETE": "Do you really want to delete the announcement?"
+    },
+    "MENU": {
+      "ADD": "Add Announcement",
+      "UPDATE": "Update",
+      "DELETE": "Delete",
+      "SUBMIT": "Send"
+    },
+    "LIST": {
+      "Subject": "Subject",
+      "Content": "Content",
+      "Actions": "Actions"
+    }
+  },
+  "PROFILE": {
+    "Type": "User Profile",
+    "Edit": "Edit",
+    "Sync": "Synchronize",
+    "Form": {
+      "Name": "Name",
+      "Email": "Email",
+      "FirstName": "Given Name",
+      "SecondName": "Family Name",
+      "Roles": "Roles"
+    }
+  },
+  "ADMIN": {
+    "History": "History Events",
+    "Error": "Errors",
+    "Mail": "Mail Settings",
+    "Cache": "Cache Settings",
+    "User": "User",
+    "Notify": "Notify"
+  },
+  "notification": {
+    "subject": "Subject",
+    "content": "Content",
+    "edit": "Edit template",
+    "message": {
+      "UpdateFailed": "Failed to update template",
+      "UpdateSucceed": "Template was sucessfully updated"
+    },
+    "event": {
+      "create": "Create event",
+      "update": "Update event",
+      "delete": "Delete event"
+    }
+  },
+  "INQUIRY": {
+    "Type": "Inquiry",
+    "CHANGE": {
+      "Create": "Create new inquiry",
+      "Update": "Change existing inquiry: {{ event }}"
+    },
+    "PERIOD": {
+      "selectStart": "Select start",
+      "selectEnd": "Select end",
+      "selectStartDate": "Date",
+      "selectEndDate": "",
+      "selectStartTime": "Start time",
+      "selectEndTime": "End time",
+      "Title": "Valid until"
+    },
+    "HINT": {
+      "Title": "Short and powerfull description of the inquiry (max 40 chars)",
+      "LongDescr": "What is the inquiry about, what is required to bring and some additonal information",
+      "StartDate": "The date of the inquiry",
+      "StartTime": "The time the inquiry begins",
+      "EndTime": "The time the inquiry probably ends"
+    },
+    "Question": {
+      "Text": "Question text",
+      "Type": {
+        "Title": "Type",
+        "YES_NO": "Yes/No",
+        "OK_CANCEL": "Ok/Cancel",
+        "OK": "Ok",
+        "YES_NO_CANCEL": "Yes/No/Cancel"
+      }
+    },
+    "Answer": {
+      "Text": "Answer(s)",
+      "Created": "Created",
+      "Modified": "Modified"
+    },
+    "MENU": {
+      "Participate": "Participate",
+      "Done": "Done",
+      "DoneText": "You are now done."
+    }
+  }
+}

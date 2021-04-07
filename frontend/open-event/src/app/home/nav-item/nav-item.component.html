@@ -1,0 +1,15 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <ng-container *ngIf="collapsed; then thenNavBlock else elseNavBlock"></ng-container>
+  <ng-template #thenNavBlock>
+    <mat-icon class="menu-item-icon-collapsed" fxFlex="0 1 30px">{{item.icon}}</mat-icon>
+  </ng-template>
+  <ng-template #elseNavBlock>
+    <mat-icon fxFlex="0 1 30px">{{item.icon}}</mat-icon>
+    <ng-container *ngIf="item.hasBadge; else elseExpandedBadgeBlock">
+      <span matBadge="{{badgeValue}}" matBadgeOverlap="false" [matBadgeHidden]="badgeValue <= 0">{{item.text | translate}}</span>
+    </ng-container>
+    <ng-template #elseExpandedBadgeBlock>
+      <span fxFlex="1 1 auto">{{item.text | translate}}</span>
+    </ng-template>
+  </ng-template>
+</div>

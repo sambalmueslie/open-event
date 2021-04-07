@@ -1,0 +1,410 @@
+{
+  "MENU": {
+    "Home": "Startseite",
+    "Profile": "Profil",
+    "Logout": "Ausloggen",
+    "Message": "Nachrichten",
+    "Collapse": "Minimieren",
+    "Administration": "Administration",
+    "Info": "Info",
+    "Imprint": "Impressum"
+  },
+  "COMMON": {
+    "Common": "Was?",
+    "Details": "Details",
+    "Assignment": "Zuordnung",
+    "Registration": "Anmeldungen",
+    "Participants": "Teilnehmerliste",
+    "Waitlist": "Warteliste",
+    "Owner": "Verantwortlicher",
+    "Location": "Veranstaltungsort",
+    "Period": "Wann?",
+    "Reload": "Neu laden",
+    "Question": "Frage(n)"
+  },
+  "ACTION": {
+    "SUBMIT": "Speichern",
+    "CANCEL": "Abbrechen",
+    "YES": "Ja",
+    "NO": "Nein",
+    "LoadMore": "Weitere laden"
+  },
+  "USER": {
+    "LOGOUT": {
+      "ConfirmTitle": "Ausloggen bestätigen",
+      "ConfirmText": "Wollen Sie sich wirklich ausloggen?"
+    }
+  },
+  "STRUCT": {
+    "Type": "Organisationen",
+    "Subtype": "Gruppen",
+    "Contact": "Ansprechpartner",
+    "MENU": {
+      "ADD": "Neue Organisation",
+      "ADD_GROUP": "Gruppe hinzufügen",
+      "ADD_EVENT": "Veranstaltung hinzufügen",
+      "DETAILS": "Details",
+      "EDIT": "Bearbeiten",
+      "DELETE": "Löschen",
+      "MANAGE_EVENTS": "Veranstaltungen verwalten",
+      "MANAGE_CATEGORIES": "Kategorien verwalten",
+      "STATS": "Statistik"
+    },
+    "LIST": {
+      "Title": "Titel",
+      "More": "Mehr Details"
+    },
+    "ERROR": {
+      "NoStructure": "Derzeit sind keine Organisatoren angelegt."
+    },
+    "ACTION": {
+      "CREATE": "Neue Struktur erstellen",
+      "EDIT": "Struktur bearbeiten",
+      "SELECTED_ORG": "Ausgewählte Organisationen ...",
+      "SELECTED_GRP": "Ausgewählte Gruppen ...",
+      "SELECTED_CAT": "Ausgewählte Kategorien ..."
+    },
+    "DIALOG": {
+      "TITLE_DELETE": "Struktur löschen ",
+      "QUESTION_DELETE": "Soll die struktur wirklich gelöscht werden?"
+    }
+  },
+  "EVENT": {
+    "Type": "Veranstaltungen",
+    "CHANGE": {
+      "Create": "Neue Veranstaltung erstellen",
+      "Update": "Bearbeiten der Veranstaltung: {{ event }}"
+    },
+    "MENU": {
+      "Add": "Neue Veranstaltung erstellen",
+      "Edit": "Bearbeiten",
+      "Details": "Details anzeigen",
+      "Delete": "Löschen",
+      "Export": "Exportieren (Excel)",
+      "Publish": "Veröffentlichen",
+      "ShowAll": "Veranstaltungen anzeigen",
+      "ShowPersonal": "Meine Veranstaltungen",
+      "ShowAvailable": "Freie Veranstaltungen"
+    },
+    "LIST": {
+      "Title": "Titel",
+      "Period": "Zeitraum",
+      "More": "Mehr Details",
+      "All": "Alle",
+      "Personal": "Meine",
+      "Available": "Freie"
+    },
+    "PROPERTIES": {
+      "Title": "Eigenschaften",
+      "Kids": "Kindergeeignet",
+      "MaxGuest": "Maximale Anzahl Gäste",
+      "Remaining": "Verbleibende Plätze"
+    },
+    "CATEGORIES": {
+      "Title": "Kategorien"
+    },
+    "PERIOD": {
+      "selectStart": "Beginn auswählen",
+      "selectEnd": "Ende auswählen",
+      "selectStartDate": "Datum",
+      "selectEndDate": "Ende auswählen",
+      "selectStartTime": "Begin",
+      "selectEndTime": "Ende"
+    },
+    "REGISTRATION": {
+      "MaxGuests": "Teilnehmer",
+      "Tickets": "Eintrittskarten"
+    },
+    "ACTION": {
+      "FILTER_APPLY": "Filter anwenden",
+      "FILTER_CLEAR": "Filter zurücksetzen"
+    },
+    "FILTER": {
+      "From": "Von",
+      "To": "Bis"
+    },
+    "HINT": {
+      "Title": "Kurze und prägnante Bezeichnung der Veranstaltung (maximal 40 Zeichen)",
+      "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+      "StartDate": "Datum der Veranstaltung",
+      "StartTime": "Beginn der Veranstaltung",
+      "EndTime": "Voraussichtliches Ende der Veranstaltung",
+      "MaxGuest": "Wie viele Besucher/Gäste können an der Veranstaltung teilnehmen?",
+      "Tickets": "Soll eine Ticketmail mit einem QR Code verschickt werden?"
+    },
+    "MESSAGE": {
+      "ERROR": {
+        "FORM_INVALID": "Bitte fülle alle Pflichtfelder aus um die Veranstaltung einzutragen.",
+        "CREATION_FAILED": "Die Veranstaltung konnte aufgrund eines technischen Fehlers nicht erstellt werden. Bitte überprüfe die Eingaben oder kontaktiere einen Administrator unter open@psm.church"
+      },
+      "INFO": {
+        "CREATION_SUCCEED": "Die Veranstaltung wurde erfolgreich eingetragen."
+      }
+    },
+    "STATUS": {
+      "HISTORY": "Leider vorbei"
+    },
+    "DIALOG": {
+      "TITLE_DELETE": "Veranstaltung löschen ",
+      "QUESTION_DELETE": "Soll die Veranstaltung wirklich gelöscht werden?"
+    }
+  },
+  "ITEM": {
+    "Title": "Titel",
+    "TitleError": "Bitte einen Titel angeben",
+    "ShortText": "Kurztext",
+    "ShortTextError": "Bitte einen Kurztext angeben",
+    "LongText": "Beschreibung",
+    "LongTextError": "Bitte eine Beschreibung angeben"
+  },
+  "MEMBER": {
+    "Type": "Mitglieder",
+    "List": "Verzeichnis",
+    "Requests": "Anfragen",
+    "Action": "Aktion",
+    "CONTACT": "Ansprechpartner",
+    "MENU": {
+      "Join": "Beitritt anfragen",
+      "Cancel": "Beitrittsanfrage abbrechen",
+      "Leave": "Verlassen",
+      "Remove": "Rauswerfen"
+    },
+    "ENTITLEMENT": {
+      "ADMINISTRATOR": "Administrator",
+      "MANAGER": "Moderator",
+      "EDITOR": "Editor",
+      "VIEWER": "Zuschauer"
+    },
+    "LIST": {
+      "User": "Benutzer",
+      "Status": "Status",
+      "Entitlement": "Berechtigungen",
+      "Actions": "Aktionen"
+    },
+    "STATUS": {
+      "REQUESTED": "Angefragt"
+    },
+    "DIALOG": {
+      "LEAVE": {
+        "Title": "Austreten",
+        "Question": "Willst du wirklich austreten. Die Veranstaltungen sind dann nicht mehr sichtbar?"
+      }
+    }
+  },
+  "I18n": {
+    "de": "Deutsch",
+    "en": "English"
+  },
+  "ERROR": {
+    "NoLocation": "Keine Adresse angegeben",
+    "NoPeriod": "Kein Zeitraum angegeben"
+  },
+  "LOCATION": {
+    "FORM": {
+      "ADD_INFO": "Addresszusatz",
+      "STREET": "Straße",
+      "NR": "Nr",
+      "ZIP": "PLZ",
+      "CITY": "Wohnort",
+      "COUNTRY": "Land"
+    },
+    "ACTION": {
+      "HAS_LOC": "Adresse vorhanden?"
+    },
+    "MAP": {
+      "Title": "Karte",
+      "Description": "Bitte klicken um Karte anzuzeigen"
+    }
+  },
+  "MESSAGE": {
+    "Type": "Nachrichten",
+    "Inbox": "Posteingang",
+    "Outbox": "Postausgang",
+    "Content": "Nachrichteninhalt",
+    "Message": "Nachricht",
+    "Send": "Senden",
+    "LIST": {
+      "Title": "Übersicht",
+      "Subject": "Betreff",
+      "Timestamp": "Datum",
+      "Sender": "Absender",
+      "Receiver": "Empfänger"
+    }
+  },
+  "REGISTRATION": {
+    "MENU": {
+      "Accept": "Teilnehmen",
+      "Cancel": "Absagen",
+      "Interest": "Interessiert"
+    },
+    "COMMON": {
+      "People": "Personen",
+      "PeopleAmount": "Anzahl Personen"
+    },
+    "DIALOG": {
+      "ACCEPT": {
+        "Title": "An Veranstaltung teilnehmen",
+        "Question": "Mit wie vielen Personen möchten Sie teilnehmen?",
+        "Message": "Ihre Anmeldung wurde erfolgreich verarbeitet"
+      },
+      "EDIT": {
+        "Title": "Teilnehmer anpassen",
+        "Question": "Mit wie vielen Personen möchten Sie teilnehmen?",
+        "Message": "Ihre Änderungen wurden erfolgreich übernommen"
+      },
+      "CANCEL": {
+        "Title": "Teilnahme absagen",
+        "Question": "Möchten Sie wirklich ihre Teilnahme absagen?",
+        "Message": "Ihre Absage wurde erfolgreich verarbeitet"
+      },
+      "Message": {
+        "ACCEPTED": "Ihre Anmeldung wurde erfolgreich verarbeitet.",
+        "WAITING_LIST_DECREASE_SIZE": "Zu wenig Plätze frei, bitte Personenzahl reduzieren.",
+        "WAITING_LIST": "Keine Plätze frei, aber auf der Warteliste vorgemerkt.",
+        "DECLINED": "Ihre Absage wurde erfolgreich verarbeitet.",
+        "FAILED": "Ein unerwarteter Fehler ist aufgetreten bitte kontaktiere open@psm.church"
+      }
+    },
+    "STATUS": {
+      "Full": "Ausgebucht",
+      "Available": "Plätze frei",
+      "Accepted": "Bestätigt",
+      "Waiting": "Warteliste"
+    },
+    "VERIFY": {
+      "TITLE": "Ticket verifizieren",
+      "EVENT": "Veranstaltung",
+      "PARTICIPANT": "Teilnehmer",
+      "ACCEPT": "Teilnehmer einbuchen",
+      "PROCESSED": "Ticket wurde erfolgreich gebucht",
+      "CHECK": {
+        "FAILED": "Ticket konnte nicht erfolgreich verifiziert werden.",
+        "OK": "Ticket konnte erfolgreich verifiziert werden."
+      }
+    }
+  },
+  "ISSUE": {
+    "Type": "Ticket",
+    "MENU": {
+      "Setup": "Ticket aktivieren",
+      "Show": "Tickets",
+      "Create": "Erstellen"
+    }
+  },
+  "CATEGORY": {
+    "Type": "Kategorie",
+    "LIST": {
+      "Name": "Name",
+      "Icon": "Icon",
+      "Actions": "Aktionen"
+    },
+    "MENU": {
+      "ADD": "Hinzufügen",
+      "UPDATE": "Ändern",
+      "DELETE": "Löschen"
+    },
+    "DIALOG": {
+      "TITLE_ADD": "Neue Kategorie erstellen",
+      "TITLE_UPDATE": "Kategorie ändern",
+      "TITLE_DELETE": "Kategorie löschen",
+      "QUESTION_DELETE": "Soll die Kategorie wirklich gelöscht werden?"
+    }
+  },
+  "ANNOUNCEMENT": {
+    "Type": "Ankündigungen",
+    "DIALOG": {
+      "TITLE_CREATE": "Neue Ankündigung erstellen",
+      "TITLE_UPDATE": "Update announcement",
+      "TITLE_DELETE": "Delete announcement",
+      "QUESTION_DELETE": "Do you really want to delete the announcement?"
+    },
+    "MENU": {
+      "ADD": "Neue Ankündigung",
+      "UPDATE": "Update",
+      "DELETE": "Delete",
+      "SUBMIT": "Absenden"
+    },
+    "LIST": {
+      "Subject": "Betreff",
+      "Content": "Nachricht",
+      "Actions": "Actions"
+    }
+  },
+  "PROFILE": {
+    "Type": "Benutzerprofil",
+    "Edit": "Editieren",
+    "Sync": "Synchronisieren",
+    "Form": {
+      "Name": "Name",
+      "Email": "Email",
+      "FirstName": "Vorname",
+      "SecondName": "Nachname",
+      "Roles": "Rollen"
+    }
+  },
+  "ADMIN": {
+    "History": "Ereignis log",
+    "Error": "Fehler",
+    "Mail": "Mail Config",
+    "Cache": "Cache Config",
+    "User": "Benutzer",
+    "Notify": "Benachrichtigung"
+  },
+  "notification": {
+    "subject": "Betreff",
+    "content": "Inhalt",
+    "edit": "Vorlage bearbeiten",
+    "message": {
+      "UpdateFailed": "Die Vorlage konnte nicht aktuallisiert werden",
+      "UpdateSucceed": "Änderung wurde erfolgreich übernommen"
+    },
+    "event": {
+      "create": "Veranstaltung erstellen",
+      "update": "Veranstaltung ändern",
+      "delete": "Veranstaltung löschen"
+    }
+  },
+  "INQUIRY": {
+    "Type": "Umfrage",
+    "CHANGE": {
+      "Create": "Neue Umfrage erstellen",
+      "Update": "Bearbeiten der Umfrage: {{ event }}"
+    },
+    "PERIOD": {
+      "selectStart": "Beginn auswählen",
+      "selectEnd": "Ende auswählen",
+      "selectStartDate": "Datum",
+      "selectEndDate": "Ende auswählen",
+      "selectStartTime": "Begin",
+      "selectEndTime": "Ende",
+      "Title": "Zeitraum"
+    },
+    "HINT": {
+      "Title": "Kurze und prägnante Bezeichnung der Umfrage (maximal 40 Zeichen)",
+      "LongDescr": "Kurze Beschreibung, muss etwas mitgebracht werden, was ist sonst noch wichtig?",
+      "StartDate": "Datum der Umfrage",
+      "StartTime": "Beginn der Umfrage",
+      "EndTime": "Voraussichtliches Ende der Umfrage"
+    },
+    "Question": {
+      "Text": "Frage text",
+      "Type": {
+        "Title": "Type",
+        "YES_NO": "Ja/Nein",
+        "OK_CANCEL": "Ok/Abbrechen",
+        "OK": "Ok",
+        "YES_NO_CANCEL": "Ja/Nein/Abbrechen"
+      }
+    },
+    "Answer": {
+      "Text": "Umfrageergebnis",
+      "Created": "Erstellt",
+      "Modified": "Verändert"
+    },
+    "MENU": {
+      "Participate": "Fragen beantworten",
+      "Done": "Fertig",
+      "DoneText": "Vielen Dank für Deine Teilnahme! Jetzt noch unbedingt speichern drücken – Fertig!"
+    }
+  }
+}

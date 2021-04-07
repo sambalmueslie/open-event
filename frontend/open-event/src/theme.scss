@@ -1,0 +1,99 @@
+@import '~@angular/material/theming';
+
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-gray, 900);
+$warn: mat-palette($mat-red, 900);
+$highlight: mat-palette($mat-green, 700);
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+
+@mixin open-church-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  .open-church-frame-primary {
+    border-left: mat-color($primary, darker) 4px solid;
+  }
+
+  .open-church-frame-accent {
+    border-left: mat-color($accent, darker) 4px solid;
+  }
+
+  .open-church-frame-warn {
+    border-left: mat-color($warn, darker) 4px solid;
+  }
+
+  .open-church-toolbar-light {
+    background-color: mat-color($accent, lighter);
+  }
+
+  .open-church-toolbar-primary {
+    background-color: mat-color($primary, default);
+    color: mat-color($primary, default-contrast);
+  }
+
+  .open-church-toolbar-accent {
+    background-color: mat-color($accent, default);
+    color: mat-color($accent, default-contrast);
+  }
+
+  .open-church-sub-toolbar-accent {
+    background-color: mat-color($accent, lighter);
+    color: mat-color($accent, darker);
+    border-left: mat-color($accent, darker) 4px solid;
+    height: 32px !important;
+  }
+
+  .open-church-sub-toolbar-warn {
+    background-color: mat-color($accent, lighter);
+    color: mat-color($warn, darker);
+    border-left: mat-color($warn, darker) 4px solid;
+    height: 32px !important;
+  }
+
+  .open-church-sub-toolbar-primary {
+    background-color: mat-color($accent, lighter);
+    color: mat-color($primary, darker);
+    border-left: mat-color($primary, darker) 4px solid;
+    height: 32px !important;
+  }
+
+  .open-church-container-primary {
+    border-left: mat-color($primary, darker) 4px solid;
+  }
+
+  .open-church-container-warn {
+    border-left: mat-color($warn, darker) 4px solid;
+  }
+
+  .open-church-container-accent {
+    border-left: mat-color($accent, darker) 4px solid;
+  }
+
+  .open-church-sub-toolbar-primary-textonly {
+    color: mat-color($primary, darker) !important;
+    background-color: mat-color($accent, default, 0.075) !important;
+    height: 32px !important;
+    max-height: 32px !important;
+  }
+
+  .open-church-sub-toolbar-warn-textonly {
+    color: mat-color($warn, darker);
+    background-color: mat-color($accent, default, 0.075);
+    height: 32px !important;
+    max-height: 32px !important;
+  }
+
+  .open-church-sub-toolbar-accent-textonly {
+    color: mat-color($accent, darker);
+    background-color: mat-color($accent, default, 0.075);
+    height: 32px !important;
+    max-height: 32px !important;
+  }
+}
