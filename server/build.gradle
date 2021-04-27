@@ -33,7 +33,7 @@ dependencies {
     implementation(platform("io.micronaut:micronaut-bom:2.4.2"))
     implementation("io.micronaut:micronaut-inject")
     implementation("io.micronaut:micronaut-validation")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.32")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.32")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut:micronaut-runtime")
