@@ -70,9 +70,9 @@ dependencies {
     testCompile "io.micronaut.test:micronaut-test-kotlintest"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     testCompile("io.micronaut.test:micronaut-test-junit5")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-    testImplementation "io.mockk:mockk:1.11.0"
+    testImplementation "io.mockk:mockk:1.12.0"
 
     // graalvm
     compileOnly("org.graalvm.nativeimage:svm")
@@ -82,7 +82,7 @@ dependencies {
 
     // keycloak
     compile("org.keycloak:keycloak-common:13.0.1")
-    compile("org.keycloak:keycloak-core:13.0.1")
+    compile("org.keycloak:keycloak-core:15.0.2")
 }
 
 mainClassName = "de.sambalmueslie.openevent.server.OpenEventApplication"
