@@ -81,7 +81,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
 
     // keycloak
-    compile("org.keycloak:keycloak-common:16.1.1")
+    compile("org.keycloak:keycloak-common:17.0.0")
     compile("org.keycloak:keycloak-core:16.1.1")
 }
 
