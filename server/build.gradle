@@ -25,12 +25,12 @@ configurations {
 }
 
 dependencies {
-    kapt(platform("io.micronaut:micronaut-bom:3.7.2"))
+    kapt(platform("io.micronaut:micronaut-bom:3.7.3"))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut:micronaut-graal")
 
-    implementation(platform("io.micronaut:micronaut-bom:3.7.1"))
+    implementation(platform("io.micronaut:micronaut-bom:3.7.3"))
     implementation("io.micronaut:micronaut-inject")
     implementation("io.micronaut:micronaut-validation")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.20")
@@ -68,7 +68,7 @@ dependencies {
     // test
     kaptTest(platform("io.micronaut:micronaut-bom:3.7.2"))
     kaptTest("io.micronaut:micronaut-inject-java")
-    testCompile platform("io.micronaut:micronaut-bom:3.7.0")
+    testCompile platform("io.micronaut:micronaut-bom:3.7.3")
     testCompile "io.micronaut.test:micronaut-test-kotlintest"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     testCompile("io.micronaut.test:micronaut-test-junit5")
