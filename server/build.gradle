@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("org.jetbrains.kotlin.plugin.allopen")
     id("org.sonarqube") version "4.0.0.2929"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.0.0"
     id("application")
     id("com.google.cloud.tools.jib") version "3.3.1"
 }
