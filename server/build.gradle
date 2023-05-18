@@ -60,7 +60,7 @@ dependencies {
 
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.1")
 
     // flyway
     implementation("io.micronaut.flyway:micronaut-flyway")
