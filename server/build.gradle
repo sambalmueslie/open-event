@@ -73,7 +73,7 @@ dependencies {
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     testCompile("io.micronaut.test:micronaut-test-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.3")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     testImplementation "io.mockk:mockk:1.13.5"
 
     // graalvm
